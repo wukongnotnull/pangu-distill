@@ -59,11 +59,54 @@ PHENOMENON_DIMENSIONS: Dict[str, str] = {
     "adjacent": "{target} 同类现象 对照",
 }
 
+PERSON_DIMENSIONS_EN: Dict[str, str] = {
+    "writings": "{target} books letters essays writings shareholder letter",
+    "conversations": "{target} interview podcast speech talk",
+    "expression": "{target} twitter quotes style catchphrase",
+    "critics": "{target} criticism controversy critique",
+    "decisions": "{target} decisions strategy choices review",
+    "timeline": "{target} biography timeline milestones",
+}
+
+CONTENT_DIMENSIONS_EN: Dict[str, str] = {
+    "writings": "{target} book chapters thesis arguments",
+    "conversations": "{target} author interview speech podcast",
+    "critics": "{target} review critique misreading",
+    "applications": "{target} applications cases practice",
+    "assumptions": "{target} hidden assumptions premises limits",
+    "adjacent": "{target} similar books comparison",
+}
+
+IDEA_DIMENSIONS_EN: Dict[str, str] = {
+    "writings": "{target} original texts papers founder essays",
+    "conversations": "{target} interview speech founder remarks",
+    "critics": "{target} criticism misuse limits counterexamples",
+    "applications": "{target} applications cases decisions engineering",
+    "origins": "{target} origin history who proposed",
+    "adjacent": "{target} adjacent ideas reductionism systems analogy",
+}
+
+PHENOMENON_DIMENSIONS_EN: Dict[str, str] = {
+    "mechanism": "{target} mechanism causes how it happens",
+    "accidents": "{target} contingency luck not replicable",
+    "replicability": "{target} replicable conditions failures",
+    "critics": "{target} criticism alternative explanations",
+    "timeline": "{target} timeline milestones evolution",
+    "adjacent": "{target} similar phenomena comparison",
+}
+
 KIND_DIMENSIONS = {
     "person": PERSON_DIMENSIONS,
     "content": CONTENT_DIMENSIONS,
     "idea": IDEA_DIMENSIONS,
     "phenomenon": PHENOMENON_DIMENSIONS,
+}
+
+KIND_DIMENSIONS_EN = {
+    "person": PERSON_DIMENSIONS_EN,
+    "content": CONTENT_DIMENSIONS_EN,
+    "idea": IDEA_DIMENSIONS_EN,
+    "phenomenon": PHENOMENON_DIMENSIONS_EN,
 }
 
 DEFAULT_DIMENSIONS = PERSON_DIMENSIONS
@@ -90,8 +133,25 @@ def normalize_kind(kind: Optional[str]) -> str:
     raise UnknownKindError(f"未知采集类型: {kind}（person/content/idea/phenomenon/self）")
 
 
-def dimensions_for(kind: Optional[str] = None) -> Dict[str, str]:
+def query_locale(target: Optional[str]) -> str:
+    """无汉字且有拉丁字母 → en，其余 → zh。"""
+    if not target:
+        return "zh"
+    has_cjk = any("\u4e00" <= char <= "\u9fff" for char in target)
+    has_latin = any(char.isascii() and char.isalpha() for char in target)
+    if has_latin and not has_cjk:
+        return "en"
+    return "zh"
+
+
+def dimensions_for(
+    kind: Optional[str] = None,
+    target: Optional[str] = None,
+    locale: Optional[str] = None,
+) -> Dict[str, str]:
     resolved = normalize_kind(kind)
     if resolved == "self":
         raise SelfKindError("自我蒸馏请用 collect-local，不要跑网页 collect / team")
-    return dict(KIND_DIMENSIONS[resolved])
+    resolved_locale = locale or query_locale(target)
+    pack = KIND_DIMENSIONS_EN if resolved_locale == "en" else KIND_DIMENSIONS
+    return dict(pack[resolved])
