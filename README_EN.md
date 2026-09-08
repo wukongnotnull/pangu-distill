@@ -4,7 +4,7 @@
 
 <br>
 
-> **Not just distilling everything — transcending everything** <br>
+> **Distill everything into runnable thinking frameworks** <br>
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-orange.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-blueviolet)](https://claude.ai/code)
@@ -18,9 +18,9 @@
 
 <br>
 
-Inspired by [colleague.skill](https://github.com/titanwings/colleague-skill) and [Nuwa.skill](https://github.com/titanwings/colleague-skill), distilling famous figures, departed ones, elites — why stop at distillation?
+Inspired by [colleague.skill](https://github.com/titanwings/colleague-skill) and [Nuwa.skill](https://github.com/titanwings/colleague-skill), distilling thinking frameworks from famous figures, departed ones, and elites.
 <br>
- **pangu-distill.meta-skill** is not just about distilling everything — it's about **transcending everything**.
+ **pangu-distill.meta-skill** extracts **runnable thinking frameworks** from any subject.
 
 ---
 
@@ -42,36 +42,6 @@ Inspired by [colleague.skill](https://github.com/titanwings/colleague-skill) and
 ---
 
 ## Demo
-
-
-### Transcendence: Evolving Thinking Frameworks (Recommended)
-
-Transcending long-termism isn't just stronger rhetoric — it genuinely fills in the gaps:
-
-```
-User      ❯ Transcend "Long-Termism"
-
-Pangu     ❯ 【Phase 1 → 2 in progress】
-            ✓ Distillation complete
-            ✓ Transcendence path analysis complete (Path A + Path C)
-
-            【Distilled Version Limitations Identified】
-            - Ignores anti-fragility: doesn't account for "black swan" risks
-            - Ignores cash flow: long-termism requires short-term survival
-            - Not suitable for rapidly changing fields
-
-            【Evolved Output: "Long-Termism-Plus"】
-
-            Inherited (Distillation Essence):
-            ✓ Compound thinking ✓ Long-term focus ✓ Perseverance
-
-            Enhanced (Transcendence-Exclusive):
-            ✓ Optionality (Path A): long-term bets + exit rights preserved
-            ✓ Three-layer decision system (Path B): long/medium/short term layers
-            ✓ Short-term validation mechanism (Path C): long-term decisions have medium-term checkpoints
-```
-
-### Distillation: Extracting Thinking Frameworks
 
 Distilling long-termism extracts not just "persistence," but a runnable cognitive framework:
 
@@ -111,8 +81,8 @@ npx skills add wukongnotnull/pangu-distill
 After installation, say this to your Agent:
 
 ```markdown
-> Transcend "Long-Termism"
 > Distill "Long-Termism"
+> I want to build a Buffett thinking framework
 ```
 
 ### Method 2: Non-Technical Users (Conversational)
@@ -126,7 +96,6 @@ help me to install this skill：https://github.com/wukongnotnull/pangu-distill
 After installation, tell it what you want in natural language:
 
 ```markdown
-> Help me transcend: my decision framework
 > Help me distill: long-termism
 > I want to build a Buffett thinking framework
 ```
@@ -137,7 +106,7 @@ pangu-distill has distilled 13 figures, grouped by field for easy lookup:
 
 ### 💰 Investment / Business
 
-| Person | Transcendence Direction | One-Click Install (Transcendence) |
+| Person | Domain | One-Click Install |
 |------|---------|------------------|
 | **Naval** | Wealth / Leverage / Life Philosophy | `npx skills add wukongnotnull/pangu-naval` |
 | **Munger** | Investment / Mental Models / Inversion | `npx skills add wukongnotnull/pangu-munger` |
@@ -145,7 +114,7 @@ pangu-distill has distilled 13 figures, grouped by field for easy lookup:
 
 ### 🚀 Startup / Product
 
-| Person | Transcendence Direction | One-Click Install (Transcendence) |
+| Person | Domain | One-Click Install |
 |------|---------|------------------|
 | **Paul Graham** | Startups / Writing / Product / Life Philosophy | `npx skills add wukongnotnull/pangu-paul-graham` |
 | **Zhang Yiming** | Product / Organization / Globalization / Talent | `npx skills add wukongnotnull/pangu-zhang-yiming` |
@@ -154,26 +123,26 @@ pangu-distill has distilled 13 figures, grouped by field for easy lookup:
 
 ### 🤖 AI / Tech
 
-| Person | Transcendence Direction | One-Click Install (Transcendence) |
+| Person | Domain | One-Click Install |
 |------|---------|------------------|
 | **Karpathy** | AI / Engineering / Education / Open Source | `npx skills add wukongnotnull/pangu-karpathy` |
 | **Ilya Sutskever** | AI Safety / Scaling / Research Taste | `npx skills add wukongnotnull/pangu-ilya-sutskever` |
 
 ### 🎬 Content Creation
 
-| Person | Transcendence Direction | One-Click Install (Transcendence) |
+| Person | Domain | One-Click Install |
 |------|---------|------------------|
 | **MrBeast** | Content Creation / YouTube Methodology | `npx skills add wukongnotnull/pangu-mrbeast` |
 
 ### 🎯 Communication / Power
 
-| Person | Transcendence Direction | One-Click Install (Transcendence) |
+| Person | Domain | One-Click Install |
 |------|---------|------------------|
 | 🔥**Trump** | Negotiation / Power / Communication / Behavior Prediction | `npx skills add wukongnotnull/pangu-trump` |
 
 ### 🧠 Thinking / Learning
 
-| Person | Transcendence Direction | One-Click Install (Transcendence) |
+| Person | Domain | One-Click Install |
 |------|---------|------------------|
 | **Feynman** | Learning / Teaching / Scientific Thinking | `npx skills add wukongnotnull/pangu-feynman` |
 | **Taleb** | Risk / Anti-Fragility / Uncertainty | `npx skills add wukongnotnull/pangu-taleb` |
@@ -182,12 +151,9 @@ pangu-distill has distilled 13 figures, grouped by field for easy lookup:
 
 ## Architecture
 
-### Dual Capabilities
+### Core Capability
 
-| Capability | Definition | Output |
-|------|------|------|
-| **Distill Everything** | Extract runnable thinking frameworks from any subject | Person Skills / Content Skills / Idea Skills etc. |
-| **Transcend Everything** | Diagnose limitations, introduce external strengths, generate enhanced versions on top of distillation | Thinking frameworks stronger than the original |
+Extract runnable thinking frameworks from any subject, producing Person / Content / Idea / Phenomenon Skills.
 
 ### Execution Flow
 
@@ -219,21 +185,9 @@ pangu-distill has distilled 13 figures, grouped by field for easy lookup:
 
 3-7 mental models + 5-10 decision heuristics + Expression DNA + Values & Anti-patterns + Honest boundaries
 
-#### Phase 2: Transcendence
-
-On top of distillation, 4 transcendence paths for systematic enhancement:
-
-| Path | Operation | Transcendence Strategy |
-|------|------|---------|
-| **Path A: Learn from Self** | Identify core limitations, self-contradictions, era limitations | Fill gaps, strengthen boundaries, update assumptions |
-| **Path B: Learn from Similars** | Find 3-5 similar excellent subjects | Stack advantages, complement blind spots, differentiated innovation |
-| **Path C: Learn from Opponents** | Collect strongest critic perspectives, analyze competitors | Absorb counter-arguments, transcend opposition, integrate alternatives |
-| **Path D: Learn from History** | Sort through past failure cases, analyze historically similar cases | Avoid repeating mistakes, accelerate evolution, predict trends |
-
 ### Quality Validation
 
-- **Distilled Version Validation**: Test with 3 questions the person publicly answered — direction must match
-- **Transcended Version Validation**: Test with 1 question they never discussed — the Skill should show appropriate uncertainty rather than false confidence
+Test with 3 questions the person publicly answered — direction must match. Ask a new question not covered in the Skill — the framework should infer a consistent stance.
 
 ---
 
@@ -245,19 +199,14 @@ pangu-distill/
 ├── references/
 │   ├── quality-checklist.md            # Quality self-checklist
 │   ├── special-scenarios.md           # Special scenario handling
-│   ├── examples/                       # Distillation/Transcendence examples
-│   │   ├── distillation-example.md    # Distillation example (Long-Termism)
-│   │   └── transcendence-example.md   # Transcendence example (Long-Termism)
+│   ├── examples/                       # Distillation examples
+│   │   └── distillation-example.md    # Distillation example (Long-Termism)
 │   └── templates/                       # Skill templates
 │       ├── README.md                  # Template index
 │       ├── person-skill-template.md   # D1 Person-type distillation template
 │       ├── content-skill-template.md  # D2 Content-type distillation template
 │       ├── idea-skill-template.md     # D3 Idea-type distillation template
-│       ├── phenomenon-skill-template.md # D4 Phenomenon-type distillation template
-│       ├── person-plus-template.md    # D1 Person-type transcendence template
-│       ├── content-plus-template.md   # D2 Content-type transcendence template
-│       ├── idea-plus-template.md      # D3 Idea-type transcendence template
-│       └── phenomenon-plus-template.md # D4 Phenomenon-type transcendence template
+│       └── phenomenon-skill-template.md # D4 Phenomenon-type distillation template
 └── scripts/                            # Python search module
     ├── search/                         # Search pipeline
     ├── crawl/                          # Web crawling

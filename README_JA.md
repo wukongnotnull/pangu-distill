@@ -4,7 +4,7 @@
 
 <br>
 
-> **万物の蒸留にとどまらず、万物を超越する** <br>
+> **万物を蒸留し、実行可能な思考フレームワークを取り出す** <br>
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-orange.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-blueviolet)](https://claude.ai/code)
@@ -18,9 +18,9 @@
 
 <br>
 
-[colleague.skill](https://github.com/titanwings/colleague-skill) と [Nuwa.skill](https://github.com/titanwings/colleague-skill) に触発されて、有名人、先人、エリートなどを蒸留 — なぜ蒸留にとどまるのか？
+[colleague.skill](https://github.com/titanwings/colleague-skill) と [Nuwa.skill](https://github.com/titanwings/colleague-skill) に触発されて、有名人、先人、エリートなどの思考フレームワークを蒸留する。
 <br>
- **盤古蒸留.meta-skill** は万物を決して蒸留するだけではない、**万物を超越する** ためのものだ。
+ **盤古蒸留.meta-skill** は、任意の対象から**実行可能な思考フレームワーク**を取り出す。
 
 ---
 
@@ -43,37 +43,7 @@
 
 ## デモ
 
-
-### 超越：思考フレームワークを進化させる（推奨）
-
-長期主義を超越することは、より強い言葉だけでなく、本当にご飯穴を埋めるものだ：
-
-```
-ユーザー   ❯ 長期主義を超越する
-
-盤古蒸留  ❯ 【フェーズ 1 → 2 実行中】
-            ✓ 蒸留完了
-            ✓ 超越パス分析完了（パスA + パスC）
-
-            【蒸留版の限界を識別】
-            - アンチフラジリティを無視：ブラックスワンリスクを考慮していない
-            - キャッシュフローを無視：長期主義は短期的な生存を必要とする
-            - 急速に変化する分野には適用されない
-
-            【進化した出力：「長期主義プラス」】
-
-            継承（蒸留のエッセンス）：
-            ✓ 複利思考 ✓ 長期焦点 ✓ 忍耐力
-
-            強化（超越版独占）：
-            ✓ オプション性（パスA）：長期投注＋退出権を維持
-            ✓ 三層意思決定システム（パスB）：長期/中期/短期分层
-            ✓ 短期検証メカニズム（パスC）：長期意思決定に中期チェックポイント
-```
-
-### 蒸留：思考フレームワークを抽出する
-
-長期主義を蒸留することは「忍耐”二字だけでなく、実行可能な認知フレームワークを抽出する：
+長期主義を蒸留することは「忍耐」二字だけでなく、実行可能な認知フレームワークを抽出する：
 
 ```
 ユーザー   ❯ 長期主義を蒸留する
@@ -111,8 +81,8 @@ npx skills add wukongnotnull/pangu-distill
 インストール後、Agent に这样说：
 
 ```markdown
-> 長期主義を超越する
 > 長期主義を蒸留する
+> バフェットの思考フレームワークを作りたい
 ```
 
 ### 方法二：非技術ユーザー（会話式）
@@ -126,7 +96,6 @@ npx skills add wukongnotnull/pangu-distill
 インストール後、自然言語でほしいことを伝えましょう：
 
 ```markdown
-> 私の意思決定フレームワークを超越してほしい
 > 長期主義を蒸留してほしい
 > バフェットの思考フレームワークを作りたい
 ```
@@ -137,7 +106,7 @@ npx skills add wukongnotnull/pangu-distill
 
 ### 💰 投資/ビジネス
 
-| 人物 | 超越方向 | 一键安装(超越版) |
+| 人物 | 方向 | 一键安装 |
 |------|---------|------------------|
 | **ナ瓦尔** |  富/レバレッジ/人生哲学 | `npx skills add wukongnotnull/pangu-naval` |
 | **モハン** | 投資/多元思考/逆張り | `npx skills add wukongnotnull/pangu-munger` |
@@ -145,7 +114,7 @@ npx skills add wukongnotnull/pangu-distill
 
 ### 🚀 スタートアップ/プロダクト
 
-| 人物 | 超越方向 | 一键安装(超越版) |
+| 人物 | 方向 | 一键安装 |
 |------|---------|------------------|
 | **ポウル・グラハム** | スタートアップ/執筆/プロダクト/人生哲学 | `npx skills add wukongnotnull/pangu-paul-graham` |
 | **張一鳴** | プロダクト/組織/グローバル化/人才 | `npx skills add wukongnotnull/pangu-zhang-yiming` |
@@ -154,26 +123,26 @@ npx skills add wukongnotnull/pangu-distill
 
 ### 🤖 AI/テクノロジー
 
-| 人物 | 超越方向 | 一键安装(超越版) |
+| 人物 | 方向 | 一键安装 |
 |------|---------|------------------|
 | **カラ帕thy** | AI/エンジニアリング/教育/开源 | `npx skills add wukongnotnull/pangu-karpathy` |
 | **イリヤ・サツケバー** | AI安全/scaling/研究 맛 | `npx skills add wukongnotnull/pangu-ilya-sutskever` |
 
 ### 🎬 コンテンツ創作
 
-| 人物 | 超越方向 | 一键安装(超越版) |
+| 人物 | 方向 | 一键安装 |
 |------|---------|------------------|
 | **MrBeast** | コンテンツ創作/YouTube方法論 | `npx skills add wukongnotnull/pangu-mrbeast` |
 
 ### 🎯 コミュニケーション/パワー
 
-| 人物 | 超越方向 | 一键安装(超越版) |
+| 人物 | 方向 | 一键安装 |
 |------|---------|------------------|
 | 🔥**トランプ** | 交渉/パワー/コミュニケーション/行動予測 | `npx skills add wukongnotnull/pangu-trump` |
 
 ### 🧠 思考/学習
 
-| 人物 | 超越方向 | 一键安装(超越版) |
+| 人物 | 方向 | 一键安装 |
 |------|---------|------------------|
 | **ファインマン** | 学習/教授/科学思考 | `npx skills add wukongnotnull/pangu-feynman` |
 | **タレブ** | リスク/アンチフラジリティ/不確実性 | `npx skills add wukongnotnull/pangu-taleb` |
@@ -182,12 +151,9 @@ npx skills add wukongnotnull/pangu-distill
 
 ## アーキテクチャ
 
-### 二重能力
+### コア能力
 
-| 能力 | 定義 | 出力 |
-|------|------|------|
-| **万物の蒸留** | 任意の対象から実行可能な思考フレームワークを抽出 | 人物スキル/コンテンツスキル/思想スキルなど |
-| **万物の超越** | 蒸留基础上診断欠陌、引入外部優勢、生成増強版 | 元的对象より優れた思考フレームワーク |
+任意の対象から実行可能な思考フレームワークを抽出し、人物 / コンテンツ / 思想 / 現象スキルを生成する。
 
 ### 実行フロー
 
@@ -219,21 +185,9 @@ npx skills add wukongnotnull/pangu-distill
 
 3-7個のメンタルモデル + 5-10個の意思決定啟発式 + 表現DNA + 価値観と反パターン + 誠実な境界
 
-#### フェーズ 2：超越
-
-蒸留基础上、4つの超越パスで体系的に強化：
-
-| パス | 操作 | 超越戦略 |
-|------|------|---------|
-| **パスA：自身から学ぶ** | 核心限界、自己矛盾、時代限界を識別 | ギャップを埋める、境界を強化する、仮定を更新する |
-| **パスB：同類から学ぶ** | 3-5個の同類秀逸対象を見つける | 優勢を重ねる、盲点を補完する、差別化されたイノベーション |
-| **パスC：对手から学ぶ** | 最強の批判者观点を収集、競争相手を分析 | 反論を吸収する、対立を超越する、替代を統合する |
-| **パスD：歴史から学ぶ** | 過去の失敗案例を整理、歴史的類似案例を分析 | 過ちを繰り返さない、進化を加速する、トレンドを予測する |
-
 ### 品質検証
 
-- **蒸留版検証**：この人が公開で回答した3つの問題でテスト、一致才算通过
-- **超越版検証**：この人が議論したことがない1つの問題でテスト、スキルは偽りの確言ではなく適切な不确定を示すべき
+この人が公開で回答した3つの問題でテストし、方向が一致すれば通過。スキルに未記載の新しい問題では、フレームワークから一貫した立場を導けること。
 
 ---
 
@@ -245,19 +199,14 @@ pangu-distill/
 ├── references/
 │   ├── quality-checklist.md            # 品質自検リスト
 │   ├── special-scenarios.md           # 特殊シーン処理
-│   ├── examples/                       # 蒸留/超越示例
-│   │   ├── distillation-example.md    # 蒸留示例（長期主義）
-│   │   └── transcendence-example.md   # 超越示例（長期主義）
+│   ├── examples/                       # 蒸留示例
+│   │   └── distillation-example.md    # 蒸留示例（長期主義）
 │   └── templates/                       # スキルテンプレート
 │       ├── README.md                  # テンプレートインデックス
 │       ├── person-skill-template.md   # D1人物類蒸留テンプレート
 │       ├── content-skill-template.md  # D2コンテンツ類蒸留テンプレート
 │       ├── idea-skill-template.md     # D3思想類蒸留テンプレート
-│       ├── phenomenon-skill-template.md # D4現象類蒸留テンプレート
-│       ├── person-plus-template.md    # D1人物類超越テンプレート
-│       ├── content-plus-template.md   # D2コンテンツ類超越テンプレート
-│       ├── idea-plus-template.md      # D3思想類超越テンプレート
-│       └── phenomenon-plus-template.md # D4現象類超越テンプレート
+│       └── phenomenon-skill-template.md # D4現象類蒸留テンプレート
 └── scripts/                            # Python検索モジュール
     ├── search/                         # 検索パイプライン
     ├── crawl/                          # Webクローリング
