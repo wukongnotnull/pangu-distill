@@ -4,7 +4,7 @@
 
 <br>
 
-> **No solo destilar todo — transcender todo** <br>
+> **Destilar todo en marcos de pensamiento ejecutables** <br>
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-orange.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-blueviolet)](https://claude.ai/code)
@@ -18,9 +18,9 @@
 
 <br>
 
-Inspirado por [colleague.skill](https://github.com/titanwings/colleague-skill) y [Nuwa.skill](https://github.com/titanwings/colleague-skill), destilando figuras famosas, difuntos, élites — ¿por qué detenerse en la destilación?
+Inspirado por [colleague.skill](https://github.com/titanwings/colleague-skill) y [Nuwa.skill](https://github.com/titanwings/colleague-skill), destilando marcos de pensamiento de figuras famosas, difuntos y élites.
 <br>
- **pangu-distill.meta-skill** no se trata solo de destilar todo — se trata de **transcender todo**.
+ **pangu-distill.meta-skill** extrae **marcos de pensamiento ejecutables** de cualquier sujeto.
 
 ---
 
@@ -42,36 +42,6 @@ Inspirado por [colleague.skill](https://github.com/titanwings/colleague-skill) y
 ---
 
 ## Demo
-
-
-### Transcendencia: Evolucionando Marcos de Pensamiento (Recomendado)
-
-Transcender el largoplacismo no es solo retórica más fuerte — realmente llena los vacíos:
-
-```
-Usuario    ❯ Transcender "Largoplacismo"
-
-Pangu      ❯ 【Fase 1 → 2 en progreso】
-            ✓ Destilación completa
-            ✓ Análisis de ruta de trascendencia completo (Ruta A + Ruta C)
-
-            【Limitaciones de la Versión Destilada Identificadas】
-            - Ignora la antifragilidad: no considera riesgos de "cisnes negros"
-            - Ignora el flujo de caja: el largoplacismo requiere supervivencia a corto plazo
-            - No aplicable a campos de cambio rápido
-
-            【Producción Evolucionada: "Largoplacismo-Plus"】
-
-            Heredado (Esencia de Destilación):
-            ✓ Pensamiento compuesto ✓ Enfoque a largo plazo ✓ Perseverancia
-
-            Mejorado (Exclusivo de Trascendencia):
-            ✓ Opcionalidad (Ruta A): apuestas a largo plazo + derechos de salida preservados
-            ✓ Sistema de decisión de tres capas (Ruta B): largo/medio/corto plazo
-            ✓ Mecanismo de validación a corto plazo (Ruta C): decisiones a largo plazo tienen puntos de control medianos
-```
-
-### Destilación: Extrayendo Marcos de Pensamiento
 
 Destilar el largoplacismo extrae no solo "persistencia," sino un marco cognitivo ejecutable:
 
@@ -111,8 +81,8 @@ npx skills add wukongnotnull/pangu-distill
 Después de instalar, dí esto a tu Agent:
 
 ```markdown
-> Transcender "Largoplacismo"
 > Destilar "Largoplacismo"
+> Quiero construir un marco de pensamiento de Buffett
 ```
 
 ### Método 2: Usuarios No Técnicos (Conversacional)
@@ -126,68 +96,64 @@ No hay comandos que recordar — solo copia y pega esto a tu Agent:
 Después de instalar, dile lo que quieres en lenguaje natural:
 
 ```markdown
-> Ayúdame a transcender: mi marco de decisiones
 > Ayúdame a destilar: largoplacismo
 > Quiero construir un marco de pensamiento de Buffett
 ```
 
 ## Casos Clásicos
 
-pangu-distill ha destilado 13 figuras, agrupadas por campo para fácil búsqueda:
+Estas 13 figuras son casos de destilación planificados. Los Skills terminados **aún no se han publicado**:
 
 ### 💰 Inversión / Negocios
 
-| Persona | Dirección de Trascendencia | Instalación con Un Clic (Trascendencia) |
+| Persona | Dominio | Estado |
 |------|---------|------------------|
-| **Naval** | Riqueza / Apalancamiento / Filosofía de Vida | `npx skills add wukongnotnull/pangu-naval` |
-| **Munger** | Inversión / Modelos Mentales / Inversión | `npx skills add wukongnotnull/pangu-munger` |
-| **Zhang Xuefeng** | Educación / Planificación de Carrera / Movilidad de Clase | `npx skills add wukongnotnull/pangu-zhangxuefeng` |
+| **Naval** | Riqueza / Apalancamiento / Filosofía de Vida | Aún no publicado |
+| **Munger** | Inversión / Modelos Mentales / Inversión | Aún no publicado |
+| **Zhang Xuefeng** | Educación / Planificación de Carrera / Movilidad de Clase | Aún no publicado |
 
 ### 🚀 Startup / Producto
 
-| Persona | Dirección de Trascendencia | Instalación con Un Clic (Trascendencia) |
+| Persona | Dominio | Estado |
 |------|---------|------------------|
-| **Paul Graham** | Startups / Escritura / Producto / Filosofía de Vida | `npx skills add wukongnotnull/pangu-paul-graham` |
-| **Zhang Yiming** | Producto / Organización / Globalización / Talento | `npx skills add wukongnotnull/pangu-zhang-yiming` |
-| **Steve Jobs** | Producto / Diseño / Estrategia | `npx skills add wukongnotnull/pangu-steve-jobs` |
-| **Elon Musk** | Ingeniería / Costo / Principios Primeros | `npx skills add wukongnotnull/pangu-elon-musk` |
+| **Paul Graham** | Startups / Escritura / Producto / Filosofía de Vida | Aún no publicado |
+| **Zhang Yiming** | Producto / Organización / Globalización / Talento | Aún no publicado |
+| **Steve Jobs** | Producto / Diseño / Estrategia | Aún no publicado |
+| **Elon Musk** | Ingeniería / Costo / Principios Primeros | Aún no publicado |
 
 ### 🤖 IA / Tecnología
 
-| Persona | Dirección de Trascendencia | Instalación con Un Clic (Trascendencia) |
+| Persona | Dominio | Estado |
 |------|---------|------------------|
-| **Karpathy** | IA / Ingeniería / Educación / Código Abierto | `npx skills add wukongnotnull/pangu-karpathy` |
-| **Ilya Sutskever** | Seguridad IA / Scaling / Gusto de Investigación | `npx skills add wukongnotnull/pangu-ilya-sutskever` |
+| **Karpathy** | IA / Ingeniería / Educación / Código Abierto | Aún no publicado |
+| **Ilya Sutskever** | Seguridad IA / Scaling / Gusto de Investigación | Aún no publicado |
 
 ### 🎬 Creación de Contenido
 
-| Persona | Dirección de Trascendencia | Instalación con Un Clic (Trascendencia) |
+| Persona | Dominio | Estado |
 |------|---------|------------------|
-| **MrBeast** | Creación de Contenido / Metodología de YouTube | `npx skills add wukongnotnull/pangu-mrbeast` |
+| **MrBeast** | Creación de Contenido / Metodología de YouTube | Aún no publicado |
 
 ### 🎯 Comunicación / Poder
 
-| Persona | Dirección de Trascendencia | Instalación con Un Clic (Trascendencia) |
+| Persona | Dominio | Estado |
 |------|---------|------------------|
-| 🔥**Trump** | Negociación / Poder / Comunicación / Predicción de Comportamiento | `npx skills add wukongnotnull/pangu-trump` |
+| 🔥**Trump** | Negociación / Poder / Comunicación / Predicción de Comportamiento | Aún no publicado |
 
 ### 🧠 Pensamiento / Aprendizaje
 
-| Persona | Dirección de Trascendencia | Instalación con Un Clic (Trascendencia) |
+| Persona | Dominio | Estado |
 |------|---------|------------------|
-| **Feynman** | Aprendizaje / Enseñanza / Pensamiento Científico | `npx skills add wukongnotnull/pangu-feynman` |
-| **Taleb** | Riesgo / Antifragilidad / Incertidumbre | `npx skills add wukongnotnull/pangu-taleb` |
+| **Feynman** | Aprendizaje / Enseñanza / Pensamiento Científico | Aún no publicado |
+| **Taleb** | Riesgo / Antifragilidad / Incertidumbre | Aún no publicado |
 
 ---
 
 ## Arquitectura
 
-### Capacidades Dobles
+### Capacidad Principal
 
-| Capacidad | Definición | Producción |
-|------|------|------|
-| **Destilar Todo** | Extraer marcos de pensamiento ejecutables de cualquier sujeto | Skills de Persona / Skills de Contenido / Skills de Ideas etc. |
-| **Transcender Todo** | Diagnosticar limitaciones, introducir fortalezas externas, generar versiones mejoradas sobre la destilación | Marcos de pensamiento más fuertes que el original |
+Extraer marcos de pensamiento ejecutables de cualquier sujeto, produciendo Skills de Persona / Contenido / Ideas / Fenómenos.
 
 ### Flujo de Ejecución
 
@@ -219,21 +185,9 @@ pangu-distill ha destilado 13 figuras, agrupadas por campo para fácil búsqueda
 
 3-7 modelos mentales + 5-10 heurísticas de decisión + ADN de Expresión + Valores y Anti-patrones + Límites honestos
 
-#### Fase 2: Trascendencia
-
-Sobre la base de la destilación, 4 rutas de trascendencia para mejora sistemática:
-
-| Ruta | Operación | Estrategia de Trascendencia |
-|------|------|---------|
-| **Ruta A: Aprender de Sí Mismo** | Identificar limitaciones centrales, auto-contradicciones, limitaciones de la era | Llenar vacíos, fortalecer límites, actualizar supuestos |
-| **Ruta B: Aprender de Similares** | Encontrar 3-5 sujetos excelentes similares | Apilar ventajas, complementar puntos ciegos, innovación diferenciada |
-| **Ruta C: Aprender de Oponentes** | Recolectar perspectivas de críticos más fuertes, analizar competidores | Absorber contra-argumentos, trascender oposición, integrar alternativas |
-| **Ruta D: Aprender de la Historia** | Clasificar casos de fracaso pasados, analizar casos históricamente similares | Evitar repetir errores, acelerar evolución, predecir tendencias |
-
 ### Validación de Calidad
 
-- **Validación de Versión Destilada**: Probar con 3 preguntas que la persona respondió públicamente — la dirección debe coincidir
-- **Validación de Versión Trascendida**: Probar con 1 pregunta que nunca discutió — el Skill debe mostrar incertidumbre apropiada en lugar de falsa confianza
+Probar con 3 preguntas que la persona respondió públicamente — la dirección debe coincidir. Ante una pregunta nueva no cubierta por el Skill, el marco debe inferir una postura coherente.
 
 ---
 
@@ -245,19 +199,14 @@ pangu-distill/
 ├── references/
 │   ├── quality-checklist.md            # Lista de verificación de calidad
 │   ├── special-scenarios.md           # Manejo de escenarios especiales
-│   ├── examples/                       # Ejemplos de destilación/trascienden
-│   │   ├── distillation-example.md    # Ejemplo de destilación (Largoplacismo)
-│   │   └── transcendence-example.md   # Ejemplo de trascendencia (Largoplacismo)
+│   ├── examples/                       # Ejemplos de destilación
+│   │   └── distillation-example.md    # Ejemplo de destilación (Largoplacismo)
 │   └── templates/                       # Plantillas de Skill
 │       ├── README.md                  # Índice de plantillas
 │       ├── person-skill-template.md   # Plantilla de destilación tipo persona D1
 │       ├── content-skill-template.md  # Plantilla de destilación tipo contenido D2
 │       ├── idea-skill-template.md     # Plantilla de destilación tipo idea D3
-│       ├── phenomenon-skill-template.md # Plantilla de destilación tipo fenómeno D4
-│       ├── person-plus-template.md    # Plantilla de trascendencia tipo persona D1
-│       ├── content-plus-template.md   # Plantilla de trascendencia tipo contenido D2
-│       ├── idea-plus-template.md      # Plantilla de trascendencia tipo idea D3
-│       └── phenomenon-plus-template.md # Plantilla de trascendencia tipo fenómeno D4
+│       └── phenomenon-skill-template.md # Plantilla de destilación tipo fenómeno D4
 └── scripts/                            # Módulo de búsqueda Python
     ├── search/                         # Tubería de búsqueda
     ├── crawl/                          # Rastreo web

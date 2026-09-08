@@ -4,7 +4,7 @@
 
 <br>
 
-> **만물을 증류하는 것을 넘어, 만물을 초월한다** <br>
+> **만물을 증류하여 실행 가능한 사고 프레임워크를 추출한다** <br>
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-orange.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-blueviolet)](https://claude.ai/code)
@@ -18,9 +18,9 @@
 
 <br>
 
-[colleague.skill](https://github.com/titanwings/colleague-skill) 과 [Nuwa.skill](https://github.com/titanwings/colleague-skill) 의启发를 받아, 유명인, 고인, 엘리트 등을 증류 — 왜 증류에 멈추는가?
+[colleague.skill](https://github.com/titanwings/colleague-skill) 과 [Nuwa.skill](https://github.com/titanwings/colleague-skill) 의启发를 받아, 유명인, 고인, 엘리트 등의 사고 프레임워크를 증류한다.
 <br>
- **판고증류.meta-skill** 은 만물을 증류하는 것에 그치지 않고, **만물을 초월한다**.
+ **판고증류.meta-skill** 은 임의의 대상에서 **실행 가능한 사고 프레임워크**를 추출한다.
 
 ---
 
@@ -42,36 +42,6 @@
 ---
 
 ## 데모
-
-
-### 초월: 사고 프레임워크 진화 (권장)
-
-장기주의를 초월하는 것은 더 강한 수사만이 아니라 정말로 격차를 메우는 것이다:
-
-```
-사용자    ❯ "장기주의" 초월하기
-
-판고증류  ❯ 【Phase 1 → 2 실행 중】
-            ✓ 증류 완료
-            ✓ 초월 경로 분석 완료 (경로 A + 경로 C)
-
-            【증류版本的 한계 식별】
-            - анти프래질리티 무시: "블랙 스완" 위험을 고려하지 않음
-            - 현금 흐름 무시: 장기주의는 단기 생존이 필요
-            - 급변하는 분야에 적용 불가
-
-            【진화된 산출물: "장기주의-플러스"】
-
-            상속 (증류 에센스):
-            ✓ 복리 사고 ✓ 장기 초점 ✓ 인내력
-
-            강화 (초월 전용):
-            ✓ 옵셔널리티 (경로 A): 장기 베팅 +退出권 유지
-            ✓ 3층 의사결정 체계 (경로 B): 장기/중기/단기分层
-            ✓ 단기 검증 메커니즘 (경로 C): 장기 의사결정에 중기 체크포인트
-```
-
-### 증류: 사고 프레임워크 추출
 
 장기주의를 증류하는 것은 "인내"라는 글자만이 아니라 실행 가능한 인지 프레임워크를 추출하는 것이다:
 
@@ -111,8 +81,8 @@ npx skills add wukongnotnull/pangu-distill
 설치 후, Agent에게这样说:
 
 ```markdown
-> 장기주의 초월하기
 > 장기주의 증류하기
+> 버핏의 사고 프레임워크를 만들고 싶어요
 ```
 
 ### 방법 2: 비기술 사용자 (대화식)
@@ -126,68 +96,64 @@ npx skills add wukongnotnull/pangu-distill
 설치 후, 자연어로 원하는 것을 말하세요:
 
 ```markdown
-> 제 의사결정 프레임워크를 초월해주세요
 > 장기주의를 증류해주세요
 > 버핏의 사고 프레임워크를 만들고 싶어요
 ```
 
 ## 클래식 케이스
 
-판고증류은 13명의 인물을 증류했으며, 분야별로 그룹화되어便于查找:
+아래 13명은 계획 중인 증류 사례이며, 완성된 Skill은 **아직 공개되지 않았습니다**:
 
 ### 💰 투자/비즈니스
 
-| 인물 | 초월 방향 |一键安装(超越版) |
+| 인물 | 방향 | 상태 |
 |------|---------|------------------|
-| ** Naval** |财富/레버리지/인생 철학 | `npx skills add wukongnotnull/pangu-naval` |
-| ** Munger** | 투자/멀티 모델/역발상 | `npx skills add wukongnotnull/pangu-munger` |
-| ** 장설봉** | 교육/커리어 플래닝/계층 이동 | `npx skills add wukongnotnull/pangu-zhangxuefeng` |
+| ** Naval** |财富/레버리지/인생 철학 | 미공개 |
+| ** Munger** | 투자/멀티 모델/역발상 | 미공개 |
+| ** 장설봉** | 교육/커리어 플래닝/계층 이동 | 미공개 |
 
 ### 🚀 스타트업/제품
 
-| 인물 | 초월 방향 |一键安装(超越版) |
+| 인물 | 방향 | 상태 |
 |------|---------|------------------|
-| ** Paul Graham** | 스타트업/글쓰기/제품/인생 철학 | `npx skills add wukongnotnull/pangu-paul-graham` |
-| ** 장일명** | 제품/조직/글로벌화/ 인재 | `npx skills add wukongnotnull/pangu-zhang-yiming` |
-| ** 스티브 잡스** | 제품/디자인/전략 | `npx skills add wukongnotnull/pangu-steve-jobs` |
-| ** 일론 머스크** | 엔지니어링/비용/제1원리 | `npx skills add wukongnotnull/pangu-elon-musk` |
+| ** Paul Graham** | 스타트업/글쓰기/제품/인생 철학 | 미공개 |
+| ** 장일명** | 제품/조직/글로벌화/ 인재 | 미공개 |
+| ** 스티브 잡스** | 제품/디자인/전략 | 미공개 |
+| ** 일론 머스크** | 엔지니어링/비용/제1원리 | 미공개 |
 
 ### 🤖 AI/기술
 
-| 인물 | 초월 방향 |一键安装(超越版) |
+| 인물 | 방향 | 상태 |
 |------|---------|------------------|
-| ** Karpathy** | AI/엔지니어링/교육/오픈소스 | `npx skills add wukongnotnull/pangu-karpathy` |
-| ** Ilya Sutskever** | AI 안전/scaling/연구 취향 | `npx skills add wukongnotnull/pangu-ilya-sutskever` |
+| ** Karpathy** | AI/엔지니어링/교육/오픈소스 | 미공개 |
+| ** Ilya Sutskever** | AI 안전/scaling/연구 취향 | 미공개 |
 
 ### 🎬 콘텐츠 제작
 
-| 인물 | 초월 방향 |一键安装(超越版) |
+| 인물 | 방향 | 상태 |
 |------|---------|------------------|
-| ** MrBeast** | 콘텐츠 제작/YouTube 방법론 | `npx skills add wukongnotnull/pangu-mrbeast` |
+| ** MrBeast** | 콘텐츠 제작/YouTube 방법론 | 미공개 |
 
 ### 🎯 커뮤니케이션/_POWER
 
-| 인물 | 초월 방향 |一键安装(超越版) |
+| 인물 | 방향 | 상태 |
 |------|---------|------------------|
-| 🔥** 트럼프** | 협상/파워/커뮤니케이션/행동 예측 | `npx skills add wukongnotnull/pangu-trump` |
+| 🔥** 트럼프** | 협상/파워/커뮤니케이션/행동 예측 | 미공개 |
 
 ### 🧠 사고/학습
 
-| 인물 | 초월 방향 |一键安装(超越版) |
+| 인물 | 방향 | 상태 |
 |------|---------|------------------|
-| ** 파인만** | 학습/가르침/과학적 사고 | `npx skills add wukongnotnull/pangu-feynman` |
-| ** 탈레브** | 리스크/안티프래질리티/불확실성 | `npx skills add wukongnotnull/pangu-taleb` |
+| ** 파인만** | 학습/가르침/과학적 사고 | 미공개 |
+| ** 탈레브** | 리스크/안티프래질리티/불확실성 | 미공개 |
 
 ---
 
 ## 아키텍처
 
-### 이중 능력
+### 핵심 능력
 
-| 능력 | 정의 | 산출물 |
-|------|------|------|
-| ** 만물 증류** |任意 대상에서 실행 가능한 사고 프레임워크 추출 | 인물 스킬/콘텐츠 스킬/사상 스킬 등 |
-| ** 만물 초월** | 증류基础上 진단 결함, 외부 장점 도입, 강화版 생성 | 원래 대상보다 강력한 사고 프레임워크 |
+임의의 대상에서 실행 가능한 사고 프레임워크를 추출하여 인물 / 콘텐츠 / 사상 / 현상 스킬을 만든다.
 
 ### 실행 흐름
 
@@ -219,21 +185,9 @@ npx skills add wukongnotnull/pangu-distill
 
 3-7개 멘탈 모델 + 5-10개 의사결정 휴리스틱 + 표현 DNA + 가치관과 반패턴 + 정직한 경계
 
-#### Phase 2: 초월
-
-증류基础上, 4개 초월 경로로 체계적 강화:
-
-| 경로 | 조작 | 초월 전략 |
-|------|------|---------|
-| ** 경로 A: 자신에게서 배우기** | 핵심 한계, 자기 모순, 시대 한계 식별 | 격차 메우기, 경계 강화하기, 가정 업데이트하기 |
-| ** 경로 B:同类에게서 배우기** | 3-5개 同類 우수 대상 찾기 | 장점 쌓기, 블라인드 스팟 보완, 차별화 혁신 |
-| ** 경로 C: 상대에게서 배우기** | 가장 강한 비판자 관점 수집, 경쟁相手 분석 | 반론 흡수,対立 초월, 대안 통합 |
-| ** 경로 D: 역사에게서 배우기** | 과거 실패 케이스 정리, 역사적 유사 케이스 분석 | 실수 반복 피하기, 진화 가속화, 트렌드 예측 |
-
 ### 품질 검증
 
-- **증류版 검증**: 이 사람이 공개적으로 답변한 3개 질문으로 테스트, 방향 일치해야 통과
-- **초월版 검증**: 이 사람이 논술한 적 없는 1개 질문으로 테스트, 스킬은 거짓 확신 대신 적절한 불확실성을 보여야 함
+이 사람이 공개적으로 답변한 3개 질문으로 테스트하여 방향이 일치해야 통과한다. 스킬에 없는 새 질문에서는 프레임워크가 일관된 입장을 도출해야 한다.
 
 ---
 
@@ -245,19 +199,14 @@ pangu-distill/
 ├── references/
 │   ├── quality-checklist.md            # 품질 자검清单
 │   ├── special-scenarios.md           # 특수 장면 처리
-│   ├── examples/                       # 증류/초월 예시
-│   │   ├── distillation-example.md    # 증류 예시 (장기주의)
-│   │   └── transcendence-example.md   # 초월 예시 (장기주의)
+│   ├── examples/                       # 증류 예시
+│   │   └── distillation-example.md    # 증류 예시 (장기주의)
 │   └── templates/                       # 스킬 템플릿
 │       ├── README.md                  # 템플릿 인덱스
 │       ├── person-skill-template.md   # D1 인물類 증류 템플릿
 │       ├── content-skill-template.md  # D2 콘텐츠類 증류 템플릿
 │       ├── idea-skill-template.md     # D3 사상類 증류 템플릿
-│       ├── phenomenon-skill-template.md # D4 현상類 증류 템플릿
-│       ├── person-plus-template.md    # D1 인물類 초월 템플릿
-│       ├── content-plus-template.md   # D2 콘텐츠類 초월 템플릿
-│       ├── idea-plus-template.md      # D3 사상類 초월 템플릿
-│       └── phenomenon-plus-template.md # D4 현상類 초월 템플릿
+│       └── phenomenon-skill-template.md # D4 현상類 증류 템플릿
 └── scripts/                            # Python 검색 모듈
     ├── search/                         # 검색 파이프라인
     ├── crawl/                          # 웹 크롤링

@@ -4,7 +4,7 @@
 
 <br>
 
-> **不止于蒸馏万物，更要超越万物** <br>
+> **蒸馏万物，提取可运行的思维框架** <br>
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-orange.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-blueviolet)](https://claude.ai/code)
@@ -18,8 +18,8 @@
 
 <br>
 
-受到 [同事.skill](https://github.com/titanwings/colleague-skill) 和 [女娲.skill](https://github.com/titanwings/colleague-skill) 启发，蒸馏名人、故人、精英等，为何止步于蒸馏 ？<br>
- **盘古蒸馏.meta-skill** ，不止于蒸馏万物，更要**超越万物** 。
+受到 [同事.skill](https://github.com/titanwings/colleague-skill) 和 [女娲.skill](https://github.com/titanwings/colleague-skill) 启发，蒸馏名人、故人、精英等的思维框架。<br>
+ **盘古蒸馏.meta-skill** ，从任意对象提取**可运行的思维框架**。
 
 ---
 
@@ -41,36 +41,6 @@
 ---
 
 ## 使用演示
-
-
-### 超越 ：进化思维框架(推荐)
-
-超越长期主义，不是更强的话语，是真的补全了缺陷：
-
-```
-用户      ❯ 超越「长期主义」
-
-盘古蒸馏  ❯ 【Phase 1 → 2 执行中】
-            ✓ 蒸馏完成
-            ✓ 超越路径分析完成（路径A+路径C）
-
-            【蒸馏版局限识别】
-            - 忽视反脆弱性：没有考虑「黑天鹅」风险
-            - 忽视现金流：长期主义需要短期生存支撑
-            - 不适用于快速变化领域
-
-            【进化版产出：《长期主义-Plus》】
-
-            继承（蒸馏版精华）：
-            ✓ 复利思维 ✓ 长期焦点 ✓ 坚持不懈
-
-            增强（超越版独有）：
-            ✓ 可选择性（路径A）：长期押注+保持退出权
-            ✓ 三层决策体系（路径B）：长期/中期/短期分层
-            ✓ 短期验证机制（路径C）：长期决策有中期checkpoint
-```
-
-### 蒸馏：提取思维框架
 
 蒸馏长期主义，提取的不只是"坚持"二字，而是可运行的认知框架：
 
@@ -110,8 +80,8 @@ npx skills add wukongnotnull/pangu-distill
 安装完成后，在 Agent 的对话框中说：
 
 ```markdown
-> 超越「长期主义」
 > 蒸馏「长期主义」
+> 做一个巴菲特的思维框架
 ```
 
 ### 方式二：文科生（对话式）
@@ -125,68 +95,64 @@ npx skills add wukongnotnull/pangu-distill
 安装完成后，用自然语言告诉它你想要什么：
 
 ```markdown
-> 帮我超越：我的决策框架
 > 帮我蒸馏：长期主义
 > 我想做一个巴菲特的思维框架
 ```
 
 ## 经典案例
 
-盘古蒸馏已蒸馏了13位人物，按领域分组，便于按需查找：
+以下 13 位人物是规划中的蒸馏案例，成品 Skill **尚未发布**：
 
 ### 💰 投资/商业
 
-| 人物 | 超越方向 | 一键安装(超越版) |
+| 人物 | 方向 | 状态 |
 |------|---------|------------------|
-| **纳瓦尔** | 财富/杠杆/人生哲学 | `npx skills add wukongnotnull/pangu-naval` |
-| **芒格** | 投资/多元思维/逆向思考 | `npx skills add wukongnotnull/pangu-munger` |
-| **张雪峰** | 教育/职业规划/阶层流动 | `npx skills add wukongnotnull/pangu-zhangxuefeng` |
+| **纳瓦尔** | 财富/杠杆/人生哲学 | 尚未发布 |
+| **芒格** | 投资/多元思维/逆向思考 | 尚未发布 |
+| **张雪峰** | 教育/职业规划/阶层流动 | 尚未发布 |
 
 ### 🚀 创业/产品
 
-| 人物 | 超越方向 | 一键安装(超越版) |
+| 人物 | 方向 | 状态 |
 |------|---------|------------------|
-| **Paul Graham** | 创业/写作/产品/人生哲学 | `npx skills add wukongnotnull/pangu-paul-graham` |
-| **张一鸣** | 产品/组织/全球化/人才 | `npx skills add wukongnotnull/pangu-zhang-yiming` |
-| **乔布斯** | 产品/设计/战略 | `npx skills add wukongnotnull/pangu-steve-jobs` |
-| **马斯克** | 工程/成本/第一性原理 | `npx skills add wukongnotnull/pangu-elon-musk` |
+| **Paul Graham** | 创业/写作/产品/人生哲学 | 尚未发布 |
+| **张一鸣** | 产品/组织/全球化/人才 | 尚未发布 |
+| **乔布斯** | 产品/设计/战略 | 尚未发布 |
+| **马斯克** | 工程/成本/第一性原理 | 尚未发布 |
 
 ### 🤖 AI/技术
 
-| 人物 | 超越方向 | 一键安装(超越版) |
+| 人物 | 方向 | 状态 |
 |------|---------|------------------|
-| **Karpathy** | AI/工程/教育/开源 | `npx skills add wukongnotnull/pangu-karpathy` |
-| **Ilya Sutskever** | AI安全/scaling/研究品味 | `npx skills add wukongnotnull/pangu-ilya-sutskever` |
+| **Karpathy** | AI/工程/教育/开源 | 尚未发布 |
+| **Ilya Sutskever** | AI安全/scaling/研究品味 | 尚未发布 |
 
 ### 🎬 内容创作
 
-| 人物 | 超越方向 | 一键安装(超越版) |
+| 人物 | 方向 | 状态 |
 |------|---------|------------------|
-| **MrBeast** | 内容创造/YouTube方法论 | `npx skills add wukongnotnull/pangu-mrbeast` |
+| **MrBeast** | 内容创造/YouTube方法论 | 尚未发布 |
 
 ### 🎯 传播/权力
 
-| 人物 | 超越方向 | 一键安装(超越版) |
+| 人物 | 方向 | 状态 |
 |------|---------|------------------|
-| 🔥**特朗普** | 谈判/权力/传播/行为预判 | `npx skills add wukongnotnull/pangu-trump` |
+| 🔥**特朗普** | 谈判/权力/传播/行为预判 | 尚未发布 |
 
 ### 🧠 思维/学习
 
-| 人物 | 超越方向 | 一键安装(超越版) |
+| 人物 | 方向 | 状态 |
 |------|---------|------------------|
-| **费曼** | 学习/教学/科学思维 | `npx skills add wukongnotnull/pangu-feynman` |
-| **塔勒布** | 风险/反脆弱/不确定性 | `npx skills add wukongnotnull/pangu-taleb` |
+| **费曼** | 学习/教学/科学思维 | 尚未发布 |
+| **塔勒布** | 风险/反脆弱/不确定性 | 尚未发布 |
 
 ---
 
 ## 架构原理
 
-### 双重能力
+### 核心能力
 
-| 能力 | 定义 | 产出 |
-|------|------|------|
-| **蒸馏万物** | 从任意对象提取可运行的思维框架 | 人物类Skill / 内容类Skill / 思想类Skill等 |
-| **超越万物** | 在蒸馏基础上诊断缺陷、引入外部优势、生成增强版 | 比原对象更强的思维框架 |
+从任意对象提取可运行的思维框架，产出人物类 / 内容类 / 思想类 / 现象类 Skill。
 
 ### 执行流程
 
@@ -218,21 +184,9 @@ npx skills add wukongnotnull/pangu-distill
 
 3-7个心智模型 + 5-10条决策启发式 + 表达DNA + 价值观与反模式 + 诚实边界
 
-#### Phase 2：超越（Transcendence）
-
-在蒸馏基础上，4条超越路径系统性增强：
-
-| 路径 | 操作 | 超越策略 |
-|------|------|---------|
-| **路径A：向自身学习** | 识别核心局限、自我矛盾、时代局限 | 补全碎片、强化边界、更新假设 |
-| **路径B：向同类学习** | 找到3-5个同类优秀对象 | 优势叠加、盲区互补、差异化创新 |
-| **路径C：向对手学习** | 收集最强批评者观点、分析竞争对手 | 吸收反击、超越对立、整合替代 |
-| **路径D：向历史学习** | 梳理过往失败案例、分析历史相似案例 | 避免重蹈覆辙、加速演化、预测趋势 |
-
 ### 质量验证
 
-- **蒸馏版验证**：拿3个此人公开回答过的问题测试，方向一致才通过
-- **超越版验证**：用1个他没讨论过的问题测试，Skill应表现适度不确定而非斩钉截铁
+拿3个此人公开回答过的问题测试，方向一致才通过。问一个没写过的新问题，框架应能推导出一致立场。
 
 ---
 
@@ -244,19 +198,14 @@ pangu-distill/
 ├── references/
 │   ├── quality-checklist.md            # 质量自检清单
 │   ├── special-scenarios.md           # 特殊场景处理
-│   ├── examples/                       # 蒸馏/超越示例
-│   │   ├── distillation-example.md    # 蒸馏示例（长期主义）
-│   │   └── transcendence-example.md   # 超越示例（长期主义）
+│   ├── examples/                       # 蒸馏示例
+│   │   └── distillation-example.md    # 蒸馏示例（长期主义）
 │   └── templates/                       # Skill模板
 │       ├── README.md                  # 模板索引
 │       ├── person-skill-template.md   # D1人物类蒸馏模板
 │       ├── content-skill-template.md  # D2内容类蒸馏模板
 │       ├── idea-skill-template.md     # D3思想类蒸馏模板
-│       ├── phenomenon-skill-template.md # D4现象类蒸馏模板
-│       ├── person-plus-template.md    # D1人物类超越模板
-│       ├── content-plus-template.md   # D2内容类超越模板
-│       ├── idea-plus-template.md      # D3思想类超越模板
-│       └── phenomenon-plus-template.md # D4现象类超越模板
+│       └── phenomenon-skill-template.md # D4现象类蒸馏模板
 └── scripts/                            # Python搜索模块
     ├── search/                         # 搜索管道
     ├── crawl/                          # 网页爬取
