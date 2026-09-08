@@ -102,50 +102,50 @@ After installation, tell it what you want in natural language:
 
 ## Classic Cases
 
-pangu-distill has distilled 13 figures, grouped by field for easy lookup:
+These 13 figures are planned distillation cases. The finished Skills are **not yet published**:
 
 ### 💰 Investment / Business
 
-| Person | Domain | One-Click Install |
+| Person | Domain | Status |
 |------|---------|------------------|
-| **Naval** | Wealth / Leverage / Life Philosophy | `npx skills add wukongnotnull/pangu-naval` |
-| **Munger** | Investment / Mental Models / Inversion | `npx skills add wukongnotnull/pangu-munger` |
-| **Zhang Xuefeng** | Education / Career Planning / Class Mobility | `npx skills add wukongnotnull/pangu-zhangxuefeng` |
+| **Naval** | Wealth / Leverage / Life Philosophy | Not yet published |
+| **Munger** | Investment / Mental Models / Inversion | Not yet published |
+| **Zhang Xuefeng** | Education / Career Planning / Class Mobility | Not yet published |
 
 ### 🚀 Startup / Product
 
-| Person | Domain | One-Click Install |
+| Person | Domain | Status |
 |------|---------|------------------|
-| **Paul Graham** | Startups / Writing / Product / Life Philosophy | `npx skills add wukongnotnull/pangu-paul-graham` |
-| **Zhang Yiming** | Product / Organization / Globalization / Talent | `npx skills add wukongnotnull/pangu-zhang-yiming` |
-| **Steve Jobs** | Product / Design / Strategy | `npx skills add wukongnotnull/pangu-steve-jobs` |
-| **Elon Musk** | Engineering / Cost / First Principles | `npx skills add wukongnotnull/pangu-elon-musk` |
+| **Paul Graham** | Startups / Writing / Product / Life Philosophy | Not yet published |
+| **Zhang Yiming** | Product / Organization / Globalization / Talent | Not yet published |
+| **Steve Jobs** | Product / Design / Strategy | Not yet published |
+| **Elon Musk** | Engineering / Cost / First Principles | Not yet published |
 
 ### 🤖 AI / Tech
 
-| Person | Domain | One-Click Install |
+| Person | Domain | Status |
 |------|---------|------------------|
-| **Karpathy** | AI / Engineering / Education / Open Source | `npx skills add wukongnotnull/pangu-karpathy` |
-| **Ilya Sutskever** | AI Safety / Scaling / Research Taste | `npx skills add wukongnotnull/pangu-ilya-sutskever` |
+| **Karpathy** | AI / Engineering / Education / Open Source | Not yet published |
+| **Ilya Sutskever** | AI Safety / Scaling / Research Taste | Not yet published |
 
 ### 🎬 Content Creation
 
-| Person | Domain | One-Click Install |
+| Person | Domain | Status |
 |------|---------|------------------|
-| **MrBeast** | Content Creation / YouTube Methodology | `npx skills add wukongnotnull/pangu-mrbeast` |
+| **MrBeast** | Content Creation / YouTube Methodology | Not yet published |
 
 ### 🎯 Communication / Power
 
-| Person | Domain | One-Click Install |
+| Person | Domain | Status |
 |------|---------|------------------|
-| 🔥**Trump** | Negotiation / Power / Communication / Behavior Prediction | `npx skills add wukongnotnull/pangu-trump` |
+| 🔥**Trump** | Negotiation / Power / Communication / Behavior Prediction | Not yet published |
 
 ### 🧠 Thinking / Learning
 
-| Person | Domain | One-Click Install |
+| Person | Domain | Status |
 |------|---------|------------------|
-| **Feynman** | Learning / Teaching / Scientific Thinking | `npx skills add wukongnotnull/pangu-feynman` |
-| **Taleb** | Risk / Anti-Fragility / Uncertainty | `npx skills add wukongnotnull/pangu-taleb` |
+| **Feynman** | Learning / Teaching / Scientific Thinking | Not yet published |
+| **Taleb** | Risk / Anti-Fragility / Uncertainty | Not yet published |
 
 ---
 

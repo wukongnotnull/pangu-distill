@@ -101,50 +101,50 @@ npx skills add wukongnotnull/pangu-distill
 
 ## 经典案例
 
-盘古蒸馏已蒸馏了13位人物，按领域分组，便于按需查找：
+以下 13 位人物是规划中的蒸馏案例，成品 Skill **尚未发布**：
 
 ### 💰 投资/商业
 
-| 人物 | 方向 | 一键安装 |
+| 人物 | 方向 | 状态 |
 |------|---------|------------------|
-| **纳瓦尔** | 财富/杠杆/人生哲学 | `npx skills add wukongnotnull/pangu-naval` |
-| **芒格** | 投资/多元思维/逆向思考 | `npx skills add wukongnotnull/pangu-munger` |
-| **张雪峰** | 教育/职业规划/阶层流动 | `npx skills add wukongnotnull/pangu-zhangxuefeng` |
+| **纳瓦尔** | 财富/杠杆/人生哲学 | 尚未发布 |
+| **芒格** | 投资/多元思维/逆向思考 | 尚未发布 |
+| **张雪峰** | 教育/职业规划/阶层流动 | 尚未发布 |
 
 ### 🚀 创业/产品
 
-| 人物 | 方向 | 一键安装 |
+| 人物 | 方向 | 状态 |
 |------|---------|------------------|
-| **Paul Graham** | 创业/写作/产品/人生哲学 | `npx skills add wukongnotnull/pangu-paul-graham` |
-| **张一鸣** | 产品/组织/全球化/人才 | `npx skills add wukongnotnull/pangu-zhang-yiming` |
-| **乔布斯** | 产品/设计/战略 | `npx skills add wukongnotnull/pangu-steve-jobs` |
-| **马斯克** | 工程/成本/第一性原理 | `npx skills add wukongnotnull/pangu-elon-musk` |
+| **Paul Graham** | 创业/写作/产品/人生哲学 | 尚未发布 |
+| **张一鸣** | 产品/组织/全球化/人才 | 尚未发布 |
+| **乔布斯** | 产品/设计/战略 | 尚未发布 |
+| **马斯克** | 工程/成本/第一性原理 | 尚未发布 |
 
 ### 🤖 AI/技术
 
-| 人物 | 方向 | 一键安装 |
+| 人物 | 方向 | 状态 |
 |------|---------|------------------|
-| **Karpathy** | AI/工程/教育/开源 | `npx skills add wukongnotnull/pangu-karpathy` |
-| **Ilya Sutskever** | AI安全/scaling/研究品味 | `npx skills add wukongnotnull/pangu-ilya-sutskever` |
+| **Karpathy** | AI/工程/教育/开源 | 尚未发布 |
+| **Ilya Sutskever** | AI安全/scaling/研究品味 | 尚未发布 |
 
 ### 🎬 内容创作
 
-| 人物 | 方向 | 一键安装 |
+| 人物 | 方向 | 状态 |
 |------|---------|------------------|
-| **MrBeast** | 内容创造/YouTube方法论 | `npx skills add wukongnotnull/pangu-mrbeast` |
+| **MrBeast** | 内容创造/YouTube方法论 | 尚未发布 |
 
 ### 🎯 传播/权力
 
-| 人物 | 方向 | 一键安装 |
+| 人物 | 方向 | 状态 |
 |------|---------|------------------|
-| 🔥**特朗普** | 谈判/权力/传播/行为预判 | `npx skills add wukongnotnull/pangu-trump` |
+| 🔥**特朗普** | 谈判/权力/传播/行为预判 | 尚未发布 |
 
 ### 🧠 思维/学习
 
-| 人物 | 方向 | 一键安装 |
+| 人物 | 方向 | 状态 |
 |------|---------|------------------|
-| **费曼** | 学习/教学/科学思维 | `npx skills add wukongnotnull/pangu-feynman` |
-| **塔勒布** | 风险/反脆弱/不确定性 | `npx skills add wukongnotnull/pangu-taleb` |
+| **费曼** | 学习/教学/科学思维 | 尚未发布 |
+| **塔勒布** | 风险/反脆弱/不确定性 | 尚未发布 |
 
 ---
 

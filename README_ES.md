@@ -102,50 +102,50 @@ Después de instalar, dile lo que quieres en lenguaje natural:
 
 ## Casos Clásicos
 
-pangu-distill ha destilado 13 figuras, agrupadas por campo para fácil búsqueda:
+Estas 13 figuras son casos de destilación planificados. Los Skills terminados **aún no se han publicado**:
 
 ### 💰 Inversión / Negocios
 
-| Persona | Dominio | Instalación con un clic |
+| Persona | Dominio | Estado |
 |------|---------|------------------|
-| **Naval** | Riqueza / Apalancamiento / Filosofía de Vida | `npx skills add wukongnotnull/pangu-naval` |
-| **Munger** | Inversión / Modelos Mentales / Inversión | `npx skills add wukongnotnull/pangu-munger` |
-| **Zhang Xuefeng** | Educación / Planificación de Carrera / Movilidad de Clase | `npx skills add wukongnotnull/pangu-zhangxuefeng` |
+| **Naval** | Riqueza / Apalancamiento / Filosofía de Vida | Aún no publicado |
+| **Munger** | Inversión / Modelos Mentales / Inversión | Aún no publicado |
+| **Zhang Xuefeng** | Educación / Planificación de Carrera / Movilidad de Clase | Aún no publicado |
 
 ### 🚀 Startup / Producto
 
-| Persona | Dominio | Instalación con un clic |
+| Persona | Dominio | Estado |
 |------|---------|------------------|
-| **Paul Graham** | Startups / Escritura / Producto / Filosofía de Vida | `npx skills add wukongnotnull/pangu-paul-graham` |
-| **Zhang Yiming** | Producto / Organización / Globalización / Talento | `npx skills add wukongnotnull/pangu-zhang-yiming` |
-| **Steve Jobs** | Producto / Diseño / Estrategia | `npx skills add wukongnotnull/pangu-steve-jobs` |
-| **Elon Musk** | Ingeniería / Costo / Principios Primeros | `npx skills add wukongnotnull/pangu-elon-musk` |
+| **Paul Graham** | Startups / Escritura / Producto / Filosofía de Vida | Aún no publicado |
+| **Zhang Yiming** | Producto / Organización / Globalización / Talento | Aún no publicado |
+| **Steve Jobs** | Producto / Diseño / Estrategia | Aún no publicado |
+| **Elon Musk** | Ingeniería / Costo / Principios Primeros | Aún no publicado |
 
 ### 🤖 IA / Tecnología
 
-| Persona | Dominio | Instalación con un clic |
+| Persona | Dominio | Estado |
 |------|---------|------------------|
-| **Karpathy** | IA / Ingeniería / Educación / Código Abierto | `npx skills add wukongnotnull/pangu-karpathy` |
-| **Ilya Sutskever** | Seguridad IA / Scaling / Gusto de Investigación | `npx skills add wukongnotnull/pangu-ilya-sutskever` |
+| **Karpathy** | IA / Ingeniería / Educación / Código Abierto | Aún no publicado |
+| **Ilya Sutskever** | Seguridad IA / Scaling / Gusto de Investigación | Aún no publicado |
 
 ### 🎬 Creación de Contenido
 
-| Persona | Dominio | Instalación con un clic |
+| Persona | Dominio | Estado |
 |------|---------|------------------|
-| **MrBeast** | Creación de Contenido / Metodología de YouTube | `npx skills add wukongnotnull/pangu-mrbeast` |
+| **MrBeast** | Creación de Contenido / Metodología de YouTube | Aún no publicado |
 
 ### 🎯 Comunicación / Poder
 
-| Persona | Dominio | Instalación con un clic |
+| Persona | Dominio | Estado |
 |------|---------|------------------|
-| 🔥**Trump** | Negociación / Poder / Comunicación / Predicción de Comportamiento | `npx skills add wukongnotnull/pangu-trump` |
+| 🔥**Trump** | Negociación / Poder / Comunicación / Predicción de Comportamiento | Aún no publicado |
 
 ### 🧠 Pensamiento / Aprendizaje
 
-| Persona | Dominio | Instalación con un clic |
+| Persona | Dominio | Estado |
 |------|---------|------------------|
-| **Feynman** | Aprendizaje / Enseñanza / Pensamiento Científico | `npx skills add wukongnotnull/pangu-feynman` |
-| **Taleb** | Riesgo / Antifragilidad / Incertidumbre | `npx skills add wukongnotnull/pangu-taleb` |
+| **Feynman** | Aprendizaje / Enseñanza / Pensamiento Científico | Aún no publicado |
+| **Taleb** | Riesgo / Antifragilidad / Incertidumbre | Aún no publicado |
 
 ---
 

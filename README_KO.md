@@ -102,50 +102,50 @@ npx skills add wukongnotnull/pangu-distill
 
 ## 클래식 케이스
 
-판고증류은 13명의 인물을 증류했으며, 분야별로 그룹화되어便于查找:
+아래 13명은 계획 중인 증류 사례이며, 완성된 Skill은 **아직 공개되지 않았습니다**:
 
 ### 💰 투자/비즈니스
 
-| 인물 | 방향 | 일괄 설치 |
+| 인물 | 방향 | 상태 |
 |------|---------|------------------|
-| ** Naval** |财富/레버리지/인생 철학 | `npx skills add wukongnotnull/pangu-naval` |
-| ** Munger** | 투자/멀티 모델/역발상 | `npx skills add wukongnotnull/pangu-munger` |
-| ** 장설봉** | 교육/커리어 플래닝/계층 이동 | `npx skills add wukongnotnull/pangu-zhangxuefeng` |
+| ** Naval** |财富/레버리지/인생 철학 | 미공개 |
+| ** Munger** | 투자/멀티 모델/역발상 | 미공개 |
+| ** 장설봉** | 교육/커리어 플래닝/계층 이동 | 미공개 |
 
 ### 🚀 스타트업/제품
 
-| 인물 | 방향 | 일괄 설치 |
+| 인물 | 방향 | 상태 |
 |------|---------|------------------|
-| ** Paul Graham** | 스타트업/글쓰기/제품/인생 철학 | `npx skills add wukongnotnull/pangu-paul-graham` |
-| ** 장일명** | 제품/조직/글로벌화/ 인재 | `npx skills add wukongnotnull/pangu-zhang-yiming` |
-| ** 스티브 잡스** | 제품/디자인/전략 | `npx skills add wukongnotnull/pangu-steve-jobs` |
-| ** 일론 머스크** | 엔지니어링/비용/제1원리 | `npx skills add wukongnotnull/pangu-elon-musk` |
+| ** Paul Graham** | 스타트업/글쓰기/제품/인생 철학 | 미공개 |
+| ** 장일명** | 제품/조직/글로벌화/ 인재 | 미공개 |
+| ** 스티브 잡스** | 제품/디자인/전략 | 미공개 |
+| ** 일론 머스크** | 엔지니어링/비용/제1원리 | 미공개 |
 
 ### 🤖 AI/기술
 
-| 인물 | 방향 | 일괄 설치 |
+| 인물 | 방향 | 상태 |
 |------|---------|------------------|
-| ** Karpathy** | AI/엔지니어링/교육/오픈소스 | `npx skills add wukongnotnull/pangu-karpathy` |
-| ** Ilya Sutskever** | AI 안전/scaling/연구 취향 | `npx skills add wukongnotnull/pangu-ilya-sutskever` |
+| ** Karpathy** | AI/엔지니어링/교육/오픈소스 | 미공개 |
+| ** Ilya Sutskever** | AI 안전/scaling/연구 취향 | 미공개 |
 
 ### 🎬 콘텐츠 제작
 
-| 인물 | 방향 | 일괄 설치 |
+| 인물 | 방향 | 상태 |
 |------|---------|------------------|
-| ** MrBeast** | 콘텐츠 제작/YouTube 방법론 | `npx skills add wukongnotnull/pangu-mrbeast` |
+| ** MrBeast** | 콘텐츠 제작/YouTube 방법론 | 미공개 |
 
 ### 🎯 커뮤니케이션/_POWER
 
-| 인물 | 방향 | 일괄 설치 |
+| 인물 | 방향 | 상태 |
 |------|---------|------------------|
-| 🔥** 트럼프** | 협상/파워/커뮤니케이션/행동 예측 | `npx skills add wukongnotnull/pangu-trump` |
+| 🔥** 트럼프** | 협상/파워/커뮤니케이션/행동 예측 | 미공개 |
 
 ### 🧠 사고/학습
 
-| 인물 | 방향 | 일괄 설치 |
+| 인물 | 방향 | 상태 |
 |------|---------|------------------|
-| ** 파인만** | 학습/가르침/과학적 사고 | `npx skills add wukongnotnull/pangu-feynman` |
-| ** 탈레브** | 리스크/안티프래질리티/불확실성 | `npx skills add wukongnotnull/pangu-taleb` |
+| ** 파인만** | 학습/가르침/과학적 사고 | 미공개 |
+| ** 탈레브** | 리스크/안티프래질리티/불확실성 | 미공개 |
 
 ---
 
