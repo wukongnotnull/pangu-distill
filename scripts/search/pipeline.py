@@ -252,10 +252,10 @@ class SearchPipeline:
 
 # 默认 6 维度采集配置
 DEFAULT_DIMENSIONS = {
-    "writings": "{target} 著作 书单 论文",
+    "writings": "{target} 著作 书单 论文 长文",
     "conversations": "{target} 访谈 播客 演讲",
-    "expression": "{target} Twitter 社交媒体 观点",
-    "critics": "{target} 批评 争议 负面评价",
-    "decisions": "{target} 决策 投资 关键选择",
+    "expression": "{target} Twitter 社交媒体 观点 口癖",
+    "critics": "{target} 批评 争议 负面评价 局限",
+    "decisions": "{target} 决策 投资 关键选择 复盘",
     "timeline": "{target} 生平 时间线 里程碑",
 }

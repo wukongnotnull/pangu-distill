@@ -18,7 +18,7 @@
 
 <br>
 
-Inspirado por [colleague.skill](https://github.com/titanwings/colleague-skill) y [Nuwa.skill](https://github.com/titanwings/colleague-skill), destilando marcos de pensamiento de figuras famosas, difuntos y élites.
+Absorbe lo que sí sube la fidelidad de [Distilly](https://github.com/titanwings/distilly), [Nüwa](https://github.com/alchaincyf/nuwa-skill) y [Cangjie](https://github.com/Yeadon8888/cangjie-skill), y añade las capas que ellos omiten.
 <br>
  **pangu-distill.meta-skill** extrae **marcos de pensamiento ejecutables** de cualquier sujeto.
 
@@ -153,41 +153,19 @@ Estas 13 figuras son casos de destilación planificados. Los Skills terminados *
 
 ### Capacidad Principal
 
-Extraer marcos de pensamiento ejecutables de cualquier sujeto, produciendo Skills de Persona / Contenido / Ideas / Fenómenos.
+Extraer marcos de pensamiento ejecutables de cualquier sujeto: Persona / Contenido / Ideas / Fenómenos / **Yo**.
+
+**4.5 capas** (el límite honesto no es un apéndice) + **extracción de 7 niveles** (primero la historia de origen, las frases al final) + triple verificación + disparadores + pasos de razonamiento + `scripts/run.py` obligatorio + puntuación de fidelidad con dos agentes independientes (≥80, sin autoevaluación).
 
 ### Flujo de Ejecución
 
-#### Fase 1: Destilación
+Aclarar → crear directorio → recolectar con scripts (hasta 7 agentes) → extraer → construir → verificar → tres rondas de refinamiento.
 
-**Paso 1: Recolección de Información**
-
-3 Agentes recolectan en paralelo (modo maestro-esclavo):
-
-| Agente | Responsabilidad | Archivo de Salida |
-|-------|------|---------|
-| Master (Recolector de Materiales) | Obras centrales + Línea de tiempo | `01-writings.md`, `06-timeline.md` |
-| Analyst A | Podcasts/Entrevistas + ADN de Expresión | `02-conversations.md`, `03-expression-dna.md` |
-| Analyst B | Crítica + Decisiones Importantes + Similares | `04-limitations.md`, `05-decisions.md`, `07-similar-objects.md` |
-
-**Paso 2: Extracción del Marco**
-
-- **Verificación Triple del Modelo Mental**:
-  - Verificación 1: Reproducción cruzada (≥2 campos diferentes)
-  - Verificación 2: Poder generativo (puede inferir posiciones en nuevas preguntas)
-  - Verificación 3: Exclusividad (no es lo que cualquier persona inteligente pensaría)
-  - Pasa 3 → Modelo mental; Pasa 1-2 → Heurística de decisión
-
-- **Cuantificación del ADN de Expresión**: Huellas dactilares de oraciones, etiquetas de estilo, palabras tabú y muletillas
-
-- **Manejo de Contradicciones**: Contradicciones temporales → registrar trayectoria de evolución; Contradicciones de dominio → registrar por campo; Tensiones esenciales → definir explícitamente como tensiones centrales
-
-**Paso 3: Construcción del Skill**
-
-3-7 modelos mentales + 5-10 heurísticas de decisión + ADN de Expresión + Valores y Anti-patrones + Límites honestos
+Cada modelo mental necesita historia de origen, evidencia cruzada, disparador, pasos y límite.
 
 ### Validación de Calidad
 
-Probar con 3 preguntas que la persona respondió públicamente — la dirección debe coincidir. Ante una pregunta nueva no cubierta por el Skill, el marco debe inferir una postura coherente.
+Puerta de proceso: `quality-checklist.md`. Puerta de fábrica: `fidelity-scorecard.md`. El agente que responde y el que puntúa deben ser distintos. Por debajo de 80 no se entrega.
 
 ---
 
@@ -195,22 +173,20 @@ Probar con 3 preguntas que la persona respondió públicamente — la dirección
 
 ```
 pangu-distill/
-├── SKILL.md                           # pangu-distill en sí
+├── SKILL.md
+├── .claude/skills/skill-creator/
+├── .claude/skills/skill-vetter/
 ├── references/
-│   ├── quality-checklist.md            # Lista de verificación de calidad
-│   ├── special-scenarios.md           # Manejo de escenarios especiales
-│   ├── examples/                       # Ejemplos de destilación
-│   │   └── distillation-example.md    # Ejemplo de destilación (Largoplacismo)
-│   └── templates/                       # Plantillas de Skill
-│       ├── README.md                  # Índice de plantillas
-│       ├── person-skill-template.md   # Plantilla de destilación tipo persona D1
-│       ├── content-skill-template.md  # Plantilla de destilación tipo contenido D2
-│       ├── idea-skill-template.md     # Plantilla de destilación tipo idea D3
-│       └── phenomenon-skill-template.md # Plantilla de destilación tipo fenómeno D4
-└── scripts/                            # Módulo de búsqueda Python
-    ├── search/                         # Tubería de búsqueda
-    ├── crawl/                          # Rastreo web
-    └── transcribe/                     # Transcripción de audio/video
+│   ├── distillation-methodology.md
+│   ├── research-guide.md
+│   ├── quality-checklist.md
+│   ├── fidelity-scorecard.md
+│   ├── output-spec.md
+│   ├── anti-patterns.md
+│   ├── special-scenarios.md
+│   ├── examples/distillation-example.md
+│   └── templates/
+└── scripts/
 ```
 
 ---

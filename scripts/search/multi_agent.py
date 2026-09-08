@@ -4,7 +4,7 @@
 主从模式：
 - Master Agent：负责网络搜索和素材收集
 - Slave Agents：只分析已有素材，不重复搜索
-- 最多3个Agent
+- 最多7个Agent（1 Master + 6 Analysts），覆盖六路采集
 """
 
 import json
@@ -93,23 +93,22 @@ class MasterSearchPipeline:
     2. Slave Agents 分析已有的搜索结果（不重复搜索）
     3. 汇总各Agent的分析结论
 
-    最多3个Agent：
+    最多7个Agent：
     - 1 Master（搜索）
-    - 2 Analysts（分析）
+    - 最多 6 Analysts（六路分析）
     """
 
     def __init__(
         self,
-        max_agents: int = 3,
+        max_agents: int = 7,
         search_tool = None,
     ):
         """
         Args:
-            max_agents: 最大Agent数量（默认3，含Master）
+            max_agents: 最大Agent数量（默认7，含Master）
             search_tool: 搜索工具实例
         """
-        # 确保最多3个Agent
-        self.max_agents = min(max(max_agents, 1), 3)
+        self.max_agents = min(max(max_agents, 1), 7)
         self.search_tool = search_tool
         self._setup_agents()
 
@@ -153,7 +152,6 @@ class MasterSearchPipeline:
         result = MultiAgentResult(target=target)
         result.agent_count = len(self.agents)
 
-        # 默认3个核心维度（不超过Agent数量）
         if dimensions is None:
             dimensions = self._get_default_dimensions()
 
@@ -250,11 +248,14 @@ class MasterSearchPipeline:
         return result
 
     def _get_default_dimensions(self) -> Dict[str, str]:
-        """获取默认维度（核心3维度）"""
+        """获取默认六路采集维度。"""
         return {
-            "核心观点": "{target} 核心思想 观点 理念",
-            "代表作品": "{target} 作品 成果 产品",
-            "他人评价": "{target} 评价 评论 反馈",
+            "著作": "{target} 著作 书单 论文 长文",
+            "访谈": "{target} 访谈 播客 演讲",
+            "表达": "{target} Twitter 社交媒体 观点 口癖",
+            "批评": "{target} 批评 争议 负面评价 局限",
+            "决策": "{target} 决策 投资 关键选择 复盘",
+            "时间线": "{target} 生平 时间线 里程碑",
         }
 
     def _fetch_contents(self, urls: List[str]) -> List[ContentResult]:
