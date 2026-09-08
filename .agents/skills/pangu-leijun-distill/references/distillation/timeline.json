@@ -1,0 +1,10 @@
+{
+  "dimension": "timeline",
+  "query": "雷军 生平 时间线 里程碑",
+  "result_count": 10,
+  "content_count": 10,
+  "success": true,
+  "error": null,
+  "used_source": "wikipedia",
+  "retrieved_at": "2026-09-08T13:43:48.663255"
+}
