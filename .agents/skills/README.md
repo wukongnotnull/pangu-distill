@@ -10,4 +10,4 @@ bash scripts/install-host.sh --project
 
 不要把仓库根目录再套一层复制进来。`install-host.sh` 只做软链。
 
-`pangu-first-principles-distill/`、`pangu-bezos-distill/` 是实跑样本，不是 README 里那 13 个尚未发布的经典案例。评测见 `references/examples/`。
+`pangu-first-principles-distill/`、`pangu-bezos-distill/`、`pangu-zhangxiaolong-distill/`、`pangu-leijun-distill/` 是实跑样本，不是 README 里那 13 个尚未发布的经典案例。评测见 `references/examples/`。

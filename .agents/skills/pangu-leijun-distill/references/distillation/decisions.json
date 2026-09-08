@@ -1,0 +1,10 @@
+{
+  "dimension": "decisions",
+  "query": "雷军 决策 投资 关键选择 复盘",
+  "result_count": 10,
+  "content_count": 10,
+  "success": true,
+  "error": null,
+  "used_source": "wikipedia",
+  "retrieved_at": "2026-09-08T13:43:40.277450"
+}

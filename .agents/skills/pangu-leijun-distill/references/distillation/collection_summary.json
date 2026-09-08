@@ -1,0 +1,70 @@
+{
+  "target": "雷军",
+  "dimension_count": 6,
+  "total_results": 60,
+  "total_contents": 60,
+  "success": true,
+  "completed_at": "2026-09-08T13:43:40.273692",
+  "dimensions": [
+    {
+      "dimension": "critics",
+      "query": "雷军 批评 争议 负面评价 局限",
+      "result_count": 10,
+      "content_count": 10,
+      "success": true,
+      "error": null,
+      "used_source": "wikipedia",
+      "retrieved_at": "2026-09-08T13:43:40.276905"
+    },
+    {
+      "dimension": "expression",
+      "query": "雷军 社交媒体 观点 口癖",
+      "result_count": 10,
+      "content_count": 10,
+      "success": true,
+      "error": null,
+      "used_source": "wikipedia",
+      "retrieved_at": "2026-09-08T13:43:40.275285"
+    },
+    {
+      "dimension": "conversations",
+      "query": "雷军 访谈 播客 演讲",
+      "result_count": 10,
+      "content_count": 10,
+      "success": true,
+      "error": null,
+      "used_source": "wikipedia",
+      "retrieved_at": "2026-09-08T13:43:40.274340"
+    },
+    {
+      "dimension": "writings",
+      "query": "雷军 著作 书单 论文 长文",
+      "result_count": 10,
+      "content_count": 10,
+      "success": true,
+      "error": null,
+      "used_source": "wikipedia",
+      "retrieved_at": "2026-09-08T13:43:40.273888"
+    },
+    {
+      "dimension": "decisions",
+      "query": "雷军 决策 投资 关键选择 复盘",
+      "result_count": 10,
+      "content_count": 10,
+      "success": true,
+      "error": null,
+      "used_source": "wikipedia",
+      "retrieved_at": "2026-09-08T13:43:40.277450"
+    },
+    {
+      "dimension": "timeline",
+      "query": "雷军 生平 时间线 里程碑",
+      "result_count": 10,
+      "content_count": 10,
+      "success": true,
+      "error": null,
+      "used_source": "wikipedia",
+      "retrieved_at": "2026-09-08T13:43:48.663255"
+    }
+  ]
+}

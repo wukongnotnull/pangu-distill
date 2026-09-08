@@ -451,6 +451,7 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 - [实跑评测：第一性原理（2026-09-08）](references/examples/live-test-first-principles.md)
 - [实跑评测：贝索斯（2026-09-08）](references/examples/live-test-bezos.md)
 - [实跑评测：张小龙（2026-09-08）](references/examples/live-test-zhangxiaolong.md)
+- [实跑评测：雷军（2026-09-08）](references/examples/live-test-leijun.md)
 
 ---
 
