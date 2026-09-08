@@ -1,0 +1,10 @@
+{
+  "dimension": "decisions",
+  "query": "张小龙 决策 投资 关键选择 复盘",
+  "result_count": 5,
+  "content_count": 5,
+  "success": true,
+  "error": null,
+  "used_source": "wikipedia",
+  "retrieved_at": "2026-09-08T13:22:18.422849"
+}

@@ -1,0 +1,10 @@
+{
+  "dimension": "conversations",
+  "query": "张小龙 访谈 播客 演讲",
+  "result_count": 5,
+  "content_count": 5,
+  "success": true,
+  "error": null,
+  "used_source": "wikipedia",
+  "retrieved_at": "2026-09-08T13:22:18.418412"
+}

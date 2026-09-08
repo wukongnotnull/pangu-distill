@@ -1,0 +1,10 @@
+{
+  "dimension": "expression",
+  "query": "张小龙 Twitter 社交媒体 观点 口癖",
+  "result_count": 3,
+  "content_count": 3,
+  "success": true,
+  "error": null,
+  "used_source": "wikipedia",
+  "retrieved_at": "2026-09-08T13:22:18.420680"
+}

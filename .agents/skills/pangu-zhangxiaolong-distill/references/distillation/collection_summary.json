@@ -1,0 +1,70 @@
+{
+  "target": "张小龙",
+  "dimension_count": 6,
+  "total_results": 28,
+  "total_contents": 28,
+  "success": true,
+  "completed_at": "2026-09-08T13:22:18.417312",
+  "dimensions": [
+    {
+      "dimension": "writings",
+      "query": "张小龙 著作 书单 论文 长文",
+      "result_count": 5,
+      "content_count": 5,
+      "success": true,
+      "error": null,
+      "used_source": "wikipedia",
+      "retrieved_at": "2026-09-08T13:22:18.417740"
+    },
+    {
+      "dimension": "conversations",
+      "query": "张小龙 访谈 播客 演讲",
+      "result_count": 5,
+      "content_count": 5,
+      "success": true,
+      "error": null,
+      "used_source": "wikipedia",
+      "retrieved_at": "2026-09-08T13:22:18.418412"
+    },
+    {
+      "dimension": "expression",
+      "query": "张小龙 Twitter 社交媒体 观点 口癖",
+      "result_count": 3,
+      "content_count": 3,
+      "success": true,
+      "error": null,
+      "used_source": "wikipedia",
+      "retrieved_at": "2026-09-08T13:22:18.420680"
+    },
+    {
+      "dimension": "timeline",
+      "query": "张小龙 生平 时间线 里程碑",
+      "result_count": 5,
+      "content_count": 5,
+      "success": true,
+      "error": null,
+      "used_source": "wikipedia",
+      "retrieved_at": "2026-09-08T13:22:22.195567"
+    },
+    {
+      "dimension": "decisions",
+      "query": "张小龙 决策 投资 关键选择 复盘",
+      "result_count": 5,
+      "content_count": 5,
+      "success": true,
+      "error": null,
+      "used_source": "wikipedia",
+      "retrieved_at": "2026-09-08T13:22:18.422849"
+    },
+    {
+      "dimension": "critics",
+      "query": "张小龙 批评 争议 负面评价 局限",
+      "result_count": 5,
+      "content_count": 5,
+      "success": true,
+      "error": null,
+      "used_source": "wikipedia",
+      "retrieved_at": "2026-09-08T13:22:18.421842"
+    }
+  ]
+}

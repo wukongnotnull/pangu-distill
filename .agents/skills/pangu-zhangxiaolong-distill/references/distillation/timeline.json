@@ -1,0 +1,10 @@
+{
+  "dimension": "timeline",
+  "query": "张小龙 生平 时间线 里程碑",
+  "result_count": 5,
+  "content_count": 5,
+  "success": true,
+  "error": null,
+  "used_source": "wikipedia",
+  "retrieved_at": "2026-09-08T13:22:22.195567"
+}
