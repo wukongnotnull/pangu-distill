@@ -1,7 +1,7 @@
 [project]
-name = "pangu-creator"
+name = "pangu-distill"
 version = "0.1.0"
-description = "盘古造物信息采集工具"
+description = "盘古蒸馏信息采集工具"
 requires-python = ">=3.9"
 dependencies = [
     "requests>=2.28.0",

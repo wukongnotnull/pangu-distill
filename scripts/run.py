@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-盘古造物信息采集入口
+盘古蒸馏信息采集入口
 
 自动检测 Python 环境：
 - 有 Python + uv → uv run（推荐，自动管理依赖）

@@ -1,6 +1,6 @@
 <div align="center">
 
-# 盘古造物.meta-skill
+# 盘古蒸馏.meta-skill
 
 <br>
 
@@ -19,7 +19,7 @@
 <br>
 
 受到 [同事.skill](https://github.com/titanwings/colleague-skill) 和 [女娲.skill](https://github.com/titanwings/colleague-skill) 启发，蒸馏名人、故人、精英等，为何止步于蒸馏 ？<br>
- **盘古造物.meta-skill** ，不止于蒸馏万物，更要**超越万物** 。
+ **盘古蒸馏.meta-skill** ，不止于蒸馏万物，更要**超越万物** 。
 
 ---
 
@@ -50,7 +50,7 @@
 ```
 用户      ❯ 超越「长期主义」
 
-盘古造物  ❯ 【Phase 1 → 2 执行中】
+盘古蒸馏  ❯ 【Phase 1 → 2 执行中】
             ✓ 蒸馏完成
             ✓ 超越路径分析完成（路径A+路径C）
 
@@ -77,7 +77,7 @@
 ```
 用户      ❯ 蒸馏「长期主义」
 
-盘古造物  ❯ 【Phase 1 执行中】
+盘古蒸馏  ❯ 【Phase 1 执行中】
             ✓ 六路采集完成（著作/访谈/批评/决策/时间线/同类）
             ✓ 心智模型三重验证通过
             ✓ 蒸馏完成
@@ -104,7 +104,7 @@
 直接用 npx 安装：
 
 ```bash
-npx skills add wukongnotnull/pangu-creator
+npx skills add wukongnotnull/pangu-distill
 ```
 
 安装完成后，在 Agent 的对话框中说：
@@ -119,7 +119,7 @@ npx skills add wukongnotnull/pangu-creator
 不需要记命令，直接把下面这段话复制给 Agent：
 
 ```
-帮我安装这个 skill：https://github.com/wukongnotnull/pangu-creator
+帮我安装这个 skill：https://github.com/wukongnotnull/pangu-distill
 ```
 
 安装完成后，用自然语言告诉它你想要什么：
@@ -132,7 +132,7 @@ npx skills add wukongnotnull/pangu-creator
 
 ## 经典案例
 
-盘古造物已蒸馏了13位人物，按领域分组，便于按需查找：
+盘古蒸馏已蒸馏了13位人物，按领域分组，便于按需查找：
 
 ### 💰 投资/商业
 
@@ -239,8 +239,8 @@ npx skills add wukongnotnull/pangu-creator
 ## 仓库结构
 
 ```
-pangu-creator/
-├── SKILL.md                           # 盘古造物本体
+pangu-distill/
+├── SKILL.md                           # 盘古蒸馏本体
 ├── references/
 │   ├── quality-checklist.md            # 质量自检清单
 │   ├── special-scenarios.md           # 特殊场景处理
