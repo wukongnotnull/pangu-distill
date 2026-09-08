@@ -51,8 +51,8 @@
 
 ```bash
 # 从本仓库 scripts/ 解析绝对路径后再执行，不要假设 cwd 就是 Skill 根目录
-python3 "{pangu_skill_root}/scripts/run.py" collect "[对象]" -o "[skill目录]/references/distillation/"
-python3 "{pangu_skill_root}/scripts/run.py" team "[对象]" -a 7 -o "[skill目录]/references/distillation/"
+python3 "{pangu_skill_root}/scripts/run.py" collect "[对象]" --kind [person|content|idea|phenomenon] -o "[skill目录]/references/distillation/"
+python3 "{pangu_skill_root}/scripts/run.py" team "[对象]" --kind [同上] -a 7 -o "[skill目录]/references/distillation/"
 ```
 
 用户给了本地文件：
@@ -67,7 +67,7 @@ python3 "{pangu_skill_root}/scripts/run.py" collect-local "[文件或URL...]" -o
 python3 "{pangu_skill_root}/scripts/run.py" transcribe "[YouTube或本地音频]" -o "[skill目录]/references/distillation/"
 ```
 
-脚本失败 → 写入缺口，不要装成已经采集。
+脚本失败或退出码 2（0 条结果）→ 写入缺口，改用宿主搜索，不要装成已经采集，不要让 `team` 对着 0 素材写报告。D3/D4 必须带 `--kind idea` / `--kind phenomenon`。
 
 ---
 

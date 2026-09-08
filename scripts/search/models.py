@@ -59,12 +59,17 @@ class CollectionResult:
     total_contents: int = 0
     completed_at: datetime = field(default_factory=datetime.now)
 
+    @property
+    def success(self) -> bool:
+        return self.total_results > 0
+
     def to_dict(self) -> dict:
         return {
             "target": self.target,
             "dimension_count": len(self.dimensions),
             "total_results": self.total_results,
             "total_contents": self.total_contents,
+            "success": self.success,
             "completed_at": self.completed_at.isoformat(),
             "dimensions": [d.to_dict() for d in self.dimensions],
         }

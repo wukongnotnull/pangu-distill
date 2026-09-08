@@ -13,8 +13,14 @@ from dataclasses import field
 import requests
 from bs4 import BeautifulSoup
 
-from crawl.base import BaseSearchEngine
+from crawl.base import BaseSearchEngine, BlockedError
 from shared import SearchSource, SearchResult
+
+BLOCK_MARKERS = (
+    "anomaly-modal",
+    "Unfortunately, bots use DuckDuckGo too",
+    "anomaly-modal__puzzle",
+)
 
 
 class DuckDuckGoSearch(BaseSearchEngine):
@@ -67,6 +73,7 @@ class DuckDuckGoSearch(BaseSearchEngine):
                 params=params,
                 timeout=self.TIMEOUT,
             )
+            self._raise_if_blocked(response.text)
             response.raise_for_status()
 
             # 解析结果
@@ -155,6 +162,11 @@ class DuckDuckGoSearch(BaseSearchEngine):
                 import urllib.parse
                 url = urllib.parse.unquote(match.group(1))
         return url
+
+    @staticmethod
+    def _raise_if_blocked(html: str) -> None:
+        if any(marker in html for marker in BLOCK_MARKERS):
+            raise BlockedError("DuckDuckGo 返回验证页，HTML 爬虫不可用")
 
 
 class DuckDuckGoLiteSearch(DuckDuckGoSearch):

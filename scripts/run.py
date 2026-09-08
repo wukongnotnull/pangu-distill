@@ -49,18 +49,36 @@ def run_with_pip(args: list):
     """使用 pip 安装依赖后运行"""
     print("📦 安装依赖...")
     install_result = subprocess.run(
-        ["pip", "install", "-e", "."],
+        [sys.executable, "-m", "pip", "install", "-e", "."],
         cwd=SCRIPT_DIR,
         capture_output=True,
         text=True,
     )
     if install_result.returncode != 0:
-        print(f"❌ 安装失败: {install_result.stderr}")
-        return 1
+        print("⚠️ 可编辑安装失败，改为只装依赖")
+        print(install_result.stderr[-500:] if install_result.stderr else "")
+        deps = subprocess.run(
+            [
+                sys.executable, "-m", "pip", "install",
+                "requests>=2.28.0",
+                "beautifulsoup4>=4.11.0",
+                "lxml>=4.9.0",
+                "html2text>=2020.1.16",
+            ],
+            cwd=SCRIPT_DIR,
+            capture_output=True,
+            text=True,
+        )
+        if deps.returncode != 0:
+            print(f"❌ 安装失败: {deps.stderr}")
+            return 1
 
+    env = os.environ.copy()
+    env["PYTHONPATH"] = SCRIPT_DIR + os.pathsep + env.get("PYTHONPATH", "")
     result = subprocess.run(
-        ["python", MAIN_SCRIPT] + args,
+        [sys.executable, MAIN_SCRIPT] + args,
         cwd=SCRIPT_DIR,
+        env=env,
     )
     return result.returncode
 
