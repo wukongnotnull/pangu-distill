@@ -17,6 +17,7 @@ from search.multi_agent import MasterSearchPipeline
 from search.collector import MaterialCollector
 from crawl import DuckDuckGoSearch, ContentFetcher
 from transcribe import YouTubeTranscriber, AudioTranscriber, is_youtube_url
+from host_paths import detect_output_root, detect_skill_root, skill_output_dir
 
 
 def cmd_search(args):
@@ -187,6 +188,26 @@ def cmd_info(args):
     except Exception as e:
         print(f"   爬虫状态: 异常 ({e})")
 
+    return 0
+
+
+def cmd_output_root(args):
+    """打印当前工作区应写入的 skills 目录。"""
+    root = detect_output_root()
+    if args.slug:
+        print(skill_output_dir(args.slug, root))
+    else:
+        print(root)
+    return 0
+
+
+def cmd_skill_root(args):
+    """打印宿主注入的本 Skill 根目录（没有则退出码 2）。"""
+    root = detect_skill_root()
+    if root is None:
+        print("未检测到 PANGU_SKILL_ROOT / CLAUDE_SKILL_DIR / CODEX_SKILL_DIR / CURSOR_SKILL_DIR", file=sys.stderr)
+        return 2
+    print(root)
     return 0
 
 
@@ -442,6 +463,22 @@ def main():
         help="显示状态信息"
     )
     info_parser.set_defaults(func=cmd_info)
+
+    output_root_parser = subparsers.add_parser(
+        "output-root",
+        help="打印蒸馏产物应写入的项目 skills 目录",
+    )
+    output_root_parser.add_argument(
+        "--slug",
+        help="附带 skill 目录名，例如 pangu-buffett-distill",
+    )
+    output_root_parser.set_defaults(func=cmd_output_root)
+
+    skill_root_parser = subparsers.add_parser(
+        "skill-root",
+        help="打印宿主注入的本 Skill 根目录",
+    )
+    skill_root_parser.set_defaults(func=cmd_skill_root)
 
     # team 命令（多Agent协作）
     team_parser = subparsers.add_parser(

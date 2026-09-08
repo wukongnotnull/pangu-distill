@@ -4,8 +4,10 @@
 
 ## 1. 目录结构（必须）
 
+路径是 `{pangu_output_root}/pangu-[对象]-distill/`。`{pangu_output_root}` 由 `scripts/run.py output-root` 探测，不要写死 `.claude/skills/`。
+
 ```
-.claude/skills/pangu-[对象]-distill/
+{pangu_output_root}/pangu-[对象]-distill/
 ├── SKILL.md          # 主技能文件（必填）
 ├── README.md         # 使用说明（必填）
 ├── FIDELITY.md       # 独立评分卡（验证后必填）

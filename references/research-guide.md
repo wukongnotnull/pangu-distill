@@ -17,7 +17,7 @@
 ## 采集文件
 
 ```
-.claude/skills/pangu-[对象]-distill/references/distillation/
+{pangu_output_root}/pangu-[对象]-distill/references/distillation/
 ├── 00-sources.md              # 来源清单（必须）
 ├── 01-writings.md             # 著作 / 长文
 ├── 02-conversations.md        # 访谈 / 播客

@@ -72,7 +72,16 @@
 
 ### 方法一：技術ユーザー（コマンドライン）
 
-npxで直接インストール：
+同じ `SKILL.md` が Claude Code / Cursor / Codex / OpenClaw で動く。発見ディレクトリだけが違う。詳細は [host-compatibility.md](references/host-compatibility.md)。
+
+```bash
+git clone https://github.com/wukongnotnull/pangu-distill.git
+cd pangu-distill
+bash scripts/install-host.sh
+bash scripts/install-host.sh --project
+```
+
+Claude Code だけなら：
 
 ```bash
 npx skills add wukongnotnull/pangu-distill
@@ -174,9 +183,11 @@ npx skills add wukongnotnull/pangu-distill
 ```
 pangu-distill/
 ├── SKILL.md
+├── .agents/skills/
 ├── .claude/skills/skill-creator/
 ├── .claude/skills/skill-vetter/
 ├── references/
+│   ├── host-compatibility.md
 │   ├── distillation-methodology.md
 │   ├── research-guide.md
 │   ├── quality-checklist.md

@@ -69,13 +69,33 @@ Pangu     ❯ Distilling
 
 ## Quick Install
 
-### Method 1: Technical Users (Command Line)
+The same `SKILL.md` runs on Claude Code, Cursor, Codex, OpenClaw, and Gemini CLI. Only the discovery path changes. See [references/host-compatibility.md](references/host-compatibility.md).
 
-Install directly with npx:
+### Method 1: Any host (recommended)
+
+```bash
+git clone https://github.com/wukongnotnull/pangu-distill.git
+cd pangu-distill
+bash scripts/install-host.sh              # user: Claude + Codex + ~/.agents/skills
+bash scripts/install-host.sh --project    # this repo: .agents/skills (Cursor / Codex)
+```
+
+One host only:
+
+```bash
+bash scripts/install-host.sh --host openclaw
+bash scripts/install-host.sh --host cursor --project
+```
+
+Restart or rescan the agent afterwards.
+
+### Method 2: Claude Code (npx)
 
 ```bash
 npx skills add wukongnotnull/pangu-distill
 ```
+
+This usually lands in `~/.claude/skills/` only. Use Method 1 for other hosts.
 
 After installation, say this to your Agent:
 
@@ -86,7 +106,7 @@ After installation, say this to your Agent:
 > Distill this conversation
 ```
 
-### Method 2: Non-Technical Users (Conversational)
+### Method 3: Non-Technical Users (Conversational)
 
 No commands to remember — just copy and paste this to your Agent:
 
@@ -187,9 +207,11 @@ Process gate: `references/quality-checklist.md`. Factory gate: `references/fidel
 ```
 pangu-distill/
 ├── SKILL.md
-├── .claude/skills/skill-creator/       # builder sub-agent
-├── .claude/skills/skill-vetter/        # independent reviewer
+├── .agents/skills/                     # portable default output dir
+├── .claude/skills/skill-creator/
+├── .claude/skills/skill-vetter/
 ├── references/
+│   ├── host-compatibility.md
 │   ├── distillation-methodology.md
 │   ├── research-guide.md
 │   ├── quality-checklist.md
@@ -198,8 +220,10 @@ pangu-distill/
 │   ├── anti-patterns.md
 │   ├── special-scenarios.md
 │   ├── examples/distillation-example.md
-│   └── templates/                      # person / content / idea / phenomenon / self
-└── scripts/                            # runnable search / crawl / transcribe
+│   └── templates/
+└── scripts/
+    ├── install-host.sh
+    ├── run.py
 ```
 
 ---

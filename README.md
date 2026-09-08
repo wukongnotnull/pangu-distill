@@ -68,13 +68,35 @@
 
 ## 快速安装
 
-### 方式一：技术人员（命令行）
+同一份 `SKILL.md` 可在 Claude Code、Cursor、Codex、OpenClaw、Gemini CLI 等宿主上跑。差别只是发现目录。完整对照见 [references/host-compatibility.md](references/host-compatibility.md)。
 
-直接用 npx 安装：
+### 方式一：跨宿主（推荐）
+
+克隆后软链到各 Agent 的 skills 目录：
+
+```bash
+git clone https://github.com/wukongnotnull/pangu-distill.git
+cd pangu-distill
+bash scripts/install-host.sh              # 用户级：Claude + Codex + ~/.agents/skills
+bash scripts/install-host.sh --project    # 当前项目：.agents/skills（Cursor / Codex）
+```
+
+只装一家：
+
+```bash
+bash scripts/install-host.sh --host openclaw
+bash scripts/install-host.sh --host cursor --project
+```
+
+装好后重启或重新扫描 Agent。
+
+### 方式二：Claude Code（npx）
 
 ```bash
 npx skills add wukongnotnull/pangu-distill
 ```
+
+这条通常只进 `~/.claude/skills/`。其他宿主请用方式一。
 
 安装完成后，在 Agent 的对话框中说：
 
@@ -85,7 +107,7 @@ npx skills add wukongnotnull/pangu-distill
 > 蒸馏这段对话
 ```
 
-### 方式二：文科生（对话式）
+### 方式三：文科生（对话式）
 
 不需要记命令，直接把下面这段话复制给 Agent：
 
@@ -185,11 +207,13 @@ npx skills add wukongnotnull/pangu-distill
 
 ```
 pangu-distill/
-├── SKILL.md                              # 盘古蒸馏本体
+├── SKILL.md                              # 盘古蒸馏本体（各宿主共用）
+├── .agents/skills/                       # 跨宿主默认产出位置说明
 ├── .claude/skills/
 │   ├── skill-creator/                    # 构建子智能体
 │   └── skill-vetter/                     # 独立审查子智能体
 ├── references/
+│   ├── host-compatibility.md             # 各 Agent 安装与路径
 │   ├── distillation-methodology.md       # 4.5 层 + 七级提取
 │   ├── research-guide.md                 # 六路采集与证据格式
 │   ├── quality-checklist.md              # 三层过程门
@@ -199,7 +223,10 @@ pangu-distill/
 │   ├── special-scenarios.md              # 自我/对话/保密等
 │   ├── examples/distillation-example.md
 │   └── templates/                        # 人物/内容/思想/现象/自我
-└── scripts/                              # 可运行采集：search / crawl / transcribe
+└── scripts/
+    ├── install-host.sh                   # 软链到各宿主 skills 目录
+    ├── run.py                            # 采集 + output-root / skill-root
+    ├── search/ crawl/ transcribe/
 ```
 
 ---

@@ -1,6 +1,6 @@
 ---
 name: skill-creator
-description: 把已经蒸馏好的 4.5 层模型写成可安装的 Claude Code 技能。当盘古蒸馏完成蒸馏、进入构建阶段时使用。
+description: 把已经蒸馏好的 4.5 层模型写成可安装的 Agent Skill。当盘古蒸馏完成蒸馏、进入构建阶段时使用。适用于 Claude Code、Cursor、Codex、OpenClaw 等宿主。
 ---
 
 # skill-creator
@@ -9,8 +9,8 @@ description: 把已经蒸馏好的 4.5 层模型写成可安装的 Claude Code �
 
 ## 必须做
 
-1. 按 `{pangu_skill_root}/references/output-spec.md` 建目录：
-   `.claude/skills/pangu-[对象]-distill/`
+1. 先跑 `python3 "{pangu_skill_root}/scripts/run.py" output-root` 得到 `{pangu_output_root}`，再按 `{pangu_skill_root}/references/output-spec.md` 建目录：
+   `{pangu_output_root}/pangu-[对象]-distill/`
 2. 选对模板（均在 `{pangu_skill_root}/references/templates/`）：
    - 人物 → `person-skill-template.md`
    - 内容 → `content-skill-template.md`
