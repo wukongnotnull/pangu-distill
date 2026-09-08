@@ -18,13 +18,19 @@ def strip_wiki_markup(text: str) -> str:
     return html.unescape(cleaned).strip()
 
 
+def has_cjk(text: str) -> bool:
+    return any("\u4e00" <= char <= "\u9fff" for char in text or "")
+
+
 def simplify_query(query: str) -> str:
-    """丢掉中文后缀，留下拉丁名字；纯中文则只留前两个词。"""
+    """抽出对象名。首词是汉字则只留它，避免 Twitter / 著作等后缀反客为主。"""
+    words = [part for part in (query or "").split() if part]
+    if words and has_cjk(words[0]):
+        return words[0]
     latin = " ".join(re.findall(r"[A-Za-z][A-Za-z'.-]*", query or ""))
     if latin:
         return latin
-    words = [part for part in (query or "").split() if part]
-    return " ".join(words[:2]) if words else (query or "")
+    return words[0] if words else (query or "")
 
 
 class WikipediaSearch(BaseSearchEngine):
@@ -39,13 +45,21 @@ class WikipediaSearch(BaseSearchEngine):
     def search(self, query: str, num_results: int = 10) -> List[SearchResult]:
         query = self._validate_query(query)
         num_results = self._validate_num_results(num_results)
+        core = simplify_query(query)
+
+        # 中文六路后缀会把 list=search 带跑（古龙、春晚、張曼玉）。
+        # 有汉字时先搜对象名；名字有结果就停，不再把整句后缀丢进去。
+        if has_cjk(query) and core and core != query:
+            named = self._search_all_langs(core, num_results)
+            if named:
+                return named
+            return self._search_all_langs(query, num_results)
 
         results = self._search_all_langs(query, num_results)
         if results:
             return results
-        simple = simplify_query(query)
-        if simple and simple != query:
-            return self._search_all_langs(simple, num_results)
+        if core and core != query:
+            return self._search_all_langs(core, num_results)
         return []
 
     def _search_all_langs(self, query: str, num_results: int) -> List[SearchResult]:
@@ -65,7 +79,7 @@ class WikipediaSearch(BaseSearchEngine):
         return results
 
     def _langs(self, query: str) -> List[str]:
-        if any("\u4e00" <= char <= "\u9fff" for char in query):
+        if has_cjk(query):
             return ["zh", "en"]
         return ["en", "zh"]
 

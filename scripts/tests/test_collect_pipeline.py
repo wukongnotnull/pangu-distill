@@ -2,7 +2,7 @@ import pytest
 
 from crawl.base import BlockedError
 from crawl.duckduckgo import DuckDuckGoSearch
-from crawl.wikipedia import simplify_query, strip_wiki_markup
+from crawl.wikipedia import has_cjk, simplify_query, strip_wiki_markup
 from search.dimensions import (
     IDEA_DIMENSIONS,
     PERSON_DIMENSIONS,
@@ -42,9 +42,22 @@ def test_latin_target_uses_english_person_dimensions():
     assert "shareholder letter" in en["writings"]
 
 
-def test_simplify_query_keeps_latin_name():
+def test_zh_person_expression_drops_twitter():
+    zh = dimensions_for("person", target="张小龙")
+    en = dimensions_for("person", target="Jeff Bezos")
+    assert "Twitter" not in zh["expression"]
+    assert "Twitter" not in " ".join(zh.values())
+    assert "twitter" in en["expression"]
+
+
+def test_simplify_query_keeps_object_name_only():
     assert simplify_query("Jeff Bezos 著作 书单 论文 长文") == "Jeff Bezos"
-    assert simplify_query("第一性原理 原著 论文") == "第一性原理 原著"
+    assert simplify_query("第一性原理 原著 论文") == "第一性原理"
+    assert simplify_query("张小龙 著作 书单 论文 长文") == "张小龙"
+    assert simplify_query("张小龙 Twitter 社交媒体 观点 口癖") == "张小龙"
+    assert simplify_query("贝索斯 Bezos 著作") == "贝索斯"
+    assert has_cjk("张小龙 生平") is True
+    assert has_cjk("Jeff Bezos biography") is False
 
 
 def test_self_kind_refuses_web_collect():
@@ -157,6 +170,72 @@ def test_wikipedia_retries_simplified_name(monkeypatch):
         return []
 
     monkeypatch.setattr(wiki, "_search_all_langs", fake_all)
+    # 带汉字后缀 → 先搜拉丁名，不再把著作丢给 list=search
     hits = wiki.search("Jeff Bezos 著作 书单", 5)
-    assert calls == ["Jeff Bezos 著作 书单", "Jeff Bezos"]
+    assert calls == ["Jeff Bezos"]
     assert hits[0].title == "Jeff Bezos"
+
+    calls.clear()
+    # 纯英文六路：整句先搜；simplify 与整句相同则不再重试
+    empty_then_full = wiki.search("Jeff Bezos books letters", 5)
+    assert calls == ["Jeff Bezos books letters"]
+    assert empty_then_full == []
+
+
+def test_wikipedia_chinese_uses_name_even_when_suffix_hits(monkeypatch):
+    from crawl.wikipedia import WikipediaSearch
+    from shared import SearchResult
+
+    wiki = WikipediaSearch(delay=0)
+    calls = []
+
+    def fake_all(query, num_results):
+        calls.append(query)
+        if query == "张小龙":
+            return [
+                SearchResult(
+                    title="張小龍",
+                    url="https://zh.wikipedia.org/?curid=1",
+                    snippet="微信",
+                    source=SearchSource.WIKIPEDIA,
+                )
+            ]
+        return [
+            SearchResult(
+                title="古龙",
+                url="https://zh.wikipedia.org/?curid=2",
+                snippet="著作",
+                source=SearchSource.WIKIPEDIA,
+            )
+        ]
+
+    monkeypatch.setattr(wiki, "_search_all_langs", fake_all)
+    hits = wiki.search("张小龙 著作 书单 论文 长文", 5)
+    assert calls == ["张小龙"]
+    assert hits[0].title == "張小龍"
+
+
+def test_wikipedia_chinese_falls_back_to_full_query_if_name_empty(monkeypatch):
+    from crawl.wikipedia import WikipediaSearch
+    from shared import SearchResult
+
+    wiki = WikipediaSearch(delay=0)
+    calls = []
+
+    def fake_all(query, num_results):
+        calls.append(query)
+        if query == "冷门对象":
+            return []
+        return [
+            SearchResult(
+                title="仅整句命中",
+                url="https://zh.wikipedia.org/?curid=3",
+                snippet="后缀",
+                source=SearchSource.WIKIPEDIA,
+            )
+        ]
+
+    monkeypatch.setattr(wiki, "_search_all_langs", fake_all)
+    hits = wiki.search("冷门对象 生平 时间线 里程碑", 5)
+    assert calls == ["冷门对象", "冷门对象 生平 时间线 里程碑"]
+    assert hits[0].title == "仅整句命中"
