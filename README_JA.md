@@ -1,6 +1,6 @@
 <div align="center">
 
-# 盤古造物.meta-skill
+# 盤古蒸留.meta-skill
 
 <br>
 
@@ -20,7 +20,7 @@
 
 [colleague.skill](https://github.com/titanwings/colleague-skill) と [Nuwa.skill](https://github.com/titanwings/colleague-skill) に触発されて、有名人、先人、エリートなどを蒸留 — なぜ蒸留にとどまるのか？
 <br>
- **盤古造物.meta-skill** は万物を決して蒸留するだけではない、**万物を超越する** ためのものだ。
+ **盤古蒸留.meta-skill** は万物を決して蒸留するだけではない、**万物を超越する** ためのものだ。
 
 ---
 
@@ -51,7 +51,7 @@
 ```
 ユーザー   ❯ 長期主義を超越する
 
-盤古造物  ❯ 【フェーズ 1 → 2 実行中】
+盤古蒸留  ❯ 【フェーズ 1 → 2 実行中】
             ✓ 蒸留完了
             ✓ 超越パス分析完了（パスA + パスC）
 
@@ -78,7 +78,7 @@
 ```
 ユーザー   ❯ 長期主義を蒸留する
 
-盤古造物  ❯ 【フェーズ 1 実行中】
+盤古蒸留  ❯ 【フェーズ 1 実行中】
             ✓ 六路収集完了（著作/インタビュー/批判/意思決定/時間軸/類似）
             ✓ メンタルモデル三重検証通過
             ✓ 蒸留完了
@@ -105,7 +105,7 @@
 npxで直接インストール：
 
 ```bash
-npx skills add wukongnotnull/pangu-creator
+npx skills add wukongnotnull/pangu-distill
 ```
 
 インストール後、Agent に这样说：
@@ -120,7 +120,7 @@ npx skills add wukongnotnull/pangu-creator
 コマンドを覚える必要はありません。以下の文をAgentにコピー＆ペーストしてください：
 
 ```
-帮我安装这个 skill：https://github.com/wukongnotnull/pangu-creator
+帮我安装这个 skill：https://github.com/wukongnotnull/pangu-distill
 ```
 
 インストール後、自然言語でほしいことを伝えましょう：
@@ -133,7 +133,7 @@ npx skills add wukongnotnull/pangu-creator
 
 ## 经典案例
 
-盤古造物は13名の人物を蒸留済み。フィールドごとにグループ化されており、查找しやすい：
+盤古蒸留は13名の人物を蒸留済み。フィールドごとにグループ化されており、查找しやすい：
 
 ### 💰 投資/ビジネス
 
@@ -240,8 +240,8 @@ npx skills add wukongnotnull/pangu-creator
 ## リポジトリ構造
 
 ```
-pangu-creator/
-├── SKILL.md                           # 盤古造物本体
+pangu-distill/
+├── SKILL.md                           # 盤古蒸留本体
 ├── references/
 │   ├── quality-checklist.md            # 品質自検リスト
 │   ├── special-scenarios.md           # 特殊シーン処理

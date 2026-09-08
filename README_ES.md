@@ -1,6 +1,6 @@
 <div align="center">
 
-# Pangu-Creador.meta-skill
+# pangu-distill.meta-skill
 
 <br>
 
@@ -20,7 +20,7 @@
 
 Inspirado por [colleague.skill](https://github.com/titanwings/colleague-skill) y [Nuwa.skill](https://github.com/titanwings/colleague-skill), destilando figuras famosas, difuntos, élites — ¿por qué detenerse en la destilación?
 <br>
- **Pangu-Creador.meta-skill** no se trata solo de destilar todo — se trata de **transcender todo**.
+ **pangu-distill.meta-skill** no se trata solo de destilar todo — se trata de **transcender todo**.
 
 ---
 
@@ -105,7 +105,7 @@ Pangu      ❯ 【Fase 1 en progreso】
 Instalar directamente con npx:
 
 ```bash
-npx skills add wukongnotnull/pangu-creator
+npx skills add wukongnotnull/pangu-distill
 ```
 
 Después de instalar, dí esto a tu Agent:
@@ -120,7 +120,7 @@ Después de instalar, dí esto a tu Agent:
 No hay comandos que recordar — solo copia y pega esto a tu Agent:
 
 ```
-帮我安装这个 skill：https://github.com/wukongnotnull/pangu-creator
+帮我安装这个 skill：https://github.com/wukongnotnull/pangu-distill
 ```
 
 Después de instalar, dile lo que quieres en lenguaje natural:
@@ -133,7 +133,7 @@ Después de instalar, dile lo que quieres en lenguaje natural:
 
 ## Casos Clásicos
 
-Pangu-Creador ha destilado 13 figuras, agrupadas por campo para fácil búsqueda:
+pangu-distill ha destilado 13 figuras, agrupadas por campo para fácil búsqueda:
 
 ### 💰 Inversión / Negocios
 
@@ -240,8 +240,8 @@ Sobre la base de la destilación, 4 rutas de trascendencia para mejora sistemát
 ## Estructura del Repositorio
 
 ```
-pangu-creator/
-├── SKILL.md                           # Pangu-Creador en sí
+pangu-distill/
+├── SKILL.md                           # pangu-distill en sí
 ├── references/
 │   ├── quality-checklist.md            # Lista de verificación de calidad
 │   ├── special-scenarios.md           # Manejo de escenarios especiales

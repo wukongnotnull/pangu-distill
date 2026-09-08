@@ -1,6 +1,6 @@
 <div align="center">
 
-# pangu-creator.meta-skill
+# pangu-distill.meta-skill
 
 <br>
 
@@ -20,7 +20,7 @@
 
 Inspired by [colleague.skill](https://github.com/titanwings/colleague-skill) and [Nuwa.skill](https://github.com/titanwings/colleague-skill), distilling famous figures, departed ones, elites — why stop at distillation?
 <br>
- **pangu-creator.meta-skill** is not just about distilling everything — it's about **transcending everything**.
+ **pangu-distill.meta-skill** is not just about distilling everything — it's about **transcending everything**.
 
 ---
 
@@ -105,7 +105,7 @@ Pangu     ❯ 【Phase 1 in progress】
 Install directly with npx:
 
 ```bash
-npx skills add wukongnotnull/pangu-creator
+npx skills add wukongnotnull/pangu-distill
 ```
 
 After installation, say this to your Agent:
@@ -120,7 +120,7 @@ After installation, say this to your Agent:
 No commands to remember — just copy and paste this to your Agent:
 
 ```
-help me to install this skill：https://github.com/wukongnotnull/pangu-creator
+help me to install this skill：https://github.com/wukongnotnull/pangu-distill
 ```
 
 After installation, tell it what you want in natural language:
@@ -133,7 +133,7 @@ After installation, tell it what you want in natural language:
 
 ## Classic Cases
 
-pangu-creator has distilled 13 figures, grouped by field for easy lookup:
+pangu-distill has distilled 13 figures, grouped by field for easy lookup:
 
 ### 💰 Investment / Business
 
@@ -240,8 +240,8 @@ On top of distillation, 4 transcendence paths for systematic enhancement:
 ## Repository Structure
 
 ```
-pangu-creator/
-├── SKILL.md                           # pangu-creator main file
+pangu-distill/
+├── SKILL.md                           # pangu-distill main file
 ├── references/
 │   ├── quality-checklist.md            # Quality self-checklist
 │   ├── special-scenarios.md           # Special scenario handling

@@ -1,6 +1,6 @@
 <div align="center">
 
-# 판고造物.meta-skill
+# 판고증류.meta-skill
 
 <br>
 
@@ -20,7 +20,7 @@
 
 [colleague.skill](https://github.com/titanwings/colleague-skill) 과 [Nuwa.skill](https://github.com/titanwings/colleague-skill) 의启发를 받아, 유명인, 고인, 엘리트 등을 증류 — 왜 증류에 멈추는가?
 <br>
- **판고造물.meta-skill** 은 만물을 증류하는 것에 그치지 않고, **만물을 초월한다**.
+ **판고증류.meta-skill** 은 만물을 증류하는 것에 그치지 않고, **만물을 초월한다**.
 
 ---
 
@@ -51,7 +51,7 @@
 ```
 사용자    ❯ "장기주의" 초월하기
 
-판고造物  ❯ 【Phase 1 → 2 실행 중】
+판고증류  ❯ 【Phase 1 → 2 실행 중】
             ✓ 증류 완료
             ✓ 초월 경로 분석 완료 (경로 A + 경로 C)
 
@@ -78,7 +78,7 @@
 ```
 사용자    ❯ "장기주의" 증류하기
 
-판고造물  ❯ 【Phase 1 실행 중】
+판고증류  ❯ 【Phase 1 실행 중】
             ✓ 6트랙 수집 완료 (저작/인터뷰/비판/의사결정/타임라인/유사)
             ✓ 멘탈 모델 3중 검증 통과
             ✓ 증류 완료
@@ -105,7 +105,7 @@
 npx로 직접 설치:
 
 ```bash
-npx skills add wukongnotnull/pangu-creator
+npx skills add wukongnotnull/pangu-distill
 ```
 
 설치 후, Agent에게这样说:
@@ -120,7 +120,7 @@ npx skills add wukongnotnull/pangu-creator
 명령어를 기억할 필요 없이,以下の文をAgentにコピー＆ペーストしてください:
 
 ```
-帮我安装这个 skill：https://github.com/wukongnotnull/pangu-creator
+帮我安装这个 skill：https://github.com/wukongnotnull/pangu-distill
 ```
 
 설치 후, 자연어로 원하는 것을 말하세요:
@@ -133,7 +133,7 @@ npx skills add wukongnotnull/pangu-creator
 
 ## 클래식 케이스
 
-판고造物은 13명의 인물을 증류했으며, 분야별로 그룹화되어便于查找:
+판고증류은 13명의 인물을 증류했으며, 분야별로 그룹화되어便于查找:
 
 ### 💰 투자/비즈니스
 
@@ -240,8 +240,8 @@ npx skills add wukongnotnull/pangu-creator
 ## 저장소 구조
 
 ```
-pangu-creator/
-├── SKILL.md                           # 판고造物 本체
+pangu-distill/
+├── SKILL.md                           # 판고증류 本체
 ├── references/
 │   ├── quality-checklist.md            # 품질 자검清单
 │   ├── special-scenarios.md           # 특수 장면 처리

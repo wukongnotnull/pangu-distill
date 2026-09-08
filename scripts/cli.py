@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-盘古造物 CLI
+盘古蒸馏 CLI
 
 命令行工具，用于信息采集
 """
@@ -349,7 +349,7 @@ def cmd_collect_local(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="盘古造物信息采集工具",
+        description="盘古蒸馏信息采集工具",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
