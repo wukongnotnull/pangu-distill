@@ -2,7 +2,16 @@ import pytest
 
 from crawl.base import BlockedError
 from crawl.duckduckgo import DuckDuckGoSearch
-from crawl.wikipedia import has_cjk, simplify_query, strip_wiki_markup
+from crawl.wikipedia import (
+    fold_cjk,
+    has_cjk,
+    mentions_name,
+    merge_hits,
+    name_aliases,
+    simplify_query,
+    split_wiki_query,
+    strip_wiki_markup,
+)
 from search.dimensions import (
     IDEA_DIMENSIONS,
     PERSON_DIMENSIONS,
@@ -58,6 +67,10 @@ def test_simplify_query_keeps_object_name_only():
     assert simplify_query("贝索斯 Bezos 著作") == "贝索斯"
     assert has_cjk("张小龙 生平") is True
     assert has_cjk("Jeff Bezos biography") is False
+    assert split_wiki_query("张小龙 著作 书单 论文 长文") == ("张小龙", "著作")
+    assert split_wiki_query("雷军 社交媒体 观点 口癖") == ("雷军", "社交媒体")
+    assert split_wiki_query("Jeff Bezos 著作 书单") == ("Jeff Bezos", "著作")
+    assert fold_cjk("張小龍") == "张小龙"
 
 
 def test_self_kind_refuses_web_collect():
@@ -170,9 +183,10 @@ def test_wikipedia_retries_simplified_name(monkeypatch):
         return []
 
     monkeypatch.setattr(wiki, "_search_all_langs", fake_all)
-    # 带汉字后缀 → 先搜拉丁名，不再把著作丢给 list=search
+    # 带汉字后缀 → 先搜拉丁名，再用「名字 + 著作」补一维
     hits = wiki.search("Jeff Bezos 著作 书单", 5)
-    assert calls == ["Jeff Bezos"]
+    assert calls[0] == "Jeff Bezos"
+    assert '"Jeff Bezos" 著作' in calls
     assert hits[0].title == "Jeff Bezos"
 
     calls.clear()
@@ -211,8 +225,10 @@ def test_wikipedia_chinese_uses_name_even_when_suffix_hits(monkeypatch):
 
     monkeypatch.setattr(wiki, "_search_all_langs", fake_all)
     hits = wiki.search("张小龙 著作 书单 论文 长文", 5)
-    assert calls == ["张小龙"]
+    assert calls[0] == "张小龙"
+    assert '"张小龙" 著作' in calls
     assert hits[0].title == "張小龍"
+    assert all(hit.title != "古龙" for hit in hits)
 
 
 def test_wikipedia_chinese_falls_back_to_full_query_if_name_empty(monkeypatch):
@@ -239,3 +255,80 @@ def test_wikipedia_chinese_falls_back_to_full_query_if_name_empty(monkeypatch):
     hits = wiki.search("冷门对象 生平 时间线 里程碑", 5)
     assert calls == ["冷门对象", "冷门对象 生平 时间线 里程碑"]
     assert hits[0].title == "仅整句命中"
+
+
+def test_wikipedia_keeps_hint_hits_that_name_the_person(monkeypatch):
+    from crawl.wikipedia import WikipediaSearch
+    from shared import SearchResult
+
+    wiki = WikipediaSearch(delay=0)
+
+    def hit(title, curid, snippet=""):
+        return SearchResult(
+            title=title,
+            url=f"https://zh.wikipedia.org/?curid={curid}",
+            snippet=snippet,
+            source=SearchSource.WIKIPEDIA,
+        )
+
+    def fake_all(query, num_results):
+        if query == "雷军":
+            return [hit("雷军", 1, "小米")]
+        if query == '"雷军" 演讲':
+            return [
+                hit("Are you OK", 9, "源自企业家雷军在印度的营销演讲"),
+                hit("李彦宏", 8, "中科大演讲砸场"),
+            ]
+        return [hit("古龙", 2, "著作")]
+
+    monkeypatch.setattr(wiki, "_search_all_langs", fake_all)
+    hits = wiki.search("雷军 演讲 公开课", 5)
+    titles = [item.title for item in hits]
+    assert titles[0] == "Are you OK"
+    assert "雷军" in titles
+    assert "李彦宏" not in titles
+    assert "古龙" not in titles
+
+
+def test_mentions_name_folds_traditional():
+    from shared import SearchResult
+
+    seed = SearchResult(
+        title="張小龍",
+        url="https://zh.wikipedia.org/?curid=1",
+        snippet="微信",
+        source=SearchSource.WIKIPEDIA,
+    )
+    aliases = name_aliases("张小龙", [seed])
+    assert "張小龍" in aliases
+    assert mentions_name(seed, "张小龙", aliases)
+    other = SearchResult(
+        title="古龙",
+        url="https://zh.wikipedia.org/?curid=2",
+        snippet="武侠著作",
+        source=SearchSource.WIKIPEDIA,
+    )
+    assert mentions_name(other, "张小龙", aliases) is False
+    listed = SearchResult(
+        title="张茵",
+        url="https://zh.wikipedia.org/?curid=4",
+        snippet="福布斯：张茵、张近东、雷军",
+        source=SearchSource.WIKIPEDIA,
+    )
+    assert mentions_name(listed, "雷军", ["雷军"]) is False
+    commander = SearchResult(
+        title="高山下的花环",
+        url="https://zh.wikipedia.org/?curid=5",
+        snippet="其母把求情电话打到雷军长的指挥所",
+        source=SearchSource.WIKIPEDIA,
+    )
+    assert mentions_name(commander, "雷军", ["雷军"]) is False
+    speech = SearchResult(
+        title="Are you OK",
+        url="https://zh.wikipedia.org/?curid=6",
+        snippet="源自企业家雷军在印度的营销演讲",
+        source=SearchSource.WIKIPEDIA,
+    )
+    assert mentions_name(speech, "雷军", ["雷军"]) is True
+    merged = merge_hits([other], [seed], 2)
+    assert [item.title for item in merged] == ["古龙", "張小龍"]
