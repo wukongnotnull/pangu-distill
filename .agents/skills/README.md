@@ -9,3 +9,5 @@ bash scripts/install-host.sh --project
 ```
 
 不要把仓库根目录再套一层复制进来。`install-host.sh` 只做软链。
+
+`pangu-first-principles-distill/` 是 2026-09-08 的实跑样本，评测见 `references/examples/live-test-first-principles.md`。

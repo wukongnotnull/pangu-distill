@@ -1,0 +1,69 @@
+{
+  "target": "第一性原理",
+  "dimension_count": 6,
+  "total_results": 0,
+  "total_contents": 0,
+  "completed_at": "2026-09-08T12:35:38.478671",
+  "dimensions": [
+    {
+      "dimension": "writings",
+      "query": "第一性原理 著作 书单 论文 长文",
+      "result_count": 0,
+      "content_count": 0,
+      "success": true,
+      "error": null,
+      "used_source": "unknown",
+      "retrieved_at": "2026-09-08T12:35:38.479014"
+    },
+    {
+      "dimension": "decisions",
+      "query": "第一性原理 决策 投资 关键选择 复盘",
+      "result_count": 0,
+      "content_count": 0,
+      "success": true,
+      "error": null,
+      "used_source": "unknown",
+      "retrieved_at": "2026-09-08T12:35:38.481738"
+    },
+    {
+      "dimension": "critics",
+      "query": "第一性原理 批评 争议 负面评价 局限",
+      "result_count": 0,
+      "content_count": 0,
+      "success": true,
+      "error": null,
+      "used_source": "unknown",
+      "retrieved_at": "2026-09-08T12:35:38.480839"
+    },
+    {
+      "dimension": "expression",
+      "query": "第一性原理 Twitter 社交媒体 观点 口癖",
+      "result_count": 0,
+      "content_count": 0,
+      "success": true,
+      "error": null,
+      "used_source": "unknown",
+      "retrieved_at": "2026-09-08T12:35:38.480502"
+    },
+    {
+      "dimension": "conversations",
+      "query": "第一性原理 访谈 播客 演讲",
+      "result_count": 0,
+      "content_count": 0,
+      "success": true,
+      "error": null,
+      "used_source": "unknown",
+      "retrieved_at": "2026-09-08T12:35:38.479527"
+    },
+    {
+      "dimension": "timeline",
+      "query": "第一性原理 生平 时间线 里程碑",
+      "result_count": 0,
+      "content_count": 0,
+      "success": true,
+      "error": null,
+      "used_source": "unknown",
+      "retrieved_at": "2026-09-08T12:35:46.544028"
+    }
+  ]
+}
