@@ -1,4 +1,4 @@
-"""按蒸馏类型选六路查询。人物默认不变；思想 / 现象不再问生平或 Twitter。"""
+"""按蒸馏类型选六路查询。思想 / 现象不问生平。中文人物表达维不含 Twitter。"""
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ KIND_ALIASES = {
 PERSON_DIMENSIONS: Dict[str, str] = {
     "writings": "{target} 著作 书单 论文 长文",
     "conversations": "{target} 访谈 播客 演讲",
-    "expression": "{target} Twitter 社交媒体 观点 口癖",
+    "expression": "{target} 社交媒体 观点 口癖",
     "critics": "{target} 批评 争议 负面评价 局限",
     "decisions": "{target} 决策 投资 关键选择 复盘",
     "timeline": "{target} 生平 时间线 里程碑",

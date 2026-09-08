@@ -208,7 +208,7 @@ class SearchPipeline:
                 {
                     "writings": "芒格 著作 书单",
                     "conversations": "芒格 访谈 播客",
-                    "expression": "芒格 Twitter 社交媒体",
+                    "expression": "芒格 社交媒体 观点",
                 }
             output_dir: 输出目录
 
