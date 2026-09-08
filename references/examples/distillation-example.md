@@ -81,6 +81,8 @@
 - 思想蒸馏，不是巴菲特本人 Skill。  
 - 调研时间：2026-09。
 
+一次按全文流程走完的实跑（含脚本空采集）见 [live-test-first-principles.md](live-test-first-principles.md)。
+
 ## 验证（示例）
 
 - 已知题：「股价跌了 30% 该不该卖？」→ 先问假设是否死了，不是先问疼不疼。  
