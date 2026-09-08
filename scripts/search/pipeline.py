@@ -12,6 +12,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from .agent_tools import AgentSearchTool
 from .fallback import FallbackTrigger
+from .dimensions import DEFAULT_DIMENSIONS, EMPTY_COLLECTION_HINT, dimensions_for
 from .models import (
     SearchResult,
     ContentResult,
@@ -19,6 +20,13 @@ from .models import (
     CollectionResult,
     SearchSource,
 )
+
+__all__ = [
+    "SearchPipeline",
+    "DEFAULT_DIMENSIONS",
+    "EMPTY_COLLECTION_HINT",
+    "dimensions_for",
+]
 
 
 class SearchPipeline:
@@ -174,6 +182,9 @@ class SearchPipeline:
                 urls = [r.url for r in search_results if r.url]
                 contents = self.fetch(urls)
                 result.contents = contents
+            else:
+                result.success = False
+                result.error = "no search results"
 
         except Exception as e:
             result.success = False
@@ -250,12 +261,4 @@ class SearchPipeline:
                 json.dump(dim_result.to_dict(), f, ensure_ascii=False, indent=2)
 
 
-# 默认 6 维度采集配置
-DEFAULT_DIMENSIONS = {
-    "writings": "{target} 著作 书单 论文 长文",
-    "conversations": "{target} 访谈 播客 演讲",
-    "expression": "{target} Twitter 社交媒体 观点 口癖",
-    "critics": "{target} 批评 争议 负面评价 局限",
-    "decisions": "{target} 决策 投资 关键选择 复盘",
-    "timeline": "{target} 生平 时间线 里程碑",
-}
+# DEFAULT_DIMENSIONS 从 dimensions.py 再导出，保持旧 import 可用。

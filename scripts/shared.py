@@ -16,6 +16,7 @@ class SearchSource(Enum):
     AGENT_WEB_SEARCH = "agent_web_search"
     DUCKDUCKGO = "duckduckgo"
     BING = "bing"
+    WIKIPEDIA = "wikipedia"
     SERPER = "serper"
     UNKNOWN = "unknown"
 

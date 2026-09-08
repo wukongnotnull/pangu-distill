@@ -195,9 +195,9 @@ class AgentSearchTool:
             else:
                 self.agent_tools = AgentToolFactory.detect()
 
-            if fallback_enabled:
-                from crawl.duckduckgo import DuckDuckGoSearch
-                self.fallback = DuckDuckGoSearch()
+        if fallback_enabled:
+            from .fallback import CrawlerFallback
+            self.fallback = CrawlerFallback()
 
     def is_agent_available(self) -> bool:
         """Agent 工具是否可用"""
@@ -228,9 +228,8 @@ class AgentSearchTool:
         """降级到爬虫搜索"""
         if self.fallback:
             return self.fallback.search(query, num_results)
-        from crawl.duckduckgo import DuckDuckGoSearch
-        crawler = DuckDuckGoSearch()
-        return crawler.search(query, num_results)
+        from .fallback import CrawlerFallback
+        return CrawlerFallback().search(query, num_results)
 
     def fetch(self, url: str) -> ContentResult:
         """抓取内容"""

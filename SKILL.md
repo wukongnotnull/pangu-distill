@@ -253,9 +253,11 @@ python3 "{pangu_skill_root}/scripts/run.py" output-root
 六路：著作、访谈、表达、外部评价、决策、时间线 / 同类。另加用户一手料。
 
 ```bash
-python3 "{pangu_skill_root}/scripts/run.py" collect "[对象]" -o "[skill目录]/references/distillation/"
-python3 "{pangu_skill_root}/scripts/run.py" team "[对象]" -a 7 -o "[skill目录]/references/distillation/"
+python3 "{pangu_skill_root}/scripts/run.py" collect "[对象]" --kind [person|content|idea|phenomenon] -o "[skill目录]/references/distillation/"
+python3 "{pangu_skill_root}/scripts/run.py" team "[对象]" --kind [同上] -a 7 -o "[skill目录]/references/distillation/"
 ```
+
+`--kind` 对应 D1–D4。D3 思想用 `idea`，D4 现象用 `phenomenon`，不要用默认人物维（生平 / Twitter）。D5 自我只跑 `collect-local`。退出码 2 = 0 条结果：写进 `00-sources.md`，改用宿主搜索，禁止对着空气写分析。
 
 有本地文件先：
 

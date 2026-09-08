@@ -9,6 +9,10 @@ import time
 from shared import SearchSource, SearchResult
 
 
+class BlockedError(RuntimeError):
+    """搜索引擎返回验证页或机器人墙。"""
+
+
 class BaseSearchEngine(ABC):
     """搜索引擎抽象基类"""
 

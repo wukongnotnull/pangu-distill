@@ -11,7 +11,8 @@ import sys
 from pathlib import Path
 from typing import List
 
-from search.pipeline import SearchPipeline, DEFAULT_DIMENSIONS
+from search.pipeline import SearchPipeline, EMPTY_COLLECTION_HINT
+from search.dimensions import SelfKindError, UnknownKindError, dimensions_for
 from search.agent_tools import AgentSearchTool
 from search.multi_agent import MasterSearchPipeline
 from search.collector import MaterialCollector
@@ -71,6 +72,27 @@ def cmd_fetch(args):
     return 0
 
 
+def _resolve_dimensions(args, target: str):
+    if args.dimensions:
+        dimensions = {}
+        for dim in args.dimensions:
+            if ":" in dim:
+                name, query = dim.split(":", 1)
+                dimensions[name] = query
+            else:
+                dimensions[dim] = f"{target} {dim}"
+        return dimensions
+    try:
+        templates = dimensions_for(getattr(args, "kind", None))
+    except SelfKindError as exc:
+        print(f"❌ {exc}")
+        raise SystemExit(2) from exc
+    except UnknownKindError as exc:
+        print(f"❌ {exc}")
+        raise SystemExit(2) from exc
+    return {name: query.format(target=target) for name, query in templates.items()}
+
+
 def cmd_collect(args):
     """多维度采集命令"""
     pipeline = SearchPipeline(
@@ -79,44 +101,37 @@ def cmd_collect(args):
     )
 
     target = args.target
-
-    # 构建维度查询
-    dimensions = {}
-    if args.dimensions:
-        for dim in args.dimensions:
-            if ":" in dim:
-                name, query = dim.split(":", 1)
-                dimensions[name] = query
-            else:
-                dimensions[dim] = f"{target} {dim}"
-    else:
-        # 使用默认维度
-        for name, query_template in DEFAULT_DIMENSIONS.items():
-            dimensions[name] = query_template.format(target=target)
+    dimensions = _resolve_dimensions(args, target)
 
     print(f"🎯 开始采集: {target}")
     print(f"📊 维度数: {len(dimensions)}")
     print(f"   维度: {', '.join(dimensions.keys())}")
 
-    # 执行采集
     output_dir = Path(args.output) if args.output else None
     result = pipeline.collect(target, dimensions, output_dir)
 
-    # 输出结果
-    print(f"\n✅ 采集完成")
-    print(f"   总搜索结果: {result.total_results}")
-    print(f"   总内容数: {result.total_contents}")
-
     if output_dir:
-        print(f"   结果目录: {output_dir}")
-
-    # 保存汇总
-    if output_dir:
+        output_dir.mkdir(parents=True, exist_ok=True)
         summary_file = output_dir / "collection_summary.json"
         with open(summary_file, "w", encoding="utf-8") as f:
             json.dump(result.to_dict(), f, ensure_ascii=False, indent=2)
         print(f"   汇总文件: {summary_file}")
 
+    if not result.success:
+        print(f"\n❌ 采集失败：0 条结果")
+        print(EMPTY_COLLECTION_HINT)
+        if output_dir:
+            print(f"   结果目录: {output_dir}")
+        return 2
+
+    print(f"\n✅ 采集完成")
+    print(f"   总搜索结果: {result.total_results}")
+    print(f"   总内容数: {result.total_contents}")
+    empty_dims = [d.dimension for d in result.dimensions if not d.success]
+    if empty_dims:
+        print(f"   空维度: {', '.join(empty_dims)}")
+    if output_dir:
+        print(f"   结果目录: {output_dir}")
     return 0
 
 
@@ -221,10 +236,10 @@ def cmd_team(args):
     print("   - Analysts: 负责分析已有素材")
     print("")
 
-    # 创建搜索工具
-    search_tool = None
-    if not args.no_agent:
-        search_tool = AgentSearchTool(prefer_agent=True, fallback_enabled=True)
+    search_tool = AgentSearchTool(
+        prefer_agent=not args.no_agent,
+        fallback_enabled=True,
+    )
 
     # 创建多Agent流水线
     pipeline = MasterSearchPipeline(
@@ -242,12 +257,9 @@ def cmd_team(args):
                 name, query = dim.split(":", 1)
                 dimensions[name] = query
             else:
-                dimensions[name] = f"{target} {dim}"
+                dimensions[dim] = f"{target} {dim}"
     else:
-        dimensions = {
-            name: query_template.format(target=target)
-            for name, query_template in DEFAULT_DIMENSIONS.items()
-        }
+        dimensions = _resolve_dimensions(args, target)
 
     print(f"🎯 采集目标: {target}")
     print(f"📊 分析维度: {len(dimensions)} 个")
@@ -262,14 +274,17 @@ def cmd_team(args):
     )
 
     # 输出结果
+    empty = len(result.all_results) == 0
     print(f"\n{'='*60}")
-    print(f"✅ 多Agent协作完成")
+    print(f"{'❌ 多Agent协作停止' if empty else '✅ 多Agent协作完成'}")
     print(f"{'='*60}")
     print(f"   Agent数量: {result.agent_count} (1 Master + {result.agent_count - 1} Analysts)")
     print(f"   搜索次数: {result.total_searches}")
     print(f"   抓取页面: {result.total_fetches}")
     print(f"   收集结果: {len(result.all_results)} 条")
     print(f"   获取内容: {len(result.all_contents)} 条")
+    if empty:
+        print(EMPTY_COLLECTION_HINT)
 
     # 显示 Master 报告
     if result.master_output:
@@ -301,7 +316,7 @@ def cmd_team(args):
         pipeline.save_results(result, output_dir)
         print(f"\n💾 结果已保存到: {output_dir}")
 
-    return 0
+    return 2 if empty else 0
 
 
 def cmd_collect_local(args):
@@ -419,6 +434,11 @@ def main():
     )
     collect_parser.add_argument("target", help="采集对象 (如: 芒格)")
     collect_parser.add_argument(
+        "--kind",
+        default="person",
+        help="蒸馏类型: person/content/idea/phenomenon/self（D1–D5）",
+    )
+    collect_parser.add_argument(
         "-d", "--dimensions",
         nargs="+",
         help="指定维度，格式: dimension_name:query_template"
@@ -486,6 +506,11 @@ def main():
         help="多Agent协作采集（主从模式）"
     )
     team_parser.add_argument("target", help="采集目标 (如: 埃隆·马斯克)")
+    team_parser.add_argument(
+        "--kind",
+        default="person",
+        help="蒸馏类型: person/content/idea/phenomenon/self（D1–D5）",
+    )
     team_parser.add_argument(
         "-d", "--dimensions",
         nargs="+",

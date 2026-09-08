@@ -16,6 +16,7 @@ from enum import Enum
 from pathlib import Path
 
 from .models import SearchResult, ContentResult, SearchSource
+from .dimensions import EMPTY_COLLECTION_HINT, dimensions_for
 
 # Module-level logger
 logger = logging.getLogger("scripts.search.multi_agent")
@@ -80,6 +81,7 @@ class MultiAgentResult:
             "total_searches": self.total_searches,
             "total_fetches": self.total_fetches,
             "agent_count": self.agent_count,
+            "success": len(self.all_results) > 0,
             "completed_at": self.completed_at.isoformat(),
         }
 
@@ -153,7 +155,7 @@ class MasterSearchPipeline:
         result.agent_count = len(self.agents)
 
         if dimensions is None:
-            dimensions = self._get_default_dimensions()
+            dimensions = dimensions_for("person")
 
         # 确保维度数量不超过分析师数量
         dim_list = list(dimensions.items())
@@ -203,6 +205,14 @@ class MasterSearchPipeline:
 
             logger.info(f"[{master.name}] 搜索完成，获取 {len(unique_results)} 条结果")
 
+            if not unique_results:
+                result.master_output = (
+                    f"# {target} 网络素材收集报告\n\n"
+                    f"共收集 0 条搜索结果。已停止，不写空分析。\n\n"
+                    f"{EMPTY_COLLECTION_HINT}\n"
+                )
+                return result
+
         except (RuntimeError, ConnectionError, TimeoutError) as e:
             master.success = False
             master.error = str(e)
@@ -211,6 +221,15 @@ class MasterSearchPipeline:
             master.success = False
             master.error = str(e)
             logger.exception(f"[{master.name}] 搜索失败 (未知错误): {e}")
+
+        if not result.all_results:
+            if not result.master_output:
+                result.master_output = (
+                    f"# {target} 网络素材收集报告\n\n"
+                    f"共收集 0 条搜索结果。已停止，不写空分析。\n\n"
+                    f"{EMPTY_COLLECTION_HINT}\n"
+                )
+            return result
 
         # ========== Step 2: Analysts 并行分析（不重复搜索）==========
         analysts = [a for a in self.agents if a.role == AgentRole.ANALYST]
@@ -248,15 +267,8 @@ class MasterSearchPipeline:
         return result
 
     def _get_default_dimensions(self) -> Dict[str, str]:
-        """获取默认六路采集维度。"""
-        return {
-            "著作": "{target} 著作 书单 论文 长文",
-            "访谈": "{target} 访谈 播客 演讲",
-            "表达": "{target} Twitter 社交媒体 观点 口癖",
-            "批评": "{target} 批评 争议 负面评价 局限",
-            "决策": "{target} 决策 投资 关键选择 复盘",
-            "时间线": "{target} 生平 时间线 里程碑",
-        }
+        """获取默认人物六路。思想 / 现象请传入 dimensions_for(kind)。"""
+        return dimensions_for("person")
 
     def _fetch_contents(self, urls: List[str]) -> List[ContentResult]:
         """抓取URL内容"""

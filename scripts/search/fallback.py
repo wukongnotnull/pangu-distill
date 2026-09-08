@@ -2,7 +2,8 @@
 降级触发器和备选爬虫
 """
 
-from typing import Optional
+from typing import List, Optional
+
 from .models import SearchResult, ContentResult, SearchSource
 
 
@@ -63,16 +64,36 @@ class CrawlerFallback:
             self._fetch_impl = ContentFetcher()
         return self._fetch_impl
 
-    def search(self, query: str, num_results: int = 10) -> list[SearchResult]:
-        """执行搜索"""
-        impl = self._get_search_impl()
-        results = impl.search(query, num_results)
+    def search(self, query: str, num_results: int = 10) -> List[SearchResult]:
+        """DuckDuckGo HTML 被拦时降级到维基百科。"""
+        errors: List[str] = []
 
-        # 标记来源为降级
-        for r in results:
-            r.source = SearchSource.DUCKDUCKGO if self.engine == "duckduckgo" else SearchSource.BING
+        try:
+            impl = self._get_search_impl()
+            results = impl.search(query, num_results)
+            if results:
+                for item in results:
+                    if item.source == SearchSource.UNKNOWN:
+                        item.source = (
+                            SearchSource.DUCKDUCKGO
+                            if self.engine == "duckduckgo"
+                            else SearchSource.BING
+                        )
+                return results
+        except Exception as exc:
+            errors.append(f"{self.engine}: {exc}")
 
-        return results
+        try:
+            from crawl.wikipedia import WikipediaSearch
+
+            wiki = WikipediaSearch()
+            results = wiki.search(query, num_results)
+            if results:
+                return results
+        except Exception as exc:
+            errors.append(f"wikipedia: {exc}")
+
+        return []
 
     def fetch(self, url: str) -> ContentResult:
         """抓取内容"""
