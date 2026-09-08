@@ -192,7 +192,7 @@ def cmd_info(args):
 
 def cmd_team(args):
     """多Agent协作命令（主从模式）"""
-    max_agents = args.agents or 3
+    max_agents = args.agents or 7
 
     print(f"🤖 启动多Agent协作（最多 {max_agents} 个Agent）")
     print("   模式: 主从模式")
@@ -213,7 +213,7 @@ def cmd_team(args):
 
     target = args.target
 
-    # 构建维度（默认3个，与Agent数量匹配）
+    # 构建维度（默认六路，与 Analyst 数量匹配）
     dimensions = {}
     if args.dimensions:
         for dim in args.dimensions:
@@ -223,11 +223,9 @@ def cmd_team(args):
             else:
                 dimensions[name] = f"{target} {dim}"
     else:
-        # 默认核心3维度
         dimensions = {
-            "核心观点": f"{target} 核心思想 观点 理念",
-            "代表作品": f"{target} 作品 成果 产品",
-            "他人评价": f"{target} 评价 评论 反馈",
+            name: query_template.format(target=target)
+            for name, query_template in DEFAULT_DIMENSIONS.items()
         }
 
     print(f"🎯 采集目标: {target}")
@@ -469,8 +467,8 @@ def main():
     team_parser.add_argument(
         "-a", "--agents",
         type=int,
-        default=3,
-        help="最大Agent数量 (默认: 3，最多3个)"
+        default=7,
+        help="最大Agent数量 (默认: 7，最多7个：1 Master + 6 Analysts)"
     )
     team_parser.add_argument(
         "--no-agent",

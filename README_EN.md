@@ -18,7 +18,7 @@
 
 <br>
 
-Inspired by [colleague.skill](https://github.com/titanwings/colleague-skill) and [Nuwa.skill](https://github.com/titanwings/colleague-skill), distilling thinking frameworks from famous figures, departed ones, and elites.
+It absorbs what actually raises fidelity from [Distilly](https://github.com/titanwings/distilly), [Nuwa](https://github.com/alchaincyf/nuwa-skill), and [Cangjie](https://github.com/Yeadon8888/cangjie-skill), then adds the layers they leave out.
 <br>
  **pangu-distill.meta-skill** extracts **runnable thinking frameworks** from any subject.
 
@@ -48,22 +48,21 @@ Distilling long-termism extracts not just "persistence," but a runnable cognitiv
 ```
 User      ❯ Distill "Long-Termism"
 
-Pangu     ❯ 【Phase 1 in progress】
-            ✓ Six-stream collection complete (writings/interviews/criticism/decisions/timeline/similars)
-            ✓ Mental model triple verification passed
-            ✓ Distillation complete
+Pangu     ❯ Distilling
+            ✓ Seven-question intake (idea / decision use / no primary files)
+            ✓ Scripted six-stream collection
+            ✓ Seven-level extract: origin stories, decisions, failures, tensions
+            ✓ 4.5-layer model passed triple verification
+            ✓ Independent fidelity score ≥ 80
 
-            Output: "Long-Termism · Thinking Framework"
+            Output: pangu-long-termism-distill
 
-            Core Mental Models:
-            ① Compound thinking: persist as a friend of time, enjoy exponential growth
-            ② Long-term focus: ignore short-term fluctuations, concentrate on long-term value
-            ③ Perseverance: don't give up during difficult times
+            Models (each with origin story + trigger):
+            ① Compound interest only pays those who stay
+            ② The quote is not the information
+            ③ Persistence ≠ refusing to update the map (heuristic)
 
-            Expression DNA:
-            - High certainty: "obviously," "must," "undoubtedly"
-            - Few turns of phrase, rarely use "but"
-            - Catchphrases: "friend of time," "slow is fast"
+            Honest boundary: talking about ten years with no buffer is self-deception
 ```
 
 ---
@@ -83,6 +82,8 @@ After installation, say this to your Agent:
 ```markdown
 > Distill "Long-Termism"
 > I want to build a Buffett thinking framework
+> Distill myself
+> Distill this conversation
 ```
 
 ### Method 2: Non-Technical Users (Conversational)
@@ -98,6 +99,7 @@ After installation, tell it what you want in natural language:
 ```markdown
 > Help me distill: long-termism
 > I want to build a Buffett thinking framework
+> Distill myself
 ```
 
 ## Classic Cases
@@ -153,41 +155,30 @@ These 13 figures are planned distillation cases. The finished Skills are **not y
 
 ### Core Capability
 
-Extract runnable thinking frameworks from any subject, producing Person / Content / Idea / Phenomenon Skills.
+Extract runnable thinking frameworks from any subject: Person / Content / Idea / Phenomenon / **Self**.
+
+What this repo combines and then exceeds:
+
+| Layer | pangu-distill |
+|----|----------|
+| Frame | **4.5 layers**: identity / mental models / expression DNA / decision frame / **honest boundary** (not an appendix) |
+| Extract | **Seven-level scan**: origin stories first, quotes last. No "why they believe it" → it does not enter the Skill |
+| Verify | Triple check (cross-domain / generative / exclusive) + **triggers** + **reasoning steps** |
+| Collect | **Six streams + primary files**, mandatory `scripts/run.py` (search / crawl / transcribe) |
+| QA | Process gate + **independent dual-agent fidelity score** (≥80, no self-grading) |
+| Refine | Three rounds: structure → user → stress test |
 
 ### Execution Flow
 
-#### Phase 1: Distillation
+Intake → create directory → scripted collection (up to 7 agents) → seven-level extract → build → verify → refine.
 
-**Step 1: Information Collection**
+Default streams: writings / interviews / expression / criticism / decisions / timeline. User-supplied books, transcripts, and chats beat web summaries.
 
-3 Agents collect in parallel (master-slave mode):
-
-| Agent | Responsibility | Output File |
-|-------|------|---------|
-| Master (Material Collector) | Core writings + Timeline | `01-writings.md`, `06-timeline.md` |
-| Analyst A | Podcasts/Interviews + Expression DNA | `02-conversations.md`, `03-expression-dna.md` |
-| Analyst B | Criticism + Major Decisions + Similars | `04-limitations.md`, `05-decisions.md`, `07-similar-objects.md` |
-
-**Step 2: Framework Extraction**
-
-- **Mental Model Triple Verification**:
-  - Verification 1: Cross-domain reproduction (≥2 different fields)
-  - Verification 2: Generative power (can infer positions on new questions)
-  - Verification 3: Exclusivity (not what every smart person would think)
-  - Pass all 3 → Mental model; Pass 1-2 → Decision heuristic
-
-- **Expression DNA Quantification**: Sentence fingerprints, style labels, taboo words and catchphrases
-
-- **Contradiction Handling**: Temporal contradictions → record evolution trajectory; Domain contradictions → record by field; Essential tensions → explicitly define as core tensions
-
-**Step 3: Skill Construction**
-
-3-7 mental models + 5-10 decision heuristics + Expression DNA + Values & Anti-patterns + Honest boundaries
+Every mental model needs an origin story, cross-domain evidence, a trigger, reasoning steps, and a failure condition.
 
 ### Quality Validation
 
-Test with 3 questions the person publicly answered — direction must match. Ask a new question not covered in the Skill — the framework should infer a consistent stance.
+Process gate: `references/quality-checklist.md`. Factory gate: `references/fidelity-scorecard.md` with separate answer and scoring agents. Ship only at ≥80.
 
 ---
 
@@ -195,22 +186,20 @@ Test with 3 questions the person publicly answered — direction must match. Ask
 
 ```
 pangu-distill/
-├── SKILL.md                           # pangu-distill main file
+├── SKILL.md
+├── .claude/skills/skill-creator/       # builder sub-agent
+├── .claude/skills/skill-vetter/        # independent reviewer
 ├── references/
-│   ├── quality-checklist.md            # Quality self-checklist
-│   ├── special-scenarios.md           # Special scenario handling
-│   ├── examples/                       # Distillation examples
-│   │   └── distillation-example.md    # Distillation example (Long-Termism)
-│   └── templates/                       # Skill templates
-│       ├── README.md                  # Template index
-│       ├── person-skill-template.md   # D1 Person-type distillation template
-│       ├── content-skill-template.md  # D2 Content-type distillation template
-│       ├── idea-skill-template.md     # D3 Idea-type distillation template
-│       └── phenomenon-skill-template.md # D4 Phenomenon-type distillation template
-└── scripts/                            # Python search module
-    ├── search/                         # Search pipeline
-    ├── crawl/                          # Web crawling
-    └── transcribe/                     # Audio/video transcription
+│   ├── distillation-methodology.md
+│   ├── research-guide.md
+│   ├── quality-checklist.md
+│   ├── fidelity-scorecard.md
+│   ├── output-spec.md
+│   ├── anti-patterns.md
+│   ├── special-scenarios.md
+│   ├── examples/distillation-example.md
+│   └── templates/                      # person / content / idea / phenomenon / self
+└── scripts/                            # runnable search / crawl / transcribe
 ```
 
 ---

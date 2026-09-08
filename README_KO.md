@@ -18,7 +18,7 @@
 
 <br>
 
-[colleague.skill](https://github.com/titanwings/colleague-skill) 과 [Nuwa.skill](https://github.com/titanwings/colleague-skill) 의启发를 받아, 유명인, 고인, 엘리트 등의 사고 프레임워크를 증류한다.
+[Distilly](https://github.com/titanwings/distilly), [여와](https://github.com/alchaincyf/nuwa-skill), [창힐](https://github.com/Yeadon8888/cangjie-skill)에서 충실도를 올리는 부분만 흡수하고, 빠진 층을 더한다.
 <br>
  **판고증류.meta-skill** 은 임의의 대상에서 **실행 가능한 사고 프레임워크**를 추출한다.
 
@@ -153,41 +153,19 @@ npx skills add wukongnotnull/pangu-distill
 
 ### 핵심 능력
 
-임의의 대상에서 실행 가능한 사고 프레임워크를 추출하여 인물 / 콘텐츠 / 사상 / 현상 스킬을 만든다.
+임의의 대상에서 실행 가능한 사고 프레임워크를 추출하여 인물 / 콘텐츠 / 사상 / 현상 / **자아** 스킬을 만든다.
+
+**4.5층**(정직한 경계는 부록이 아님) + **7급 추출**(형성 이야기가 먼저, 명언은 마지막) + 3중 검증 + 트리거 + 추론 단계 + `scripts/run.py` 필수 실행 + 독립 이중 에이전트 충실도 채점(≥80, 자기 채점 금지).
 
 ### 실행 흐름
 
-#### Phase 1: 증류
+확인 → 디렉터리 생성 → 스크립트 6로 수집(최대 7 에이전트) → 7급 추출 → 구축 → 검증 → 3회 정제.
 
-**Step 1: 정보 수집**
-
-3개 에이전트가 병렬 수집 (마스터-슬레이브模式):
-
-| 에이전트 | 책임 | 출력 파일 |
-|-------|------|---------|
-| Master (素材 수집가) | 핵심 저작 + 타임라인 | `01-writings.md`, `06-timeline.md` |
-| Analyst A | 팟캐스트/인터뷰 + 표현 DNA | `02-conversations.md`, `03-expression-dna.md` |
-| Analyst B | 비판 평가 + 주요 의사결정 + 同類 | `04-limitations.md`, `05-decisions.md`, `07-similar-objects.md` |
-
-**Step 2: 프레임워크 추출**
-
-- **멘탈 모델 3중 검증**:
-  - 검증 1: 횡분 야 재현 (≥2개 다른 분야)
-  - 검증 2: 생성력 (새 문제에 대한 입장 추론 가능)
-  - 검증 3: 배타성 (모든 똑똑한 사람이 이렇게 생각하는 것은 아님)
-  - 3개 통과 → 멘탈 모델; 1-2개 통과 → 의사결정 휴리스틱
-
-- **표현 DNA 정량화**: 문장 지문, 스타일 라벨, 금기어와 말버릇
-
-- **모순 처리**: 시간적 모순→진화 궤적 기록; 분야적 모순→분야별로 기록; 본질적 긴장→핵심 긴장으로 명시
-
-**Step 3: 스킬 구축**
-
-3-7개 멘탈 모델 + 5-10개 의사결정 휴리스틱 + 표현 DNA + 가치관과 반패턴 + 정직한 경계
+각 멘탈 모델은 형성 이야기, 교차 증거, 트리거, 추론 단계, 한계를 동시에 가진다.
 
 ### 품질 검증
 
-이 사람이 공개적으로 답변한 3개 질문으로 테스트하여 방향이 일치해야 통과한다. 스킬에 없는 새 질문에서는 프레임워크가 일관된 입장을 도출해야 한다.
+과정 문은 `quality-checklist.md`. 출고 문은 `fidelity-scorecard.md`. 답변 에이전트와 채점 에이전트는 분리. 80점 미만은 납품하지 않는다.
 
 ---
 
@@ -195,22 +173,20 @@ npx skills add wukongnotnull/pangu-distill
 
 ```
 pangu-distill/
-├── SKILL.md                           # 판고증류 本체
+├── SKILL.md
+├── .claude/skills/skill-creator/
+├── .claude/skills/skill-vetter/
 ├── references/
-│   ├── quality-checklist.md            # 품질 자검清单
-│   ├── special-scenarios.md           # 특수 장면 처리
-│   ├── examples/                       # 증류 예시
-│   │   └── distillation-example.md    # 증류 예시 (장기주의)
-│   └── templates/                       # 스킬 템플릿
-│       ├── README.md                  # 템플릿 인덱스
-│       ├── person-skill-template.md   # D1 인물類 증류 템플릿
-│       ├── content-skill-template.md  # D2 콘텐츠類 증류 템플릿
-│       ├── idea-skill-template.md     # D3 사상類 증류 템플릿
-│       └── phenomenon-skill-template.md # D4 현상類 증류 템플릿
-└── scripts/                            # Python 검색 모듈
-    ├── search/                         # 검색 파이프라인
-    ├── crawl/                          # 웹 크롤링
-    └── transcribe/                     # 음성/영상 변환
+│   ├── distillation-methodology.md
+│   ├── research-guide.md
+│   ├── quality-checklist.md
+│   ├── fidelity-scorecard.md
+│   ├── output-spec.md
+│   ├── anti-patterns.md
+│   ├── special-scenarios.md
+│   ├── examples/distillation-example.md
+│   └── templates/
+└── scripts/
 ```
 
 ---

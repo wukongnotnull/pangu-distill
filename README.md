@@ -18,8 +18,8 @@
 
 <br>
 
-受到 [同事.skill](https://github.com/titanwings/colleague-skill) 和 [女娲.skill](https://github.com/titanwings/colleague-skill) 启发，蒸馏名人、故人、精英等的思维框架。<br>
- **盘古蒸馏.meta-skill** ，从任意对象提取**可运行的思维框架**。
+吸收 [Distilly / 同事](https://github.com/titanwings/distilly)、[女娲](https://github.com/alchaincyf/nuwa-skill)、[仓颉](https://github.com/Yeadon8888/cangjie-skill) 的长处，补上它们缺的层。<br>
+ **盘古蒸馏.meta-skill** 从任意对象提取**可运行的思维框架**。
 
 ---
 
@@ -47,22 +47,21 @@
 ```
 用户      ❯ 蒸馏「长期主义」
 
-盘古蒸馏  ❯ 【Phase 1 执行中】
-            ✓ 六路采集完成（著作/访谈/批评/决策/时间线/同类）
-            ✓ 心智模型三重验证通过
-            ✓ 蒸馏完成
+盘古蒸馏  ❯ 【蒸馏执行中】
+            ✓ 七问澄清（思想类 / 决策用途 / 无一手料）
+            ✓ 脚本六路采集（著作/访谈/表达/批评/决策/时间线）
+            ✓ 七级提取：形成故事 + 决策复盘 + 失败 + 矛盾
+            ✓ 4.5 层通过三重验证
+            ✓ 独立保真度评分 ≥ 80
 
-            产出：《长期主义·思维框架》
+            产出：pangu-long-termism-distill
 
-            核心心智模型：
-            ① 复利思维：坚持做时间的朋友，享受指数增长
-            ② 长期焦点：忽略短期波动，聚焦长期价值
-            ③ 坚持不懈：困难时期不放弃
+            心智模型（带形成故事 / 触发条件）：
+            ① 复利只奖励待得住的人
+            ② 报价不是信息
+            ③ 坚持 ≠ 不改地图（降为启发式）
 
-            表达DNA：
-            - 确定性高：「显然」「必须」「毫无疑问」
-            - 少用转折，少用「但是」
-            - 口癖：「时间的朋友」「慢慢来比较快」
+            诚实边界：没有缓冲时谈十年是自欺；思想蒸馏 ≠ 巴菲特本人
 ```
 
 ---
@@ -82,6 +81,8 @@ npx skills add wukongnotnull/pangu-distill
 ```markdown
 > 蒸馏「长期主义」
 > 做一个巴菲特的思维框架
+> 蒸馏我自己
+> 蒸馏这段对话
 ```
 
 ### 方式二：文科生（对话式）
@@ -97,6 +98,7 @@ npx skills add wukongnotnull/pangu-distill
 ```markdown
 > 帮我蒸馏：长期主义
 > 我想做一个巴菲特的思维框架
+> 蒸馏我自己
 ```
 
 ## 经典案例
@@ -152,41 +154,30 @@ npx skills add wukongnotnull/pangu-distill
 
 ### 核心能力
 
-从任意对象提取可运行的思维框架，产出人物类 / 内容类 / 思想类 / 现象类 Skill。
+从任意对象提取可运行的思维框架，产出人物 / 内容 / 思想 / 现象 / **自我** Skill。
+
+合成了同类仓库真正提高保真度的部分，并补上它们缺的层：
+
+| 层 | 盘古蒸馏 |
+|----|----------|
+| 框架 | **4.5 层**：身份卡 / 心智模型 / 表达 DNA / 决策框架 / **诚实边界**（边界不是附录） |
+| 提取 | **七级提取**：形成故事优先，金句最后；没有「为什么信」不准进 Skill |
+| 验证 | 三重验证（跨域 / 生成力 / 排他性）+ **触发条件** + **推理步骤** |
+| 采集 | **六路 + 一手料**，强制跑 `scripts/run.py`（搜索 / 爬取 / 转录），不是只靠模型记忆 |
+| 质检 | 三层过程门 + **独立双 Agent 保真度评分**（≥80，禁止自评） |
+| 精炼 | 三轮：结构 → 使用者 → 压力测试 |
 
 ### 执行流程
 
-#### Phase 1：蒸馏（Distillation）
+澄清（七问）→ 建目录 → 采集（脚本 + 最多 7 Agent）→ 七级提取 → 构建 → 验证 → 三轮精炼。
 
-**Step 1：信息采集**
+采集默认六路：著作 / 访谈 / 表达 / 批评 / 决策 / 时间线。用户给了书、逐字稿、聊天记录时，一手料优先，网搜只补缺口。
 
-3个Agent并行采集（主从模式）：
-
-| Agent | 职责 | 输出文件 |
-|-------|------|---------|
-| Master（素材收集师） | 核心著作 + 时间线 | `01-writings.md`, `06-timeline.md` |
-| Analyst A（分析师_A） | 播客访谈 + 表达DNA | `02-conversations.md`, `03-expression-dna.md` |
-| Analyst B（分析师_B） | 批评评价 + 重大决策 + 同类 | `04-limitations.md`, `05-decisions.md`, `07-similar-objects.md` |
-
-**Step 2：框架提炼**
-
-- **心智模型三重验证**：
-  - 验证1：跨域复现（≥2个不同领域）
-  - 验证2：有生成力（能推断对新问题的立场）
-  - 验证3：有排他性（不是所有聪明人都这样想）
-  - 通过3重 → 心智模型；通过1-2重 → 决策启发式
-
-- **表达DNA量化**：句式指纹、风格标签、禁忌词和口癖
-
-- **矛盾处理**：时间性矛盾→记录演化轨迹；领域性矛盾→分领域记录；本质性张力→明确为核心张力
-
-**Step 3：Skill构建**
-
-3-7个心智模型 + 5-10条决策启发式 + 表达DNA + 价值观与反模式 + 诚实边界
+每个心智模型必须同时有：形成故事、跨域证据、触发条件、推理步骤、局限。
 
 ### 质量验证
 
-拿3个此人公开回答过的问题测试，方向一致才通过。问一个没写过的新问题，框架应能推导出一致立场。
+过程门走 `references/quality-checklist.md`。出厂走 `references/fidelity-scorecard.md`：答题 Agent 和评分 Agent 必须分开。总分 ≥80 才交付。
 
 ---
 
@@ -194,22 +185,21 @@ npx skills add wukongnotnull/pangu-distill
 
 ```
 pangu-distill/
-├── SKILL.md                           # 盘古蒸馏本体
+├── SKILL.md                              # 盘古蒸馏本体
+├── .claude/skills/
+│   ├── skill-creator/                    # 构建子智能体
+│   └── skill-vetter/                     # 独立审查子智能体
 ├── references/
-│   ├── quality-checklist.md            # 质量自检清单
-│   ├── special-scenarios.md           # 特殊场景处理
-│   ├── examples/                       # 蒸馏示例
-│   │   └── distillation-example.md    # 蒸馏示例（长期主义）
-│   └── templates/                       # Skill模板
-│       ├── README.md                  # 模板索引
-│       ├── person-skill-template.md   # D1人物类蒸馏模板
-│       ├── content-skill-template.md  # D2内容类蒸馏模板
-│       ├── idea-skill-template.md     # D3思想类蒸馏模板
-│       └── phenomenon-skill-template.md # D4现象类蒸馏模板
-└── scripts/                            # Python搜索模块
-    ├── search/                         # 搜索管道
-    ├── crawl/                          # 网页爬取
-    └── transcribe/                     # 音视频转录
+│   ├── distillation-methodology.md       # 4.5 层 + 七级提取
+│   ├── research-guide.md                 # 六路采集与证据格式
+│   ├── quality-checklist.md              # 三层过程门
+│   ├── fidelity-scorecard.md             # 独立保真度评分
+│   ├── output-spec.md                    # 产物规格
+│   ├── anti-patterns.md                  # 反模式库
+│   ├── special-scenarios.md              # 自我/对话/保密等
+│   ├── examples/distillation-example.md
+│   └── templates/                        # 人物/内容/思想/现象/自我
+└── scripts/                              # 可运行采集：search / crawl / transcribe
 ```
 
 ---

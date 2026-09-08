@@ -18,7 +18,7 @@
 
 <br>
 
-[colleague.skill](https://github.com/titanwings/colleague-skill) と [Nuwa.skill](https://github.com/titanwings/colleague-skill) に触発されて、有名人、先人、エリートなどの思考フレームワークを蒸留する。
+[Distilly](https://github.com/titanwings/distilly)、[女娲](https://github.com/alchaincyf/nuwa-skill)、[倉頡](https://github.com/Yeadon8888/cangjie-skill) から保真度を上げる部分を吸収し、欠けている層を足す。
 <br>
  **盤古蒸留.meta-skill** は、任意の対象から**実行可能な思考フレームワーク**を取り出す。
 
@@ -153,41 +153,19 @@ npx skills add wukongnotnull/pangu-distill
 
 ### コア能力
 
-任意の対象から実行可能な思考フレームワークを抽出し、人物 / コンテンツ / 思想 / 現象スキルを生成する。
+任意の対象から実行可能な思考フレームワークを抽出し、人物 / コンテンツ / 思想 / 現象 / **自己**スキルを生成する。
+
+**4.5層**（誠実な境界は付録ではない）+ **七級抽出**（形成物語が先、金言は最後）+ 三重検証 + トリガー条件 + 推論手順 + `scripts/run.py` 必須実行 + 独立二エージェント保真度採点（≥80、自己採点禁止）。
 
 ### 実行フロー
 
-#### フェーズ 1：蒸留
+確認 → ディレクトリ作成 → スクリプト六路収集（最大7エージェント）→ 七級抽出 → 構築 → 検証 → 三回精錬。
 
-**ステップ 1：情報収集**
-
-3つのエージェントが並行して収集（マスター・スレーブ模式）：
-
-| エージェント | 責任 | 出力ファイル |
-|-------|------|---------|
-| Master（素材収集師） | コア著作 + 時間軸 | `01-writings.md`, `06-timeline.md` |
-| Analyst A | ポッドキャスト/インタビュー + 表現DNA | `02-conversations.md`, `03-expression-dna.md` |
-| Analyst B | 批判評価 + 重大意思決定 + 同類 | `04-limitations.md`, `05-decisions.md`, `07-similar-objects.md` |
-
-**ステップ 2：フレームワーク抽出**
-
-- **メンタルモデル三重検証**：
-  - 検証1：跨分野再現（≥2つの異なる分野）
-  - 検証2：生成力（新問題に対する立場を推断できる）
-  - 検証3：排他性（すべての賢人がこう思うわけではない）
-  - 3つ通過 → メンタルモデル；1-2つ通過 → 意思決定啟発式
-
-- **表現DNA定量化**：文指紋、スタイルラベル、禁忌語と口癖
-
-- **矛盾処理**：時間的矛盾→進化軌跡を記録；分野的矛盾→分野ごとに記録；本質的矛盾→核心的矛盾として明確化
-
-**ステップ 3：スキル構築**
-
-3-7個のメンタルモデル + 5-10個の意思決定啟発式 + 表現DNA + 価値観と反パターン + 誠実な境界
+各メンタルモデルは形成物語・横断証拠・トリガー・推論手順・限界を同時に持つ。
 
 ### 品質検証
 
-この人が公開で回答した3つの問題でテストし、方向が一致すれば通過。スキルに未記載の新しい問題では、フレームワークから一貫した立場を導けること。
+過程門は `quality-checklist.md`。出荷門は `fidelity-scorecard.md`。解答エージェントと採点エージェントは分ける。80点未満は納品しない。
 
 ---
 
@@ -195,22 +173,20 @@ npx skills add wukongnotnull/pangu-distill
 
 ```
 pangu-distill/
-├── SKILL.md                           # 盤古蒸留本体
+├── SKILL.md
+├── .claude/skills/skill-creator/
+├── .claude/skills/skill-vetter/
 ├── references/
-│   ├── quality-checklist.md            # 品質自検リスト
-│   ├── special-scenarios.md           # 特殊シーン処理
-│   ├── examples/                       # 蒸留示例
-│   │   └── distillation-example.md    # 蒸留示例（長期主義）
-│   └── templates/                       # スキルテンプレート
-│       ├── README.md                  # テンプレートインデックス
-│       ├── person-skill-template.md   # D1人物類蒸留テンプレート
-│       ├── content-skill-template.md  # D2コンテンツ類蒸留テンプレート
-│       ├── idea-skill-template.md     # D3思想類蒸留テンプレート
-│       └── phenomenon-skill-template.md # D4現象類蒸留テンプレート
-└── scripts/                            # Python検索モジュール
-    ├── search/                         # 検索パイプライン
-    ├── crawl/                          # Webクローリング
-    └── transcribe/                     # 音視颔変換
+│   ├── distillation-methodology.md
+│   ├── research-guide.md
+│   ├── quality-checklist.md
+│   ├── fidelity-scorecard.md
+│   ├── output-spec.md
+│   ├── anti-patterns.md
+│   ├── special-scenarios.md
+│   ├── examples/distillation-example.md
+│   └── templates/
+└── scripts/
 ```
 
 ---
