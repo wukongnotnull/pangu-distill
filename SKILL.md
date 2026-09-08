@@ -2,6 +2,7 @@
 name: pangu-distill
 description: |
   盘古蒸馏：从任意对象提取可运行的思维框架（人物/内容/思想/现象/自我），并生成可激活的 Skill。
+  适用于 Claude Code、Cursor、Codex、OpenClaw、Gemini CLI 等能加载 SKILL.md 的宿主。
   入口：蒸馏XX → 澄清、六路采集、七级提取、构建、验证、精炼
   触发词：「蒸馏XX」「帮我蒸馏XX」「做一个XX的思维框架」「蒸馏我自己」「蒸馏这段对话」
   模糊需求触发：「我想做一个领域的方法论」「帮我提炼XX的思维框架」
@@ -11,7 +12,19 @@ description: |
 
 > 「蒸馏万物，提取可运行的思维框架。」
 
-运行本 Skill 前，先解析宿主实际加载的这份 `SKILL.md` 所在绝对目录，记为 `{pangu_skill_root}`。Claude Code 可用 `${CLAUDE_SKILL_DIR}`。不要假设当前工作目录就是本仓库根目录。输出写到用户工作区的 `.claude/skills/`；脚本和参考文档一律从 `{pangu_skill_root}` 解析。
+运行前先解析两个路径，细则见 [host-compatibility.md](references/host-compatibility.md)。
+
+**`{pangu_skill_root}`**：宿主实际加载的这份 `SKILL.md` 所在目录。候选：`PANGU_SKILL_ROOT`、`CLAUDE_SKILL_DIR`、`CODEX_SKILL_DIR`、`CURSOR_SKILL_DIR`、宿主 discovery 给出的路径。不要把 `cwd` 当成 Skill 根目录。
+
+**`{pangu_output_root}`**：当前工作区里这个 Agent 会读的 skills 目录。先跑：
+
+```bash
+python3 "{pangu_skill_root}/scripts/run.py" output-root
+```
+
+不要写死 `.claude/skills/`。没有已存在的目录时，默认创建 `.agents/skills/`。成品写到 `{pangu_output_root}/pangu-[对象]-distill/`。
+
+脚本和参考文档一律从 `{pangu_skill_root}` 解析。联网搜索用当前宿主的搜索工具，不要写死 WebSearch。没有子 Agent 时，构建/评分在同会话分角色，并在 `FIDELITY.md` 标明未独立评分。
 
 ---
 
@@ -177,7 +190,7 @@ description: |
 调研前先建目录：
 
 ```
-.claude/skills/pangu-[object-name]-distill/
+{pangu_output_root}/pangu-[object-name]-distill/
 ├── SKILL.md
 ├── README.md
 ├── FIDELITY.md                 # Phase 3 才写
@@ -205,6 +218,7 @@ description: |
 - [ ] 本地语料模式？采集策略已标记
 - [ ] 中国人物：中文一手源优先
 - [ ] `{pangu_skill_root}` 已解析，脚本路径可用
+- [ ] `{pangu_output_root}` 已用 `scripts/run.py output-root` 探测，不是猜的
 
 ---
 
@@ -350,7 +364,7 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 
 ## Phase 2: 构建
 
-交给 [skill-creator](.claude/skills/skill-creator/SKILL.md)。构建阶段禁止发明新原则。
+交给 `{pangu_skill_root}/.claude/skills/skill-creator/SKILL.md`。构建阶段禁止发明新原则。产物目录用 `{pangu_output_root}`，不要写死 `.claude/skills/`。
 
 模板索引：[templates/README.md](references/templates/README.md)
 
@@ -392,7 +406,7 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 
 见 [fidelity-scorecard.md](references/fidelity-scorecard.md)
 
-交给 [skill-vetter](.claude/skills/skill-vetter/SKILL.md)。答题和评分必须是两个 Agent。总分 ≥80，且无维崩溃。
+交给 `{pangu_skill_root}/.claude/skills/skill-vetter/SKILL.md`。答题和评分必须是两个独立会话；宿主不能开子 Agent 时同会话分角色，并写明未独立评分。总分 ≥80，且无维崩溃。
 
 验证矩阵：
 

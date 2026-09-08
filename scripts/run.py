@@ -65,12 +65,39 @@ def run_with_pip(args: list):
     return result.returncode
 
 
+def run_path_command(args: list) -> int:
+    """output-root / skill-root 不依赖搜索爬虫，直接跑。"""
+    sys.path.insert(0, SCRIPT_DIR)
+    from host_paths import detect_output_root, detect_skill_root, skill_output_dir
+
+    if args[0] == "output-root":
+        slug = None
+        if len(args) >= 3 and args[1] == "--slug":
+            slug = args[2]
+        root = detect_output_root()
+        print(skill_output_dir(slug, root) if slug else root)
+        return 0
+
+    root = detect_skill_root()
+    if root is None:
+        print(
+            "未检测到 PANGU_SKILL_ROOT / CLAUDE_SKILL_DIR / CODEX_SKILL_DIR / CURSOR_SKILL_DIR",
+            file=sys.stderr,
+        )
+        return 2
+    print(root)
+    return 0
+
+
 def main():
     args = sys.argv[1:]
 
     if not args:
         # 无参数，显示帮助
         args = ["--help"]
+
+    if args[0] in {"output-root", "skill-root"}:
+        return run_path_command(args)
 
     # 检查 uv
     if check_command("uv"):

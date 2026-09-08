@@ -1,6 +1,6 @@
 # D1 人物类模板
 
-在 `.claude/skills/pangu-[object-name]-distill/SKILL.md` 填写。细节进 `references/`，至少 1 个 `examples/`。
+在 `{pangu_output_root}/pangu-[object-name]-distill/SKILL.md` 填写。细节进 `references/`，至少 1 个 `examples/`。
 
 ---
 

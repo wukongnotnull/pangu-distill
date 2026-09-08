@@ -72,7 +72,16 @@ Pangu      ❯ 【Fase 1 en progreso】
 
 ### Método 1: Usuarios Técnicos (Línea de Comando)
 
-Instalar directamente con npx:
+El mismo `SKILL.md` corre en Claude Code, Cursor, Codex y OpenClaw. Solo cambia la ruta de descubrimiento. Ver [host-compatibility.md](references/host-compatibility.md).
+
+```bash
+git clone https://github.com/wukongnotnull/pangu-distill.git
+cd pangu-distill
+bash scripts/install-host.sh
+bash scripts/install-host.sh --project
+```
+
+Solo Claude Code:
 
 ```bash
 npx skills add wukongnotnull/pangu-distill
@@ -174,9 +183,11 @@ Puerta de proceso: `quality-checklist.md`. Puerta de fábrica: `fidelity-scoreca
 ```
 pangu-distill/
 ├── SKILL.md
+├── .agents/skills/
 ├── .claude/skills/skill-creator/
 ├── .claude/skills/skill-vetter/
 ├── references/
+│   ├── host-compatibility.md
 │   ├── distillation-methodology.md
 │   ├── research-guide.md
 │   ├── quality-checklist.md
