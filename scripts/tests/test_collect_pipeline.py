@@ -2,12 +2,15 @@ import pytest
 
 from crawl.base import BlockedError
 from crawl.duckduckgo import DuckDuckGoSearch
-from crawl.wikipedia import strip_wiki_markup
+from crawl.wikipedia import simplify_query, strip_wiki_markup
 from search.dimensions import (
     IDEA_DIMENSIONS,
+    PERSON_DIMENSIONS,
+    PERSON_DIMENSIONS_EN,
     SelfKindError,
     dimensions_for,
     normalize_kind,
+    query_locale,
 )
 from search.models import CollectionResult
 from search.multi_agent import MasterSearchPipeline
@@ -24,6 +27,24 @@ def test_kind_aliases_and_idea_has_no_biography():
     assert "生平" not in blob
     assert "Twitter" not in blob
     assert "起源" in idea["origins"]
+
+
+def test_latin_target_uses_english_person_dimensions():
+    assert query_locale("Jeff Bezos") == "en"
+    assert query_locale("张一鸣") == "zh"
+    assert query_locale("贝索斯 Bezos") == "zh"
+    en = dimensions_for("person", target="Jeff Bezos")
+    zh = dimensions_for("person", target="张一鸣")
+    assert en == PERSON_DIMENSIONS_EN
+    assert zh == PERSON_DIMENSIONS
+    assert "生平" not in " ".join(en.values())
+    assert "biography" in en["timeline"]
+    assert "shareholder letter" in en["writings"]
+
+
+def test_simplify_query_keeps_latin_name():
+    assert simplify_query("Jeff Bezos 著作 书单 论文 长文") == "Jeff Bezos"
+    assert simplify_query("第一性原理 原著 论文") == "第一性原理 原著"
 
 
 def test_self_kind_refuses_web_collect():
@@ -113,3 +134,29 @@ def test_wikipedia_maps_api_hits(monkeypatch):
     assert hits[0].url == "https://zh.wikipedia.org/?curid=123"
     assert hits[0].source == SearchSource.WIKIPEDIA
     assert "第一原理" in hits[0].title
+
+
+def test_wikipedia_retries_simplified_name(monkeypatch):
+    from crawl.wikipedia import WikipediaSearch
+    from shared import SearchResult
+
+    wiki = WikipediaSearch(delay=0)
+    calls = []
+
+    def fake_all(query, num_results):
+        calls.append(query)
+        if query == "Jeff Bezos":
+            return [
+                SearchResult(
+                    title="Jeff Bezos",
+                    url="https://en.wikipedia.org/?curid=1",
+                    snippet="founder",
+                    source=SearchSource.WIKIPEDIA,
+                )
+            ]
+        return []
+
+    monkeypatch.setattr(wiki, "_search_all_langs", fake_all)
+    hits = wiki.search("Jeff Bezos 著作 书单", 5)
+    assert calls == ["Jeff Bezos 著作 书单", "Jeff Bezos"]
+    assert hits[0].title == "Jeff Bezos"

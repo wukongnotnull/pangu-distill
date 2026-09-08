@@ -18,6 +18,15 @@ def strip_wiki_markup(text: str) -> str:
     return html.unescape(cleaned).strip()
 
 
+def simplify_query(query: str) -> str:
+    """丢掉中文后缀，留下拉丁名字；纯中文则只留前两个词。"""
+    latin = " ".join(re.findall(r"[A-Za-z][A-Za-z'.-]*", query or ""))
+    if latin:
+        return latin
+    words = [part for part in (query or "").split() if part]
+    return " ".join(words[:2]) if words else (query or "")
+
+
 class WikipediaSearch(BaseSearchEngine):
     USER_AGENT = "pangu-distill/0.1 (https://github.com/wukongnotnull/pangu-distill)"
     TIMEOUT = 15
@@ -31,6 +40,15 @@ class WikipediaSearch(BaseSearchEngine):
         query = self._validate_query(query)
         num_results = self._validate_num_results(num_results)
 
+        results = self._search_all_langs(query, num_results)
+        if results:
+            return results
+        simple = simplify_query(query)
+        if simple and simple != query:
+            return self._search_all_langs(simple, num_results)
+        return []
+
+    def _search_all_langs(self, query: str, num_results: int) -> List[SearchResult]:
         results: List[SearchResult] = []
         seen = set()
         langs = self._langs(query)

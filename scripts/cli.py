@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import List
 
 from search.pipeline import SearchPipeline, EMPTY_COLLECTION_HINT
-from search.dimensions import SelfKindError, UnknownKindError, dimensions_for
+from search.dimensions import SelfKindError, UnknownKindError, dimensions_for, query_locale
 from search.agent_tools import AgentSearchTool
 from search.multi_agent import MasterSearchPipeline
 from search.collector import MaterialCollector
@@ -83,7 +83,7 @@ def _resolve_dimensions(args, target: str):
                 dimensions[dim] = f"{target} {dim}"
         return dimensions
     try:
-        templates = dimensions_for(getattr(args, "kind", None))
+        templates = dimensions_for(getattr(args, "kind", None), target=target)
     except SelfKindError as exc:
         print(f"❌ {exc}")
         raise SystemExit(2) from exc
@@ -105,6 +105,7 @@ def cmd_collect(args):
 
     print(f"🎯 开始采集: {target}")
     print(f"📊 维度数: {len(dimensions)}")
+    print(f"   查询语言: {query_locale(target)}")
     print(f"   维度: {', '.join(dimensions.keys())}")
 
     output_dir = Path(args.output) if args.output else None

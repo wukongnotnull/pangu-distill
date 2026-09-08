@@ -67,7 +67,7 @@ python3 "{pangu_skill_root}/scripts/run.py" collect-local "[文件或URL...]" -o
 python3 "{pangu_skill_root}/scripts/run.py" transcribe "[YouTube或本地音频]" -o "[skill目录]/references/distillation/"
 ```
 
-脚本失败或退出码 2（0 条结果）→ 写入缺口，改用宿主搜索，不要装成已经采集，不要让 `team` 对着 0 素材写报告。D3/D4 必须带 `--kind idea` / `--kind phenomenon`。
+脚本失败或退出码 2（0 条结果）→ 写入缺口，改用宿主搜索，不要装成已经采集，不要让 `team` 对着 0 素材写报告。D3/D4 必须带 `--kind idea` / `--kind phenomenon`。英文对象会自动走英文六路。
 
 ---
 
