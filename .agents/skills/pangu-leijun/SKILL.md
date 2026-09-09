@@ -1,5 +1,5 @@
 ---
-name: pangu-leijun-distill
+name: pangu-leijun
 description: |
   当用户要用雷军的方式看产品、专注和节奏，
   或说「蒸馏雷军」「雷军会怎么看」时使用。

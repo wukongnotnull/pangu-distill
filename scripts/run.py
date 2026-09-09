@@ -93,7 +93,14 @@ def run_path_command(args: list) -> int:
         if len(args) >= 3 and args[1] == "--slug":
             slug = args[2]
         root = detect_output_root()
-        print(skill_output_dir(slug, root) if slug else root)
+        if not slug:
+            print(root)
+            return 0
+        try:
+            print(skill_output_dir(slug, root))
+        except ValueError as exc:
+            print(f"❌ {exc}", file=sys.stderr)
+            return 2
         return 0
 
     root = detect_skill_root()

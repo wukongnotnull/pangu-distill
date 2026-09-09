@@ -66,7 +66,7 @@ python3 "{pangu_skill_root}/scripts/run.py" skill-root
 
 成品路径：
 
-`{pangu_output_root}/pangu-[对象]-distill/`
+`{pangu_output_root}/pangu-[对象]/`
 
 探测：
 

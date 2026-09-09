@@ -89,8 +89,25 @@ def detect_skill_root(env: Optional[Mapping[str, str]] = None) -> Optional[Path]
     return None
 
 
+def product_skill_name(object_slug: str) -> str:
+    """产物目录 / YAML name：`pangu-[对象]`。母体 `pangu-distill` 不可占用。"""
+    slug = (object_slug or "").strip().lower().replace("_", "-").replace(" ", "-")
+    while "--" in slug:
+        slug = slug.replace("--", "-")
+    slug = slug.strip("-")
+    if slug.startswith("pangu-"):
+        slug = slug[len("pangu-") :]
+    if slug.endswith("-distill"):
+        slug = slug[: -len("-distill")]
+    if not slug or slug == "distill":
+        raise ValueError(
+            "产物不能叫 pangu-distill（那是母体）。请用 pangu-[对象]，对象 slug 不能是 distill。"
+        )
+    return f"pangu-{slug}"
+
+
 def skill_output_dir(slug: str, output_root: Optional[Path] = None) -> Path:
-    return (output_root or detect_output_root()) / slug
+    return (output_root or detect_output_root()) / product_skill_name(slug)
 
 
 def expand_user_install_dir(host: str) -> Path:

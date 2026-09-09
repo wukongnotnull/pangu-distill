@@ -1,12 +1,12 @@
 # D2 内容类模板
 
-书籍 / 课程 / 影视 / 播客。产出是可迁移操作手册，不是读后感。写入 `{pangu_output_root}/pangu-[slug]-distill/`。
+书籍 / 课程 / 影视 / 播客。产出是可迁移操作手册，不是读后感。写入 `{pangu_output_root}/pangu-[slug]/`。
 
 ---
 
 ```markdown
 ---
-name: pangu-[slug]-distill
+name: pangu-[slug]
 description: |
   当用户要按《[内容]》的框架做事，或说「蒸馏[内容]」时使用。
 ---

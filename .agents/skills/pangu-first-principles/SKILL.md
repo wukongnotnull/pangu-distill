@@ -1,5 +1,5 @@
 ---
-name: pangu-first-principles-distill
+name: pangu-first-principles
 description: |
   当用户要用第一性原理做判断、拆「历来如此」、估成本/约束，
   或说「蒸馏第一性原理」「按第一性想想」时使用。

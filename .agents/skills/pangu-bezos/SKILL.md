@@ -1,5 +1,5 @@
 ---
-name: pangu-bezos-distill
+name: pangu-bezos
 description: |
   当用户要用贝索斯的方式做经营判断、拆可逆/不可逆决策，
   或说「蒸馏贝索斯」「贝索斯会怎么看」时使用。

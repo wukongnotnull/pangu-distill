@@ -10,7 +10,7 @@ description: 把已经蒸馏好的 4.5 层模型写成可安装的 Agent Skill�
 ## 必须做
 
 1. 先跑 `python3 "{pangu_skill_root}/scripts/run.py" output-root` 得到 `{pangu_output_root}`，再按 `{pangu_skill_root}/references/output-spec.md` 建目录：
-   `{pangu_output_root}/pangu-[对象]-distill/`
+   `{pangu_output_root}/pangu-[对象]/`
 2. 选对模板（均在 `{pangu_skill_root}/references/templates/`）：
    - 人物 → `person-skill-template.md`
    - 内容 → `content-skill-template.md`

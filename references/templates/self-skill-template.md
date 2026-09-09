@@ -1,12 +1,12 @@
 # D5 自我类模板
 
-用自己的材料蒸馏出的可运行自我。不是鸡汤，不是理想人设。写入 `{pangu_output_root}/pangu-self-[slug]-distill/`。
+用自己的材料蒸馏出的可运行自我。不是鸡汤，不是理想人设。写入 `{pangu_output_root}/pangu-self-[slug]/`。
 
 ---
 
 ```markdown
 ---
-name: pangu-self-[slug]-distill
+name: pangu-self-[slug]
 description: |
   当用户要用自己已经蒸馏出的决策系统，或说「用我自己的框架」时使用。
 ---

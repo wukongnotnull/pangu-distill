@@ -1,9 +1,12 @@
 from pathlib import Path
 
+import pytest
+
 from host_paths import (
     detect_output_root,
     detect_skill_root,
     find_project_root,
+    product_skill_name,
     skill_output_dir,
 )
 
@@ -52,5 +55,21 @@ def test_skill_root_env_order():
     assert detect_skill_root({}) is None
 
 
+def test_product_skill_name_strips_old_suffix():
+    assert product_skill_name("leijun") == "pangu-leijun"
+    assert product_skill_name("pangu-leijun") == "pangu-leijun"
+    assert product_skill_name("pangu-leijun-distill") == "pangu-leijun"
+    assert product_skill_name("First Principles") == "pangu-first-principles"
+    assert product_skill_name("self-alice") == "pangu-self-alice"
+
+
+def test_product_skill_name_reserves_meta_slug():
+    with pytest.raises(ValueError, match="母体"):
+        product_skill_name("distill")
+    with pytest.raises(ValueError, match="母体"):
+        product_skill_name("pangu-distill")
+
+
 def test_skill_output_dir_appends_slug(tmp_path: Path):
-    assert skill_output_dir("pangu-foo-distill", tmp_path) == tmp_path / "pangu-foo-distill"
+    assert skill_output_dir("pangu-foo-distill", tmp_path) == tmp_path / "pangu-foo"
+    assert skill_output_dir("foo", tmp_path) == tmp_path / "pangu-foo"

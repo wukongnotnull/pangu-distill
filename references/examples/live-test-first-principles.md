@@ -2,7 +2,7 @@
 
 用户问：这个 Meta skill 效果如何。本页是一次按 `SKILL.md` 走完的记录，不是宣传稿。
 
-产物：`.agents/skills/pangu-first-principles-distill/`
+产物：`.agents/skills/pangu-first-principles/`
 
 ## 测什么
 

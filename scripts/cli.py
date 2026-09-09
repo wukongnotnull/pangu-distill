@@ -211,7 +211,11 @@ def cmd_output_root(args):
     """打印当前工作区应写入的 skills 目录。"""
     root = detect_output_root()
     if args.slug:
-        print(skill_output_dir(args.slug, root))
+        try:
+            print(skill_output_dir(args.slug, root))
+        except ValueError as exc:
+            print(f"❌ {exc}", file=sys.stderr)
+            return 2
     else:
         print(root)
     return 0
@@ -491,7 +495,7 @@ def main():
     )
     output_root_parser.add_argument(
         "--slug",
-        help="附带 skill 目录名，例如 pangu-buffett-distill",
+        help="附带 skill 目录名，例如 pangu-buffett",
     )
     output_root_parser.set_defaults(func=cmd_output_root)
 

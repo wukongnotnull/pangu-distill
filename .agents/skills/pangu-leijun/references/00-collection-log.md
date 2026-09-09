@@ -5,7 +5,7 @@
 - 对象：雷军
 - `--kind person`（D1）
 - 采集命令：`python3 scripts/cli.py collect "雷军" --kind person --no-agent`
-- 输出：`.agents/skills/pangu-leijun-distill/references/distillation/`
+- 输出：`.agents/skills/pangu-leijun/references/distillation/`
 - `query_locale`：`zh`
 - 表达维查询：`雷军 社交媒体 观点 口癖`（已无 Twitter）
 

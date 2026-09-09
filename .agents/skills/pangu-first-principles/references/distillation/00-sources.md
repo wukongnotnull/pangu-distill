@@ -13,9 +13,9 @@
 
 ```bash
 PYTHONPATH=/workspace/scripts python3 scripts/cli.py collect "第一性原理" \
-  -o .agents/skills/pangu-first-principles-distill/references/distillation
+  -o .agents/skills/pangu-first-principles/references/distillation
 PYTHONPATH=/workspace/scripts python3 scripts/cli.py team "第一性原理" -a 7 \
-  -o .agents/skills/pangu-first-principles-distill/references/distillation
+  -o .agents/skills/pangu-first-principles/references/distillation
 ```
 
 结果：
