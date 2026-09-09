@@ -1,12 +1,12 @@
 # D4 现象类模板
 
-商业 / 社会 / 组织现象。产出是可操作的机制卡，不是新闻综述。写入 `{pangu_output_root}/pangu-[slug]-distill/`。
+商业 / 社会 / 组织现象。产出是可操作的机制卡，不是新闻综述。写入 `{pangu_output_root}/pangu-[slug]/`。
 
 ---
 
 ```markdown
 ---
-name: pangu-[slug]-distill
+name: pangu-[slug]
 description: |
   当用户要拆解或应对[现象]，或说「蒸馏[现象]」时使用。
 ---

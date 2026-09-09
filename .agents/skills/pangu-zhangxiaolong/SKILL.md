@@ -1,5 +1,5 @@
 ---
-name: pangu-zhangxiaolong-distill
+name: pangu-zhangxiaolong
 description: |
   当用户要用张小龙的方式看产品、停留时长、推荐和克制，
   或说「蒸馏张小龙」「张小龙会怎么看」时使用。

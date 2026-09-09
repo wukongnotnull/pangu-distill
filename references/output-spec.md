@@ -4,10 +4,12 @@
 
 ## 1. 目录结构（必须）
 
-路径是 `{pangu_output_root}/pangu-[对象]-distill/`。`{pangu_output_root}` 由 `scripts/run.py output-root` 探测，不要写死 `.claude/skills/`。
+路径是 `{pangu_output_root}/pangu-[对象]/`。`{pangu_output_root}` 由 `scripts/run.py output-root` 探测，不要写死 `.claude/skills/`。
+
+母体 Skill 叫 `pangu-distill`。产物靠中间的对象 slug 区分，不再加 `-distill` 后缀。对象 slug 不能是 `distill`。
 
 ```
-{pangu_output_root}/pangu-[对象]-distill/
+{pangu_output_root}/pangu-[对象]/
 ├── SKILL.md          # 主技能文件（必填）
 ├── README.md         # 使用说明（必填）
 ├── FIDELITY.md       # 独立评分卡（验证后必填）
@@ -22,14 +24,15 @@
 
 ```yaml
 ---
-name: pangu-[对象]-distill
+name: pangu-[对象]
 description: 一句话说明何时触发、能解决什么。包含触发词。
 ---
 ```
 
 约束：
 
-- `name` 必须是 `pangu-[对象]-distill`，全小写，连字符分隔
+- `name` 必须是 `pangu-[对象]`，全小写，连字符分隔；不要写成 `pangu-[对象]-distill`
+- 目录名与 YAML `name` 一致；禁止 `pangu-distill`（母体保留名）
 - `description` 必须包含触发场景，不能只写「某某的方法论」
 - 不要在 YAML 里塞长文
 

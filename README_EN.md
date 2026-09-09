@@ -55,7 +55,7 @@ Pangu     ❯ Distilling
             ✓ 4.5-layer model passed triple verification
             ✓ Independent fidelity score ≥ 80
 
-            Output: pangu-long-termism-distill
+            Output: pangu-long-termism
 
             Models (each with origin story + trigger):
             ① Compound interest only pays those who stay

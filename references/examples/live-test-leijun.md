@@ -4,7 +4,7 @@
 
 对象选 **雷军**。中文名、七字诀材料好找，不在 README「经典案例」13 人名单里，也不是张小龙。
 
-产物：`.agents/skills/pangu-leijun-distill/`
+产物：`.agents/skills/pangu-leijun/`
 
 ## 结论（先说）
 

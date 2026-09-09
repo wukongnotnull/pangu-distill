@@ -22,7 +22,7 @@ description: |
 python3 "{pangu_skill_root}/scripts/run.py" output-root
 ```
 
-不要写死 `.claude/skills/`。没有已存在的目录时，默认创建 `.agents/skills/`。成品写到 `{pangu_output_root}/pangu-[对象]-distill/`。
+不要写死 `.claude/skills/`。没有已存在的目录时，默认创建 `.agents/skills/`。成品写到 `{pangu_output_root}/pangu-[对象]/`。母体是 `pangu-distill`，产物不要再加 `-distill` 后缀。
 
 脚本和参考文档一律从 `{pangu_skill_root}` 解析。联网搜索用当前宿主的搜索工具，不要写死 WebSearch。没有子 Agent 时，构建/评分在同会话分角色，并在 `FIDELITY.md` 标明未独立评分。
 
@@ -190,7 +190,7 @@ python3 "{pangu_skill_root}/scripts/run.py" output-root
 调研前先建目录：
 
 ```
-{pangu_output_root}/pangu-[object-name]-distill/
+{pangu_output_root}/pangu-[object-name]/
 ├── SKILL.md
 ├── README.md
 ├── FIDELITY.md                 # Phase 3 才写
@@ -209,7 +209,7 @@ python3 "{pangu_skill_root}/scripts/run.py" output-root
         └── 09-key-quotes.md
 ```
 
-命名必须是 `pangu-[对象]-distill`。规格见 [output-spec.md](references/output-spec.md)。
+命名必须是 `pangu-[对象]`。规格见 [output-spec.md](references/output-spec.md)。对象 slug 不能是 `distill`（会和母体撞名）。
 
 检查：
 
@@ -475,6 +475,7 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 - 把矛盾调成单一正确立场
 - 把整书塞进 references
 - 输出超越版 / plus
+- 把产物命名成 `pangu-[对象]-distill`（那是旧格式；母体才是 `pangu-distill`）
 - 用赋能、抓手、闭环、对齐、落地当正文
 
 反模式库：[anti-patterns.md](references/anti-patterns.md)

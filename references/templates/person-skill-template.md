@@ -1,12 +1,12 @@
 # D1 人物类模板
 
-在 `{pangu_output_root}/pangu-[object-name]-distill/SKILL.md` 填写。细节进 `references/`，至少 1 个 `examples/`。
+在 `{pangu_output_root}/pangu-[object-name]/SKILL.md` 填写。细节进 `references/`，至少 1 个 `examples/`。
 
 ---
 
 ```markdown
 ---
-name: pangu-[slug]-distill
+name: pangu-[slug]
 description: |
   当用户要用[人名]的方式看问题、做决策，或说「蒸馏[人名]」「[人名]会怎么看」时使用。
 ---

@@ -1,12 +1,12 @@
 # D3 思想类模板
 
-主义 / 理论 / 观念。产出是思想操作系统，必须写误用边界。写入 `{pangu_output_root}/pangu-[slug]-distill/`。
+主义 / 理论 / 观念。产出是思想操作系统，必须写误用边界。写入 `{pangu_output_root}/pangu-[slug]/`。
 
 ---
 
 ```markdown
 ---
-name: pangu-[slug]-distill
+name: pangu-[slug]
 description: |
   当用户要用[思想]做判断，或说「蒸馏[思想]」时使用。
 ---

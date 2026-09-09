@@ -4,7 +4,7 @@
 
 对象选 **张小龙**（微信）。中文名、决策材料在公开课，且不在 README「经典案例」13 人名单里。避免看起来像在发布官方人物案例。
 
-产物：`.agents/skills/pangu-zhangxiaolong-distill/`
+产物：`.agents/skills/pangu-zhangxiaolong/`
 
 ## 结论（先说）
 

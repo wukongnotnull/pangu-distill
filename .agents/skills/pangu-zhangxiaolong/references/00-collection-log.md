@@ -5,7 +5,7 @@
 - 对象：张小龙
 - `--kind person`（D1）
 - 采集命令：`python3 scripts/cli.py collect "张小龙" --kind person --no-agent`
-- 输出：`.agents/skills/pangu-zhangxiaolong-distill/references/distillation/`
+- 输出：`.agents/skills/pangu-zhangxiaolong/references/distillation/`
 - `query_locale`：`zh`（对象名含汉字）
 - 六路查询（`person_dimensions`）：
 

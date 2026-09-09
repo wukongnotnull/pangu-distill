@@ -54,7 +54,7 @@
             ✓ 4.5 层通过三重验证
             ✓ 独立保真度评分 ≥ 80
 
-            产出：pangu-long-termism-distill
+            产出：pangu-long-termism
 
             心智模型（带形成故事 / 触发条件）：
             ① 复利只奖励待得住的人

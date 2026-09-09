@@ -12,7 +12,7 @@
 
 ```bash
 python3 scripts/cli.py collect "Jeff Bezos" --kind person --no-agent \
-  -o .agents/skills/pangu-bezos-distill/references/distillation
+  -o .agents/skills/pangu-bezos/references/distillation
 ```
 
 | 项 | 值 |
