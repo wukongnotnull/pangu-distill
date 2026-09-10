@@ -1,6 +1,7 @@
 ---
 blind_of: answers.md
 masked: 13
+auto_aliases: 0
 answerer: Claude（Cursor 子 Agent，答题会话，独立于出题与评分会话）
 date: 2026-09-10
 ---

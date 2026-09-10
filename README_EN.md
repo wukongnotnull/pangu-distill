@@ -191,7 +191,7 @@ python3 scripts/run.py plan "Jeff Bezos" --kind person -o out/references/distill
 python3 scripts/run.py ingest --plan out/references/distillation/plan.json out/references/distillation/results.json
 python3 scripts/run.py check out/                    # after build
 python3 scripts/run.py fidelity init out/ --target Munger --alias Berkshire  # question templates
-python3 scripts/run.py fidelity blind out/                                    # mask names after answering
+python3 scripts/run.py fidelity blind out/                                    # mask names after answering (auto-expands short forms / surnames, lists leftover entity-like words)
 python3 scripts/run.py check out/ --require-fidelity                          # before shipping
 ```
 

@@ -78,6 +78,8 @@ python3 "{pangu_skill_root}/scripts/run.py" fidelity blind "[skill目录]"
 
 把 `questions.md` 头部 `target` / `aliases`、目录 slug、`SKILL.md` 一级标题里的名字全部替换成 〔X〕，生成 `answers.blind.md`。遮掉 0 处会警告。
 
+脚本会自动补一层变体再遮：去掉 · 空格的整体和各段（查理·芒格 → 查理芒格、查理、芒格）、去掉机构后缀（阿里巴巴集团 → 阿里巴巴）、拉丁多词名的姓（Charlie Munger → Munger，带词边界，连所有格 / 复数一起遮）、中文四字以上名字的前两字简称（阿里巴巴 → 阿里，条件是正文里独立出现过且不是「每日」「第一」这类通用词）。自动补的名字只打印在终端，盲读稿头部只记数量，免得把名字泄给评分 Agent。不想要自动扩展加 `--no-expand`。遮完之后脚本还会列出仍留在正文里、首字母大写的拉丁词（CNBC、Alphabet 这类），只报不遮——该遮的写进 `aliases` 后重跑。中文公司 / 场合名脚本猜不出来，出题时自己写全。
+
 **第 4 步 · 评分（评分 Agent，新会话）**
 
 阅读顺序不能乱：① 只读 `answers.blind.md`，先写下「像谁、凭什么」→ ② 读 `questions.md` + `answers.md` → ③ 读 `rubric.md` 逐题判定 → ④ 最后读 Skill 本身打来源与结构。不重答题目。写 `FIDELITY.md`（模板见下），测试记录逐题写到 Q1–Q5。

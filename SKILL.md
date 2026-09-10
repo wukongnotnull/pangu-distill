@@ -273,7 +273,7 @@ python3 "{pangu_skill_root}/scripts/run.py" plan "[对象]" --kind [person|conte
 python3 "{pangu_skill_root}/scripts/run.py" ingest --plan "[skill目录]/references/distillation/plan.json" "[skill目录]/references/distillation/results.json"
 ```
 
-脚本去重、过黑名单、抓正文，写出 `00-sources.md`（来源清单、一手占比、剔除 / 抓取失败 / 空维度）和 `01–07` 素材底稿（来源表 + 摘录 + 待填的七级提取记录），以及 `ingest_summary.json`。退出码 2 = 0 条可用素材：写进 `00-sources.md`，禁止对着空气写分析。ingest 不覆盖你手写过的文件（写到 `*.ingest.md`）。抓取失败的页用宿主的读网页工具补。
+脚本去重、过黑名单、抓正文，写出 `00-sources.md`（来源清单、一手占比、剔除 / 抓取失败 / 空维度）和 `01–07` 素材底稿（来源表 + 摘录 + 待填的七级提取记录），以及 `ingest_summary.json`。退出码 2 = 0 条可用素材：写进 `00-sources.md`，禁止对着空气写分析。ingest 不覆盖你手写过的文件（写到 `*.ingest.md`）。正文过短、可读字符太少或大段是加密 / base64 块（WAF 反爬页）的，按抓取失败记，不当素材。抓取失败的页用宿主的读网页工具补。
 
 **④ 校验**（Phase 1.5、Phase 2 结束、Phase 3 出厂各跑一次）
 
@@ -443,7 +443,7 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 python3 "{pangu_skill_root}/scripts/run.py" fidelity init "[skill目录]" --target "[对象]" --alias 公司名 --alias 产品名
 # ① 出题 Agent 填 fidelity/questions.md + rubric.md（rubric 答题不得看）
 # ② 答题 Agent 新会话：只读 questions.md + Skill 目录，禁止联网，写 fidelity/answers.md
-python3 "{pangu_skill_root}/scripts/run.py" fidelity blind "[skill目录]"      # ③ 遮名 → answers.blind.md
+python3 "{pangu_skill_root}/scripts/run.py" fidelity blind "[skill目录]"      # ③ 遮名 → answers.blind.md（自动补简称 / 拉丁姓；终端会列漏遮的实体名）
 # ④ 评分 Agent 新会话：先盲读 answers.blind.md，再对 rubric 逐题判，写 FIDELITY.md
 python3 "{pangu_skill_root}/scripts/run.py" check "[skill目录]" --require-fidelity
 ```

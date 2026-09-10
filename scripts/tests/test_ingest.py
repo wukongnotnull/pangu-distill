@@ -81,7 +81,7 @@ def _results():
         {"dimension": "decisions", "url": "https://dead.example/x", "source_type": "primary"},
         {"dimension": "decisions", "url": "not a url"},
         {"url": "https://nodim.example/"},
-        {"dimension": "extra", "url": "https://host.example/pre", "source_type": "inferred", "content": "宿主已抓好。" * 10},
+        {"dimension": "extra", "url": "https://host.example/pre", "source_type": "inferred", "content": "宿主已抓好，这一段是正文。" * 30},
     ]
 
 
@@ -178,3 +178,45 @@ def test_ingest_warns_when_nothing_labelled(tmp_path: Path):
     plan = build_plan("雷军", output_dir=tmp_path)
     summary = ingest(plan, [{"dimension": "writings", "url": "https://a.example/1"}], tmp_path, fetch=False)
     assert any("source_type" in w for w in summary.warnings)
+
+
+def test_content_validity_rejects_blob_short_and_unreadable():
+    from distill.ingest import content_validity
+
+    assert content_validity("") == "正文为空"
+    assert "过短" in content_validity("太短了。")
+    blob = '{"_waf":"' + "IsHvubidyP8kv4+yuss8YCjDYq2O" * 40 + '"} ' + "3EJ9CvTop9bk6/H7t9vaQn2/46Cw" * 40
+    assert "乱码" in content_validity(blob)
+    symbols = "…—…—" * 200 + "正文" * 10
+    assert "可读字符" in content_validity(symbols)
+    assert content_validity("这是一段正常的中文正文，讨论投资和能力圈。" * 20) is None
+    assert content_validity("This is a normal English paragraph about investing and circles of competence. " * 5) is None
+
+
+def test_ingest_marks_garbage_content_as_fetch_failure(tmp_path: Path):
+    class BlobFetcher(FakeFetcher):
+        def fetch(self, url):
+            self.calls.append(url)
+            if "waf" in url:
+                return ContentResult(url=url, title="waf", content="AbCd012+/=" * 80, word_count=800)
+            return super().fetch(url)
+
+    plan = build_plan("雷军", output_dir=tmp_path)
+    fetcher = BlobFetcher()
+    items = [
+        {"dimension": "critics", "url": "https://waf.example/p", "source_type": "secondary"},
+        {"dimension": "writings", "url": "https://ok.example/p", "source_type": "primary"},
+        # 宿主自带的无效正文：清掉后交给抓取器重试
+        {"dimension": "decisions", "url": "https://short.example/p", "source_type": "primary", "content": "短。"},
+    ]
+    summary = ingest(plan, items, tmp_path, fetcher=fetcher)
+    assert summary.fetched_ok == 2 and summary.fetch_failed == 1
+    result = json.loads((tmp_path / "ingest_result.json").read_text(encoding="utf-8"))
+    by_url = {i["url"]: i for i in result["items"]}
+    assert by_url["https://waf.example/p"]["fetched"] is False
+    assert "乱码" in by_url["https://waf.example/p"]["fetch_error"]
+    assert by_url["https://waf.example/p"]["content"] == ""
+    assert "https://short.example/p" in fetcher.calls
+    assert by_url["https://short.example/p"]["fetched"] is True
+    sources = (tmp_path / "00-sources.md").read_text(encoding="utf-8")
+    assert "乱码" in sources
