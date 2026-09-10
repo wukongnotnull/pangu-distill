@@ -17,21 +17,13 @@
 
 跨宿主默认目录是 `.agents/skills/`：Codex 官方扫描它，Cursor 也扫描它。
 
-安装：
+安装只用这一条：
 
 ```bash
-# 用户级（Claude + Cursor/公共 + Codex）
-bash scripts/install-host.sh
-
-# 当前项目（Cursor / Codex 立刻能发现）
-bash scripts/install-host.sh --project
-
-# 某一个宿主
-bash scripts/install-host.sh --host openclaw
-bash scripts/install-host.sh --host cursor --project
+npx skills add wukongnotnull/pangu-distill
 ```
 
-`npx skills add wukongnotnull/pangu-distill` 仍然可用，通常只进 Claude Code 的用户目录。其他宿主用上面的脚本。
+`npx skills` 会装到当前项目或用户级 skills 目录，并链到已检测到的宿主。要全局可用时加 `-g`。不要再 `git clone` 后跑 `install-host.sh`。
 
 ## 2. Skill 根目录 `{pangu_skill_root}`
 
@@ -89,5 +81,5 @@ python3 "{pangu_skill_root}/scripts/run.py" output-root
 ## 5. 不要做的
 
 - 不要为 Cursor / Codex 各维护一份 SKILL.md
-- 不要把 `npx skills add` 当成全宿主安装器
+- 不要用 `install-host.sh` 手写软链；安装走 `npx skills add`
 - 不要先做每家一个 MCP Plugin（那是 Distilly 的产品形态）

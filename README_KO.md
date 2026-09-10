@@ -70,31 +70,20 @@
 
 ## 빠른 설치
 
-### 방법 1: 기술 사용자 (커맨드 라인)
-
 같은 `SKILL.md` 가 Claude Code / Cursor / Codex / OpenClaw 에서 동작한다. 발견 경로만 다르다. [host-compatibility.md](references/host-compatibility.md)
-
-```bash
-git clone https://github.com/wukongnotnull/pangu-distill.git
-cd pangu-distill
-bash scripts/install-host.sh
-bash scripts/install-host.sh --project
-```
-
-Claude Code 만 쓸 때:
 
 ```bash
 npx skills add wukongnotnull/pangu-distill
 ```
 
-설치 후, Agent에게这样说:
+설치 후, Agent에게 이렇게 말하세요:
 
 ```markdown
 > 장기주의 증류하기
 > 버핏의 사고 프레임워크를 만들고 싶어요
 ```
 
-### 방법 2: 비기술 사용자 (대화식)
+### 비기술 사용자 (대화식)
 
 명령어를 기억할 필요 없이,以下の文をAgentにコピー＆ペーストしてください:
 
