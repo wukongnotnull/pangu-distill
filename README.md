@@ -68,6 +68,8 @@
 
 ## 快速安装
 
+### 技术人员
+
 同一份 `SKILL.md` 可在 Claude Code、Cursor、Codex、OpenClaw、Gemini CLI 等宿主上跑。差别只是发现目录。完整对照见 [references/host-compatibility.md](references/host-compatibility.md)。
 
 ```bash
