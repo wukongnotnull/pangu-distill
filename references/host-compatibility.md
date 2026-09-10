@@ -74,9 +74,9 @@ python3 "{pangu_skill_root}/scripts/run.py" output-root
 
 | 需要的能力 | 做法 |
 |------------|------|
-| 联网搜事实 | 用当前宿主的搜索 / 浏览器工具，不要写死 WebSearch |
+| 联网搜事实 | 用当前宿主的搜索 / 浏览器工具，不要写死 WebSearch；脚本不搜索 |
 | 读本地文件 | Read / 读文件 |
-| 跑采集脚本 | Bash / 终端执行 `{pangu_skill_root}/scripts/run.py` |
+| 跑采集脚本 | Bash / 终端执行 `{pangu_skill_root}/scripts/run.py plan / ingest / check`；`plan` 和 `check` 只用标准库 |
 | 再建一个 Agent | 有子 Agent 就分出发题 / 评分；没有就同会话分角色，并在 FIDELITY.md 写明「未独立评分」 |
 | 写产物 | 写到 `{pangu_output_root}/...`，不要猜用户家目录 |
 

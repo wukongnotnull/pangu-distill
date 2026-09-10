@@ -2,21 +2,31 @@
 
 生成过程中的三层关卡。出厂分数另走 [fidelity-scorecard.md](fidelity-scorecard.md)，且必须换独立 Agent。
 
+第一层能被机器查的部分，先跑脚本，不要用眼睛数：
+
+```bash
+python3 "{pangu_skill_root}/scripts/run.py" check "[skill目录]"                     # Phase 2 结束
+python3 "{pangu_skill_root}/scripts/run.py" check "[skill目录]" --require-fidelity  # Phase 3 出厂
+```
+
+FAIL 为零才算过第一层；WARN 要在诚实边界或 `FIDELITY.md` 写明。第二、三层脚本查不了，仍靠人 / 独立 Agent。
+
 ---
 
-## 第一层：结构
+## 第一层：结构（`check` 覆盖打 ✓ 的项）
 
 | 检查项 | 说明 |
 |--------|------|
-| [ ] 目录符合 output-spec | `SKILL.md` + `README.md` + `references/` + `examples/` |
-| [ ] 命名是 `pangu-[对象]` | 全小写，连字符；不要加 `-distill`；不可与母体同名 |
-| [ ] description 含触发场景 | 不能只写「某某的方法论」 |
-| [ ] 4.5 层齐全 | 身份卡 / 心智模型 / 表达 DNA / 决策框架 / 诚实边界 |
-| [ ] 心智模型 3–7 个（快速版 2–3） | 太少太浅，太多没提炼 |
-| [ ] 诚实边界 ≥3 条 | 含「何时不该用我」 |
-| [ ] 内在张力 ≥2 对 | 未调和 |
-| [ ] `00-sources.md` + `08-extraction-notes.md` + `09-key-quotes.md` 存在 | 证据层 |
-| [ ] SKILL.md 约 500 行内 | 细节在 references |
+| [ ] ✓ 目录符合 output-spec | `SKILL.md` + `README.md` + `references/` + `examples/` |
+| [ ] ✓ 命名是 `pangu-[对象]` | 全小写，连字符；不要加 `-distill`；不可与母体同名；YAML `name` 与目录一致 |
+| [ ] ✓ description 含触发场景 | 不能只写「某某的方法论」 |
+| [ ] ✓ 4.5 层齐全 | 身份卡 / 心智模型 / 表达 DNA / 决策框架 / 诚实边界 |
+| [ ] ✓ 心智模型 3–7 个（快速版 2–3） | 太少太浅，太多没提炼；每个都有形成故事 / 触发 / 步骤 / 局限四个小节 |
+| [ ] ✓ 诚实边界 ≥3 条 | 含「何时不该用我」 |
+| [ ] ✓ 内在张力 ≥2 对 | 未调和 |
+| [ ] ✓ `00-sources.md` + `08-extraction-notes.md` + `09-key-quotes.md` 存在且非空 | 证据层 |
+| [ ] ✓ SKILL.md 约 500 行内 | 细节在 references |
+| [ ] ✓ 禁忌词为零 | 赋能 / 抓手 / 闭环 / 对齐 |
 
 ---
 
@@ -63,6 +73,7 @@
 
 ## 和评分卡的分工
 
-- 本清单：构建时主 Agent 自检（过程门）
-- 评分卡：独立评分 Agent 出厂（结果门）
-- 两门都过才说「蒸馏完成」
+- `run.py check`：结构层机器查，FAIL 为零
+- 本清单：构建时主 Agent 自检（过程门），重点在第二、三层
+- 评分卡：独立评分 Agent 出厂（结果门）；`check --require-fidelity` 核对分数、维度崩溃、独立性声明
+- 三者都过才说「蒸馏完成」

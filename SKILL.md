@@ -24,7 +24,7 @@ python3 "{pangu_skill_root}/scripts/run.py" output-root
 
 不要写死 `.claude/skills/`。没有已存在的目录时，默认创建 `.agents/skills/`。成品写到 `{pangu_output_root}/pangu-[对象]/`。母体是 `pangu-distill`，产物不要再加 `-distill` 后缀。
 
-脚本和参考文档一律从 `{pangu_skill_root}` 解析。联网搜索用当前宿主的搜索工具，不要写死 WebSearch。没有子 Agent 时，构建/评分在同会话分角色，并在 `FIDELITY.md` 标明未独立评分。
+脚本和参考文档一律从 `{pangu_skill_root}` 解析。联网搜索用当前宿主的搜索工具，不要写死 WebSearch；脚本不搜索，只做 `plan`（出查询计划）→ `ingest`（落底稿）→ `check`（校验产物）。没有子 Agent 时，构建/评分在同会话分角色，并在 `FIDELITY.md` 标明未独立评分。
 
 ---
 
@@ -39,7 +39,7 @@ python3 "{pangu_skill_root}/scripts/run.py" output-root
 - 4.5 层模型（身份卡 / 心智模型 / 表达 DNA / 决策框架 / **诚实边界**）
 - 七级提取（形成故事优先，金句最后）
 - 心智模型三重验证 + 触发条件 + 推理步骤
-- 六路采集 + 强制跑 `scripts/run.py`
+- 六路采集：脚本出计划，宿主搜索，脚本落底稿并校验（`plan` → `ingest` → `check`）
 - 独立双 Agent 保真度评分（禁止自评）
 
 详细方法见 [蒸馏方法论](references/distillation-methodology.md)。
@@ -228,9 +228,9 @@ python3 "{pangu_skill_root}/scripts/run.py" output-root
 
 | 模式 | 触发 | 策略 |
 |------|------|------|
-| 纯网络搜索 | 没有本地素材 | 跑 `scripts/run.py collect` + `team`，六路采集 |
+| 纯网络搜索 | 没有本地素材 | `plan` 出六路查询 → 宿主搜索 → `ingest` 落底稿 |
 | 本地语料优先 | 用户给了素材 | 先 `collect-local` / `transcribe`，网搜只补缺口 |
-| 纯本地语料 | 用户说「只用我给的」或 D5 / 对话蒸馏 | 不网搜补人格 |
+| 纯本地语料 | 用户说「只用我给的」或 D5 / 对话蒸馏 | 不网搜补人格，不跑 `plan` |
 | 快速版 | 用户只要快 | 模型 2–3 个，边界加大，仍要形成故事 |
 
 一手素材（全书、长访谈原文、本人聊天）质量远高于二手转述。优先用。
@@ -248,16 +248,38 @@ python3 "{pangu_skill_root}/scripts/run.py" output-root
 
 ---
 
-### Step 1.2: 信息采集（必须跑脚本）
+### Step 1.2: 信息采集（脚本出计划 → 宿主搜索 → 脚本 ingest → 脚本 check）
 
 六路：著作、访谈、表达、外部评价、决策、时间线 / 同类。另加用户一手料。
 
+搜索由宿主 Agent 自己的搜索工具完成——它比无头爬虫强得多。脚本只做三件确定性的事：出查询计划、把结果落成底稿、校验产物。四步：
+
+**① 出计划（不联网）**
+
 ```bash
-python3 "{pangu_skill_root}/scripts/run.py" collect "[对象]" --kind [person|content|idea|phenomenon] -o "[skill目录]/references/distillation/"
-python3 "{pangu_skill_root}/scripts/run.py" team "[对象]" --kind [同上] -a 7 -o "[skill目录]/references/distillation/"
+python3 "{pangu_skill_root}/scripts/run.py" plan "[对象]" --kind [person|content|idea|phenomenon] -o "[skill目录]/references/distillation/"
 ```
 
-`--kind` 对应 D1–D4。D3 思想用 `idea`，D4 现象用 `phenomenon`，不要用默认人物维（生平）。中文人物表达维不含 Twitter。对象名没有汉字时（如 `Jeff Bezos`）自动改用英文六路，不要把中文后缀套在英文名上。DuckDuckGo 被拦时，维基保底先搜对象名，再用「名字 + 一维」补区分；不把著作 / 书单 / 论文整串丢给 `list=search`，标题摘要不点名对象的页丢掉。D5 自我只跑 `collect-local`。退出码 2 = 0 条结果：写进 `00-sources.md`，改用宿主搜索，禁止对着空气写分析。
+得到 `plan.json`：六路查询、每路要找什么、结果落到哪个文件、黑名单、`results.json` 模板。`--kind` 对应 D1–D4：D3 思想用 `idea`，D4 现象用 `phenomenon`，不要用默认人物维（生平）。对象名没有汉字时（如 `Jeff Bezos`）自动改用英文六路。D5 自我不出计划，只跑 `collect-local`。
+
+**② 宿主搜索**
+
+按 `plan.json` 的每一路查询，用当前宿主的搜索工具搜，每路约 8 条。官方渠道优先；本人第一手优于转述；收最近 12 个月；每条标 URL 和 `primary / secondary / inferred`。黑名单（知乎、百度百科）不收，标题摘要都不点名对象的页丢掉。某一路搜不到就留空，不要用别的维度凑数。结果写成 `[skill目录]/references/distillation/results.json`（格式见 plan 输出）。
+
+**③ 落底稿**
+
+```bash
+python3 "{pangu_skill_root}/scripts/run.py" ingest --plan "[skill目录]/references/distillation/plan.json" "[skill目录]/references/distillation/results.json"
+```
+
+脚本去重、过黑名单、抓正文，写出 `00-sources.md`（来源清单、一手占比、剔除 / 抓取失败 / 空维度）和 `01–07` 素材底稿（来源表 + 摘录 + 待填的七级提取记录），以及 `ingest_summary.json`。退出码 2 = 0 条可用素材：写进 `00-sources.md`，禁止对着空气写分析。ingest 不覆盖你手写过的文件（写到 `*.ingest.md`）。抓取失败的页用宿主的读网页工具补。
+
+**④ 校验**（Phase 1.5、Phase 2 结束、Phase 3 出厂各跑一次）
+
+```bash
+python3 "{pangu_skill_root}/scripts/run.py" check "[skill目录]"                     # 构建中
+python3 "{pangu_skill_root}/scripts/run.py" check "[skill目录]" --require-fidelity  # 出厂
+```
 
 有本地文件先：
 
@@ -265,13 +287,15 @@ python3 "{pangu_skill_root}/scripts/run.py" team "[对象]" --kind [同上] -a 7
 python3 "{pangu_skill_root}/scripts/run.py" collect-local "[路径...]" -o "[skill目录]/references/distillation/"
 ```
 
-脚本失败写进 `00-sources.md`，不要假装采过。
+脚本失败或 0 条写进 `00-sources.md`，不要假装采过。`plan` 和 `check` 只用标准库，没装依赖也能跑。
 
-#### Agent 分工（主从，最多 7 个：1 Master + 6 Analysts）
+#### Agent 分工（宿主侧子 Agent；最多 7 个：1 Master + 6 Analysts）
+
+这是宿主 Agent 的分工，不是脚本功能。没有子 Agent 就一个会话按顺序做完。
 
 | Agent | 职责 | 输出 |
 |-------|------|------|
-| Master 素材收集师 | 搜索 + 抓取，只搜一次 | `01-writings.md`, `06-timeline.md`, `00-sources.md` |
+| Master 素材收集师 | 按 `plan.json` 搜索，写 `results.json`，跑 `ingest` | `00-sources.md` + `01–07` 底稿 |
 | Analyst A | 对话 + 表达 | `02-conversations.md`, `03-expression-dna.md` |
 | Analyst B | 批评 + 决策 + 同类 | `04-limitations.md`, `05-decisions.md`, `07-similar-objects.md` |
 | Analyst C | 一手资料 / 用户上传 | `01-source-*.md` 或补进 01–02 |
@@ -350,17 +374,19 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 
 ### Phase 1.5: 采集质量门
 
+来源数、一手占比、空维度直接读 `ingest_summary.json` / `00-sources.md`，不要凭印象填。
+
 ```
 ┌──────────────┬────────┬────────────────┐
 │ 维度         │ 来源数 │ 关键发现       │
 │ 著作/对话/表达/他者/决策/时间线 │ │ │
-│ 一手占比     │        │                │
+│ 一手占比     │        │ <50% 要写进边界 │
 │ 1-4级提取    │        │ ≥10 才过       │
 │ 矛盾 / 缺口  │        │                │
 └──────────────┴────────┴────────────────┘
 ```
 
-用户确认 → Phase 2。某维不够 → 补采。垃圾进垃圾出，这里拦截比 Phase 3 返工便宜。
+用户确认 → Phase 2。某维不够 → 补采（再搜，追加到 `results.json`，重跑 `ingest`）。垃圾进垃圾出，这里拦截比 Phase 3 返工便宜。
 
 ---
 
@@ -379,6 +405,8 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 | D5 | self-skill-template.md |
 
 分层：入口在 `SKILL.md`（约 500 行内），细节进 `references/`，例子进 `examples/`。禁止整页粘贴原文。禁止输出超越版 / plus 目录。
+
+构建完成先跑 `run.py check "[skill目录]"`：命名、YAML 头、4.5 层、模型 3–7 个且各有形成故事 / 触发 / 步骤 / 局限、边界 ≥3、张力 ≥2、证据三件套、examples、禁忌词。有 FAIL 不进 Phase 3。
 
 写入生成 Skill 的回答工作流：
 
@@ -400,7 +428,7 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 
 见 [quality-checklist.md](references/quality-checklist.md)
 
-1. 结构：4.5 层 + 目录 + 触发词  
+1. 结构：4.5 层 + 目录 + 触发词——`run.py check` 机器查，FAIL 为零才算过  
 2. 深度：形成故事、为什么、默认动作、可检查的反模式  
 3. 可执行 + 可迁移：没读过原作的人能做完一件真事
 
@@ -408,7 +436,7 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 
 见 [fidelity-scorecard.md](references/fidelity-scorecard.md)
 
-交给 `{pangu_skill_root}/.claude/skills/skill-vetter/SKILL.md`。答题和评分必须是两个独立会话；宿主不能开子 Agent 时同会话分角色，并写明未独立评分。总分 ≥80，且无维崩溃。
+交给 `{pangu_skill_root}/.claude/skills/skill-vetter/SKILL.md`。答题和评分必须是两个独立会话；宿主不能开子 Agent 时同会话分角色，并写明未独立评分。总分 ≥80，且无维崩溃。写完 `FIDELITY.md` 跑 `run.py check "[skill目录]" --require-fidelity`：分数、维度崩溃、独立性声明由脚本核对。
 
 验证矩阵：
 
@@ -433,7 +461,7 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 
 每轮最多改 3–5 处，必须让 Skill「激活即执行」：先做什么、碰到什么停。
 
-改完复跑门 2。仍 <80 → 不要宣称完成。
+改完复跑门 2 和 `check --require-fidelity`。仍 <80 或有 FAIL → 不要宣称完成。
 
 ---
 
@@ -448,6 +476,9 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 ## 示例
 
 - [蒸馏示例：长期主义](references/examples/distillation-example.md)
+
+下面四次实跑用的是旧的 `collect` / `team` 命令（已被 `plan` / `ingest` / `check` 替代），记录保留为负结果证据：
+
 - [实跑评测：第一性原理（2026-09-08）](references/examples/live-test-first-principles.md)
 - [实跑评测：贝索斯（2026-09-08）](references/examples/live-test-bezos.md)
 - [实跑评测：张小龙（2026-09-08）](references/examples/live-test-zhangxiaolong.md)
@@ -464,7 +495,8 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 | 触发条件先于工具箱 | 不知道何时拿起，镜片只是装饰 |
 | 保留张力 | 矛盾是特征 |
 | 边界比能力更重要 | 写清失效，比写能力更重要 |
-| 脚本先于记忆 | 采集必须跑 `scripts/run.py` |
+| 脚本先于记忆 | 采集走 `plan` → 宿主搜索 → `ingest`，来源清单由脚本落盘，不靠模型记忆 |
+| 机器先于自觉 | 结构门跑 `check`，脚本能查的不靠人眼 |
 | 独立评分 | 禁止自评自证 |
 
 ## 绝不做的事

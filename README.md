@@ -49,9 +49,9 @@
 
 盘古蒸馏  ❯ 【蒸馏执行中】
             ✓ 七问澄清（思想类 / 决策用途 / 无一手料）
-            ✓ 脚本六路采集（著作/访谈/表达/批评/决策/时间线）
+            ✓ 六路采集：plan 出查询 → 宿主搜索 → ingest 落底稿（著作/访谈/表达/批评/决策/时间线）
             ✓ 七级提取：形成故事 + 决策复盘 + 失败 + 矛盾
-            ✓ 4.5 层通过三重验证
+            ✓ 4.5 层通过三重验证；check 无 FAIL
             ✓ 独立保真度评分 ≥ 80
 
             产出：pangu-long-termism
@@ -165,21 +165,29 @@ npx skills add wukongnotnull/pangu-distill
 | 框架 | **4.5 层**：身份卡 / 心智模型 / 表达 DNA / 决策框架 / **诚实边界**（边界不是附录） |
 | 提取 | **七级提取**：形成故事优先，金句最后；没有「为什么信」不准进 Skill |
 | 验证 | 三重验证（跨域 / 生成力 / 排他性）+ **触发条件** + **推理步骤** |
-| 采集 | **六路 + 一手料**，强制跑 `scripts/run.py`（搜索 / 爬取 / 转录），不是只靠模型记忆 |
-| 质检 | 三层过程门 + **独立双 Agent 保真度评分**（≥80，禁止自评） |
+| 采集 | **六路 + 一手料**：`scripts/run.py plan` 出查询计划 → 宿主 Agent 用自己的搜索工具搜 → `ingest` 去重 / 黑名单 / 抓正文落底稿。来源清单由脚本落盘，不靠模型记忆 |
+| 质检 | `scripts/run.py check` 机器查结构（命名 / 4.5 层 / 证据三件套 / FIDELITY）+ 三层过程门 + **独立双 Agent 保真度评分**（≥80，禁止自评） |
 | 精炼 | 三轮：结构 → 使用者 → 压力测试 |
 
 ### 执行流程
 
-澄清（七问）→ 建目录 → 采集（脚本 + 最多 7 Agent）→ 七级提取 → 构建 → 验证 → 三轮精炼。
+澄清（七问）→ 建目录 → 采集（`plan` → 宿主搜索 → `ingest`）→ 七级提取 → 构建 → `check` → 验证 → 三轮精炼。
 
-采集默认六路：著作 / 访谈 / 表达 / 批评 / 决策 / 时间线。思想 / 现象请加 `--kind idea` 或 `--kind phenomenon`，不要用人物维。用户给了书、逐字稿、聊天记录时，一手料优先，网搜只补缺口。脚本 0 条必须失败并改用宿主搜索。
+采集默认六路：著作 / 访谈 / 表达 / 批评 / 决策 / 时间线。思想 / 现象请加 `--kind idea` 或 `--kind phenomenon`，不要用人物维。用户给了书、逐字稿、聊天记录时，一手料优先，网搜只补缺口。搜索由宿主 Agent 完成——它的联网工具远强于无头爬虫；脚本只做确定性的事：出计划、落底稿、校验。`ingest` 0 条即失败，不许对着空气写分析。
+
+```bash
+python3 scripts/run.py plan "雷军" --kind person -o out/references/distillation/   # 出六路查询 + results.json 模板
+# …宿主 Agent 按 plan.json 搜索，写 out/references/distillation/results.json…
+python3 scripts/run.py ingest --plan out/references/distillation/plan.json out/references/distillation/results.json
+python3 scripts/run.py check out/                                                  # 构建后
+python3 scripts/run.py check out/ --require-fidelity                               # 出厂
+```
 
 每个心智模型必须同时有：形成故事、跨域证据、触发条件、推理步骤、局限。
 
 ### 质量验证
 
-过程门走 `references/quality-checklist.md`。出厂走 `references/fidelity-scorecard.md`：答题 Agent 和评分 Agent 必须分开。总分 ≥80 才交付。
+结构门跑 `scripts/run.py check`：命名、YAML 头、4.5 层、模型 3–7 个且各有形成故事 / 触发 / 步骤 / 局限、边界 ≥3、张力 ≥2、证据三件套、禁忌词、FIDELITY 分数与维度崩溃。过程门走 `references/quality-checklist.md`。出厂走 `references/fidelity-scorecard.md`：答题 Agent 和评分 Agent 必须分开。总分 ≥80 且 `check --require-fidelity` 无 FAIL 才交付。
 
 ---
 
@@ -204,8 +212,10 @@ pangu-distill/
 │   ├── examples/distillation-example.md
 │   └── templates/                        # 人物/内容/思想/现象/自我
 └── scripts/
-    ├── run.py                            # 采集 + output-root / skill-root
-    ├── search/ crawl/ transcribe/
+    ├── run.py                            # plan / ingest / check / collect-local / transcribe / output-root
+    ├── distill/                          # plan.py / ingest.py / check.py / local.py / dimensions.py
+    ├── crawl/                            # 正文抓取 + DuckDuckGo / 维基保底搜索
+    └── transcribe/
 ```
 
 ---

@@ -21,6 +21,8 @@ description: 把已经蒸馏好的 4.5 层模型写成可安装的 Agent Skill�
 4. 细节放到 `references/`，例子放到 `examples/`
 5. `SKILL.md` 控制在约 500 行，用对象自己的词
 6. 确认 `references/distillation/` 里已有 `00-sources.md`、`08-extraction-notes.md`、`09-key-quotes.md`；没有就打回蒸馏，不要空造
+7. 写完跑 `python3 "{pangu_skill_root}/scripts/run.py" check "{pangu_output_root}/pangu-[对象]"`，FAIL 为零才交给 skill-vetter；WARN 写进诚实边界
+8. 删掉 `references/distillation/ingest_result.json`（含正文全文的工作文件）
 
 ## 禁止
 
