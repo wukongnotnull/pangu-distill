@@ -70,18 +70,9 @@ Pangu      ❯ 【Fase 1 en progreso】
 
 ## Instalación Rápida
 
-### Método 1: Usuarios Técnicos (Línea de Comando)
+### Usuarios Técnicos
 
 El mismo `SKILL.md` corre en Claude Code, Cursor, Codex y OpenClaw. Solo cambia la ruta de descubrimiento. Ver [host-compatibility.md](references/host-compatibility.md).
-
-```bash
-git clone https://github.com/wukongnotnull/pangu-distill.git
-cd pangu-distill
-bash scripts/install-host.sh
-bash scripts/install-host.sh --project
-```
-
-Solo Claude Code:
 
 ```bash
 npx skills add wukongnotnull/pangu-distill
@@ -94,7 +85,7 @@ Después de instalar, dí esto a tu Agent:
 > Quiero construir un marco de pensamiento de Buffett
 ```
 
-### Método 2: Usuarios No Técnicos (Conversacional)
+### Usuarios No Técnicos (Conversacional)
 
 No hay comandos que recordar — solo copia y pega esto a tu Agent:
 

@@ -70,31 +70,22 @@
 
 ## クイックインストール
 
-### 方法一：技術ユーザー（コマンドライン）
+### 技術ユーザー
 
 同じ `SKILL.md` が Claude Code / Cursor / Codex / OpenClaw で動く。発見ディレクトリだけが違う。詳細は [host-compatibility.md](references/host-compatibility.md)。
-
-```bash
-git clone https://github.com/wukongnotnull/pangu-distill.git
-cd pangu-distill
-bash scripts/install-host.sh
-bash scripts/install-host.sh --project
-```
-
-Claude Code だけなら：
 
 ```bash
 npx skills add wukongnotnull/pangu-distill
 ```
 
-インストール後、Agent に这样说：
+インストール後、Agent にこう言う：
 
 ```markdown
 > 長期主義を蒸留する
 > バフェットの思考フレームワークを作りたい
 ```
 
-### 方法二：非技術ユーザー（会話式）
+### 非技術ユーザー（会話式）
 
 コマンドを覚える必要はありません。以下の文をAgentにコピー＆ペーストしてください：
 

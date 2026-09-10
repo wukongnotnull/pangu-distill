@@ -69,33 +69,15 @@ Pangu     ❯ Distilling
 
 ## Quick Install
 
+### Technical Users
+
 The same `SKILL.md` runs on Claude Code, Cursor, Codex, OpenClaw, and Gemini CLI. Only the discovery path changes. See [references/host-compatibility.md](references/host-compatibility.md).
-
-### Method 1: Any host (recommended)
-
-```bash
-git clone https://github.com/wukongnotnull/pangu-distill.git
-cd pangu-distill
-bash scripts/install-host.sh              # user: Claude + Codex + ~/.agents/skills
-bash scripts/install-host.sh --project    # this repo: .agents/skills (Cursor / Codex)
-```
-
-One host only:
-
-```bash
-bash scripts/install-host.sh --host openclaw
-bash scripts/install-host.sh --host cursor --project
-```
-
-Restart or rescan the agent afterwards.
-
-### Method 2: Claude Code (npx)
 
 ```bash
 npx skills add wukongnotnull/pangu-distill
 ```
 
-This usually lands in `~/.claude/skills/` only. Use Method 1 for other hosts.
+Restart or rescan the agent afterwards.
 
 After installation, say this to your Agent:
 
@@ -106,7 +88,7 @@ After installation, say this to your Agent:
 > Distill this conversation
 ```
 
-### Method 3: Non-Technical Users (Conversational)
+### Non-Technical Users (Conversational)
 
 No commands to remember — just copy and paste this to your Agent:
 
@@ -222,7 +204,6 @@ pangu-distill/
 │   ├── examples/distillation-example.md
 │   └── templates/
 └── scripts/
-    ├── install-host.sh
     ├── run.py
 ```
 
