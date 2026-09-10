@@ -5,7 +5,7 @@
 - 入口：`SKILL.md`
 - 证据：`references/distillation/`（含脚本空跑的 `collection_summary.json`）
 - 样例：`examples/`
-- 评分：`FIDELITY.md`（同会话，未独立评分）
+- 评分：`FIDELITY.md`（出题 / 答题 / 评分三会话独立；测试包在 `fidelity/`）
 
 ## 何时用
 
