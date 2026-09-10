@@ -1,0 +1,77 @@
+{
+  "target": "芒格",
+  "kind": "person",
+  "locale": "zh",
+  "num_results": 8,
+  "output_dir": ".agents/skills/pangu-munger/references/distillation",
+  "created_at": "2026-09-10T09:17:08",
+  "blacklist": [
+    "zhihu.com",
+    "baike.baidu.com"
+  ],
+  "queries": [
+    {
+      "dimension": "writings",
+      "query": "芒格 著作 书单 论文 长文",
+      "file": "01-writings.md",
+      "label": "著作 / 长文",
+      "hint": "≥2 篇长文或 1 本书核心；官方渠道 / 本人原文优先；核心论点开始重复就停"
+    },
+    {
+      "dimension": "conversations",
+      "query": "芒格 访谈 播客 演讲",
+      "file": "02-conversations.md",
+      "label": "访谈 / 播客 / 演讲",
+      "hint": "≥1 段深度对话；即兴问答优于演讲；找到被追问后的立场变化就停"
+    },
+    {
+      "dimension": "expression",
+      "query": "芒格 社交媒体 观点 口癖",
+      "file": "03-expression-dna.md",
+      "label": "表达 / 社交媒体",
+      "hint": "≥20 条本人发言；争议发言优于日常分享；风格可辨认就停"
+    },
+    {
+      "dimension": "critics",
+      "query": "芒格 批评 争议 负面评价 局限",
+      "file": "04-limitations.md",
+      "label": "外部评价 / 批评",
+      "hint": "≥2 个不同视角，正负评价都要；失败必须是本人承认的才算失败"
+    },
+    {
+      "dimension": "decisions",
+      "query": "芒格 决策 投资 关键选择 复盘",
+      "file": "05-decisions.md",
+      "label": "重大决策",
+      "hint": "≥2 个决策，每个都有背景 + 当时想法 + 事后反思"
+    },
+    {
+      "dimension": "timeline",
+      "query": "芒格 生平 时间线 里程碑",
+      "file": "06-timeline.md",
+      "label": "时间线",
+      "hint": "关键转折从成名前到最近 12 个月"
+    }
+  ],
+  "instructions": [
+    "用当前宿主的搜索工具逐条执行 6 路查询，每路取约 8 条。",
+    "官方渠道优先；本人第一手优于转述；收最近 12 个月；每条标 URL 和 primary / secondary / inferred。",
+    "黑名单域名不要收：zhihu.com、baike.baidu.com。公众号原文可作一手，洗稿号不收。",
+    "标题和摘要都不点名对象的页面丢掉。",
+    "把结果写成 results.json（格式见 results_template），然后跑 ingest。",
+    "某一路搜不到就留空，ingest 会把空维度写进 00-sources.md；不要用别的维度凑数。"
+  ],
+  "results_template": {
+    "target": "<对象>",
+    "results": [
+      {
+        "dimension": "writings",
+        "url": "https://…",
+        "title": "页面标题",
+        "snippet": "搜索摘要或你读到的关键一句",
+        "source_type": "primary | secondary | inferred",
+        "note": "可选：为什么选它 / 属于七级里的哪一级"
+      }
+    ]
+  }
+}

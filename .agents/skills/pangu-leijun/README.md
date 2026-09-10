@@ -6,6 +6,6 @@
 - 脚本采集：60 条 / 六维成功 / wikipedia，标题指向雷军/小米（见 `references/00-collection-log.md`）
 - 实际语料：2012 站长大会、2011 微访谈、2021 口述
 - 评分：`FIDELITY.md`（出题 / 答题 / 评分三会话独立；测试包在 `fidelity/`）
-- 评测：仓库 `references/examples/live-test-leijun.md`
+- 评测：2026-09-08 旧 `collect` 流程的记录已删除，采集过程留在 `references/00-collection-log.md`；新流水线实跑见仓库 `references/examples/live-test-munger.md`
 
 克隆后 Cursor / Codex 会扫到这份 Skill。不要把它读成「13 经典已发布」。

@@ -17,4 +17,4 @@
 
 `{pangu_output_root}` 实测为 `.agents/skills/`。Cursor / Codex 会扫这个目录。它是评测样本，不是「经典人物案例」。
 
-评测过程见仓库内 `references/examples/live-test-first-principles.md`。
+2026-09-08 用旧 `collect` 命令跑的评测记录已删除；新流水线的实跑记录见仓库内 `references/examples/live-test-munger.md`。本产物的采集过程见 `references/distillation/00-sources.md`。
