@@ -58,3 +58,28 @@ def test_check_cli_exit_codes(tmp_path: Path, capsys):
 def test_no_command_prints_help(capsys):
     assert cli.main([]) == 1
     assert "plan" in capsys.readouterr().out
+
+
+def test_run_py_resolves_relative_paths_from_caller_cwd(tmp_path: Path):
+    """run.py 不能把 cwd 切到 scripts/，否则 `run.py check ./pangu-x` 会找错目录。"""
+    import subprocess
+    import sys
+
+    run_py = Path(cli.__file__).resolve().parent / "run.py"
+    proc = subprocess.run(
+        [sys.executable, str(run_py), "plan", "雷军", "-o", "out", "--format", "json"],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 0, proc.stderr
+    assert (tmp_path / "out" / "plan.json").is_file()
+
+    proc = subprocess.run(
+        [sys.executable, str(run_py), "check", "out"],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 1
+    assert "目录不存在" not in proc.stdout

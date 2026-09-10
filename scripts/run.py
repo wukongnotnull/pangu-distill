@@ -28,7 +28,8 @@ def check_command(cmd: str) -> bool:
 def run_direct(args: list) -> int:
     env = os.environ.copy()
     env["PYTHONPATH"] = SCRIPT_DIR + os.pathsep + env.get("PYTHONPATH", "")
-    result = subprocess.run([sys.executable, MAIN_SCRIPT] + args, cwd=SCRIPT_DIR, env=env)
+    # 不切换 cwd：check <dir> / ingest results.json / -o 等相对路径要按调用者所在目录解析。
+    result = subprocess.run([sys.executable, MAIN_SCRIPT] + args, env=env)
     return result.returncode
 
 
@@ -43,7 +44,9 @@ def deps_importable() -> bool:
 
 
 def run_with_uv(args: list) -> int:
-    result = subprocess.run(["uv", "run", "python", MAIN_SCRIPT] + args, cwd=SCRIPT_DIR)
+    result = subprocess.run(
+        ["uv", "run", "--project", SCRIPT_DIR, "python", MAIN_SCRIPT] + args,
+    )
     return result.returncode
 
 
