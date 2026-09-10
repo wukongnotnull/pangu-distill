@@ -189,7 +189,7 @@ python3 scripts/run.py check out/ --require-fidelity                            
 
 ### 质量验证
 
-结构门跑 `scripts/run.py check`：命名、YAML 头、4.5 层、模型 3–7 个且各有形成故事 / 触发 / 步骤 / 局限、边界 ≥3、张力 ≥2、证据三件套、禁忌词、FIDELITY 分数与维度崩溃。过程门走 `references/quality-checklist.md`。出厂走 `references/fidelity-scorecard.md`：出题、答题、评分三个会话分开，题目 / rubric / 答题 / 盲读稿留在产物的 `fidelity/` 里，脚本核对题目没抄正文、答题未联网、分数相加、独立性声明。总分 ≥80 且 `check --require-fidelity` 无 FAIL 才交付。仓库里四个实跑产物都按此协议重评过。
+结构门跑 `scripts/run.py check`：命名、YAML 头、4.5 层、模型 3–7 个且各有形成故事 / 触发 / 步骤 / 局限、边界 ≥3、张力 ≥2、证据三件套、禁忌词、FIDELITY 分数与维度崩溃。过程门走 `references/quality-checklist.md`。出厂走 `references/fidelity-scorecard.md`：出题、答题、评分三个会话分开，题目 / rubric / 答题 / 盲读稿留在产物的 `fidelity/` 里，脚本核对题目没抄正文、答题未联网、分数相加、独立性声明。总分 ≥80 且 `check --require-fidelity` 无 FAIL 才交付。仓库里四个早期样本产物都按此协议重评过；`.agents/skills/pangu-munger/` 是用新流水线从零跑完的样本，过程记录在 `references/examples/live-test-munger.md`。
 
 ---
 

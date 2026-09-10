@@ -489,12 +489,7 @@ python3 "{pangu_skill_root}/scripts/run.py" check "[skill目录]" --require-fide
 
 - [蒸馏示例：长期主义](references/examples/distillation-example.md)
 
-下面四次实跑用的是旧的 `collect` / `team` 命令（已被 `plan` / `ingest` / `check` 替代），记录保留为负结果证据：
-
-- [实跑评测：第一性原理（2026-09-08）](references/examples/live-test-first-principles.md)
-- [实跑评测：贝索斯（2026-09-08）](references/examples/live-test-bezos.md)
-- [实跑评测：张小龙（2026-09-08）](references/examples/live-test-zhangxiaolong.md)
-- [实跑评测：雷军（2026-09-08）](references/examples/live-test-leijun.md)
+- [实跑评测：芒格（2026-09-10）](references/examples/live-test-munger.md)——用 `plan` → 宿主搜索 → `ingest` → `check` → `fidelity` 从零跑完一个人物，每道门都有脚本产物；产物在 `.agents/skills/pangu-munger/`
 
 ---
 

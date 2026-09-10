@@ -190,7 +190,7 @@ Every mental model needs an origin story, cross-domain evidence, a trigger, reas
 
 ### Quality Validation
 
-Process gate: `references/quality-checklist.md`. Factory gate: `references/fidelity-scorecard.md` with three separate sessions (question writer, answerer, grader); questions, rubric, answers and the name-masked blind copy ship in the product's `fidelity/` folder, and `check --require-fidelity` verifies the questions were not copied from the Skill, the answerer declared no network, the seven scores add up, and independence is stated. Ship only at ≥80 with zero FAIL. All four sample products in the repo were re-scored under this protocol.
+Process gate: `references/quality-checklist.md`. Factory gate: `references/fidelity-scorecard.md` with three separate sessions (question writer, answerer, grader); questions, rubric, answers and the name-masked blind copy ship in the product's `fidelity/` folder, and `check --require-fidelity` verifies the questions were not copied from the Skill, the answerer declared no network, the seven scores add up, and independence is stated. Ship only at ≥80 with zero FAIL. All four earlier sample products in the repo were re-scored under this protocol; `.agents/skills/pangu-munger/` is a sample distilled from scratch with the new pipeline, with the run recorded in `references/examples/live-test-munger.md`.
 
 ---
 

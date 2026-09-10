@@ -81,7 +81,7 @@
 - 思想蒸馏，不是巴菲特本人 Skill。  
 - 调研时间：2026-09。
 
-一次按全文流程走完的实跑（含脚本空采集）见 [live-test-first-principles.md](live-test-first-principles.md)。
+一次按新流水线（`plan` → 宿主搜索 → `ingest` → `check` → `fidelity`）走完的实跑见 [live-test-munger.md](live-test-munger.md)。
 
 ## 验证（示例）
 
