@@ -1,6 +1,6 @@
 ---
 target: 雷军
-aliases: 雷总, Lei Jun, 小米创始人, 米粉, 金山, 站长大会, 海底捞, 微访谈, MIUI
+aliases: 雷总, Lei Jun, 小米创始人, 米粉, 金山, 站长大会, 海底捞, 微访谈, MIUI, WPS
 kind: person
 author: Claude（Cursor Cloud Agent 出题会话，与构建会话、答题会话均不同）
 date: 2026-09-10
