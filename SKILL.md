@@ -40,7 +40,7 @@ python3 "{pangu_skill_root}/scripts/run.py" output-root
 - 七级提取（形成故事优先，金句最后）
 - 心智模型三重验证 + 触发条件 + 推理步骤
 - 六路采集：脚本出计划，宿主搜索，脚本落底稿并校验（`plan` → `ingest` → `check`）
-- 独立双 Agent 保真度评分（禁止自评）
+- 出题 / 答题 / 评分三方分离的保真度评分，测试包留痕（`fidelity init` → 答题 → `fidelity blind` → 评分 → `check --require-fidelity`）
 
 详细方法见 [蒸馏方法论](references/distillation-methodology.md)。
 
@@ -193,7 +193,8 @@ python3 "{pangu_skill_root}/scripts/run.py" output-root
 {pangu_output_root}/pangu-[object-name]/
 ├── SKILL.md
 ├── README.md
-├── FIDELITY.md                 # Phase 3 才写
+├── FIDELITY.md                 # Phase 3 评分 Agent 写
+├── fidelity/                   # Phase 3 测试包：questions / rubric / answers / answers.blind
 ├── examples/
 └── references/
     └── distillation/
@@ -436,7 +437,18 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 
 见 [fidelity-scorecard.md](references/fidelity-scorecard.md)
 
-交给 `{pangu_skill_root}/.claude/skills/skill-vetter/SKILL.md`。答题和评分必须是两个独立会话；宿主不能开子 Agent 时同会话分角色，并写明未独立评分。总分 ≥80，且无维崩溃。写完 `FIDELITY.md` 跑 `run.py check "[skill目录]" --require-fidelity`：分数、维度崩溃、独立性声明由脚本核对。
+交给 `{pangu_skill_root}/.claude/skills/skill-vetter/SKILL.md`。出题、答题、评分三方分开，各留一份文件在 `fidelity/`：
+
+```bash
+python3 "{pangu_skill_root}/scripts/run.py" fidelity init "[skill目录]" --target "[对象]" --alias 公司名 --alias 产品名
+# ① 出题 Agent 填 fidelity/questions.md + rubric.md（rubric 答题不得看）
+# ② 答题 Agent 新会话：只读 questions.md + Skill 目录，禁止联网，写 fidelity/answers.md
+python3 "{pangu_skill_root}/scripts/run.py" fidelity blind "[skill目录]"      # ③ 遮名 → answers.blind.md
+# ④ 评分 Agent 新会话：先盲读 answers.blind.md，再对 rubric 逐题判，写 FIDELITY.md
+python3 "{pangu_skill_root}/scripts/run.py" check "[skill目录]" --require-fidelity
+```
+
+总分 ≥80，且无维崩溃。脚本核对：测试包齐全、题目没抄正文、答题声明未联网、rubric 没泄漏、七维相加等于总分、独立性写清、测试记录覆盖 Q1–Q5。宿主不能开子 Agent 时同会话分角色，仍写全三份文件，`FIDELITY.md` 独立性写「同会话分角色（未独立）」。
 
 验证矩阵：
 
@@ -461,7 +473,7 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 
 每轮最多改 3–5 处，必须让 Skill「激活即执行」：先做什么、碰到什么停。
 
-改完复跑门 2 和 `check --require-fidelity`。仍 <80 或有 FAIL → 不要宣称完成。
+改完复跑门 2（换一组题，重跑答题 → blind → 评分）和 `check --require-fidelity`。仍 <80 或有 FAIL → 不要宣称完成。
 
 ---
 
@@ -497,7 +509,7 @@ Analyst 要点：发现矛盾直接记录；即兴问答优于演讲；失败必
 | 边界比能力更重要 | 写清失效，比写能力更重要 |
 | 脚本先于记忆 | 采集走 `plan` → 宿主搜索 → `ingest`，来源清单由脚本落盘，不靠模型记忆 |
 | 机器先于自觉 | 结构门跑 `check`，脚本能查的不靠人眼 |
-| 独立评分 | 禁止自评自证 |
+| 独立评分 | 禁止自评自证；题、答、评三份文件入库，脚本核对，不靠一句「独立」声明 |
 
 ## 绝不做的事
 

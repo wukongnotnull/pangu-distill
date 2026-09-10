@@ -13,6 +13,7 @@
 ├── SKILL.md          # 主技能文件（必填）
 ├── README.md         # 使用说明（必填）
 ├── FIDELITY.md       # 独立评分卡（验证后必填）
+├── fidelity/         # 评分测试包：questions / rubric / answers / answers.blind（与 FIDELITY.md 一起交付）
 ├── references/
 │   └── distillation/ # 00-sources / 08-extraction-notes / 09-key-quotes（必填）
 ├── examples/         # 输入 → 输出（至少 1 个）
@@ -78,7 +79,7 @@ description: 一句话说明何时触发、能解决什么。包含触发词。
 
 - 结构完整性（4.5 层 + 目录 + 证据三件套）
 - 深度门槛（`quality-checklist.md` 三层过程检查）
-- 独立保真度评分 ≥ 80（`fidelity-scorecard.md`，禁止自评）
+- 独立保真度评分 ≥ 80（`fidelity-scorecard.md`，出题 / 答题 / 评分三方分离，`fidelity/` 测试包留痕，`check --require-fidelity` 无 FAIL）
 - 至少 1 个可运行例子
 
 不通过就回去精炼，不要先装再补。

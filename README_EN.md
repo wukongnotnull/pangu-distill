@@ -167,7 +167,7 @@ What this repo combines and then exceeds:
 | Extract | **Seven-level scan**: origin stories first, quotes last. No "why they believe it" → it does not enter the Skill |
 | Verify | Triple check (cross-domain / generative / exclusive) + **triggers** + **reasoning steps** |
 | Collect | **Six streams + primary files**: `scripts/run.py plan` emits the query plan → the host agent searches with its own tools → `ingest` dedupes, filters blacklisted domains, fetches text and writes the source ledger |
-| QA | `scripts/run.py check` (naming / 4.5 layers / evidence trio / FIDELITY) + process gate + **independent dual-agent fidelity score** (≥80, no self-grading) |
+| QA | `scripts/run.py check` (naming / 4.5 layers / evidence trio / FIDELITY / test packet) + process gate + **fidelity score with separated question-writer, answerer and grader** (≥80, test packet shipped, no self-grading) |
 | Refine | Three rounds: structure → user → stress test |
 
 ### Execution Flow
@@ -181,14 +181,16 @@ python3 scripts/run.py plan "Jeff Bezos" --kind person -o out/references/distill
 # …host agent searches per plan.json and writes out/references/distillation/results.json…
 python3 scripts/run.py ingest --plan out/references/distillation/plan.json out/references/distillation/results.json
 python3 scripts/run.py check out/                    # after build
-python3 scripts/run.py check out/ --require-fidelity # before shipping
+python3 scripts/run.py fidelity init out/ --target Munger --alias Berkshire  # question templates
+python3 scripts/run.py fidelity blind out/                                    # mask names after answering
+python3 scripts/run.py check out/ --require-fidelity                          # before shipping
 ```
 
 Every mental model needs an origin story, cross-domain evidence, a trigger, reasoning steps, and a failure condition.
 
 ### Quality Validation
 
-Process gate: `references/quality-checklist.md`. Factory gate: `references/fidelity-scorecard.md` with separate answer and scoring agents. Ship only at ≥80.
+Process gate: `references/quality-checklist.md`. Factory gate: `references/fidelity-scorecard.md` with three separate sessions (question writer, answerer, grader); questions, rubric, answers and the name-masked blind copy ship in the product's `fidelity/` folder, and `check --require-fidelity` verifies the questions were not copied from the Skill, the answerer declared no network, the seven scores add up, and independence is stated. Ship only at ≥80 with zero FAIL. All four sample products in the repo were re-scored under this protocol.
 
 ---
 
@@ -213,7 +215,7 @@ pangu-distill/
 │   └── templates/
 └── scripts/
     ├── run.py                          # plan / ingest / check / collect-local / transcribe
-    ├── distill/                        # plan.py / ingest.py / check.py / local.py
+    ├── distill/                        # plan.py / ingest.py / check.py / fidelity.py / local.py
     ├── crawl/                          # fetcher + DuckDuckGo / Wikipedia fallback search
     └── transcribe/
 ```
