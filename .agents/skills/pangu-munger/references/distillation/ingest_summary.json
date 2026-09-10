@@ -1,0 +1,41 @@
+{
+  "target": "芒格",
+  "kind": "person",
+  "success": true,
+  "total_input": 37,
+  "kept": 37,
+  "dropped_blacklist": 0,
+  "dropped_invalid": 0,
+  "duplicates": 0,
+  "fetched_ok": 28,
+  "fetch_failed": 9,
+  "primary_ratio": 0.297,
+  "by_source_type": {
+    "primary": 11,
+    "secondary": 26
+  },
+  "by_dimension": {
+    "writings": 7,
+    "conversations": 8,
+    "expression": 5,
+    "critics": 8,
+    "decisions": 5,
+    "timeline": 4
+  },
+  "empty_dimensions": [],
+  "unknown_dimensions": [],
+  "files_written": [
+    "01-writings.md",
+    "02-conversations.md",
+    "03-expression-dna.md",
+    "04-limitations.md",
+    "05-decisions.md",
+    "06-timeline.md",
+    "00-sources.md"
+  ],
+  "files_skipped": [],
+  "warnings": [
+    "一手占比 30% < 50%，构建时要在诚实边界写明"
+  ],
+  "completed_at": "2026-09-10T09:23:24"
+}

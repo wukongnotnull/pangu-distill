@@ -1,0 +1,306 @@
+{
+  "target": "芒格",
+  "results": [
+    {
+      "dimension": "writings",
+      "url": "https://fs.blog/great-talks/a-lesson-on-worldly-wisdom/",
+      "title": "A Lesson on Elementary Worldly Wisdom As It Relates To Investment Management & Business (USC, 1994)",
+      "snippet": "芒格 1994 年南加州大学商学院演讲全文：多元思维模型、格栅、能力圈、集中投资、错误定价的赌注。",
+      "source_type": "primary",
+      "note": "本人演讲全文；信念形成 + 思维习惯的主来源"
+    },
+    {
+      "dimension": "writings",
+      "url": "https://www.safalniveshak.com/wp-content/uploads/2012/08/Lesson-on-Elementary-Worldly-Wisdom-Charlie-Munger.pdf",
+      "title": "Lesson on Elementary Worldly Wisdom – Charlie Munger (PDF)",
+      "snippet": "同一篇 1994 年演讲的 PDF 版，可对照校对。",
+      "source_type": "primary",
+      "note": "PDF，预计不抓正文，仅留出处"
+    },
+    {
+      "dimension": "writings",
+      "url": "http://xqdoc.imedao.com/1594077520025373fc935aa7.pdf",
+      "title": "穷查理宝典（中文版 PDF）",
+      "snippet": "芒格演讲十一讲 + 芒格主义即席谈话 + 巴菲特序言；中文版序言李录。",
+      "source_type": "primary",
+      "note": "本人演讲汇编；PDF，预计不抓正文"
+    },
+    {
+      "dimension": "writings",
+      "url": "https://worldlypartners.com/charlie-munger-archive/",
+      "title": "Charlie Munger Archive – Worldly Partners",
+      "snippet": "Wesco 股东信、专栏文章、演讲的归档索引。",
+      "source_type": "secondary",
+      "note": "索引页；用于定位 Wesco 信原文"
+    },
+    {
+      "dimension": "writings",
+      "url": "https://mungerarchive.com/recordings/usc-1994-worldly-wisdom/",
+      "title": "USC 1994 Worldly Wisdom – Munger Archive",
+      "snippet": "1994 演讲的录音与文字归档。",
+      "source_type": "secondary",
+      "note": "归档索引"
+    },
+    {
+      "dimension": "writings",
+      "url": "https://github.com/remidinishanth/awesome-charlie-munger",
+      "title": "awesome-charlie-munger：芒格演讲 / 文章 / 访谈清单",
+      "snippet": "汇总 1986 哈佛西湖中学毕业演讲、1995 人类误判心理学、2007 USC 法学院演讲等链接。",
+      "source_type": "secondary",
+      "note": "清单，用来核对各演讲年份"
+    },
+    {
+      "dimension": "writings",
+      "url": "https://studyisland.cn/charlie-munger-speaks-at-the-daily-journal-corporation-annual-shareholders-meeting-2023/",
+      "title": "查理·芒格在 Daily Journal 2023 年度股东大会上发言稿（无删减，中译）",
+      "snippet": "2023 每日期刊股东会问答全译。",
+      "source_type": "primary",
+      "note": "本人问答的中译；与 conversations 维的英文原文互为校对"
+    },
+
+    {
+      "dimension": "conversations",
+      "url": "https://www.kingswell.io/p/charlie-munger-q-and-a-2023-daily",
+      "title": "Charlie Munger Q&A // 2023 Daily Journal Annual Meeting (Full Transcript)",
+      "snippet": "2023-02-15 每日期刊股东会两个半小时问答全文：阿里巴巴认错、比亚迪、加密货币、EBITDA、多元思维。",
+      "source_type": "primary",
+      "note": "即兴问答全文；失败承认 + 决策复盘的主来源"
+    },
+    {
+      "dimension": "conversations",
+      "url": "https://www.cnbc.com/2023/11/30/full-transcript-from-cnbcs-charlie-munger-a-life-of-wit-and-wisdom-.html",
+      "title": "Full Transcript from CNBC's “Charlie Munger: A Life of Wit and Wisdom”",
+      "snippet": "2023-11-14 芒格与 Becky Quick 的最后一次长访谈全文，去世前两周。",
+      "source_type": "primary",
+      "note": "最近 12 个月内最后一手访谈；晚年立场"
+    },
+    {
+      "dimension": "conversations",
+      "url": "https://sungcap.com/charlie-munger-daily-journal-2022-transcript/",
+      "title": "Charlie Munger: 2022 Daily Journal AGM transcript",
+      "snippet": "2022 每日期刊股东会问答实录。",
+      "source_type": "primary",
+      "note": "对照 2023 年的立场变化（阿里从加仓到认错）"
+    },
+    {
+      "dimension": "conversations",
+      "url": "https://www.kingswell.io/p/charlie-mungers-closing-act-q-and",
+      "title": "Charlie Munger's Closing Act: Q&A",
+      "snippet": "芒格晚年问答整理。",
+      "source_type": "primary",
+      "note": "问答实录"
+    },
+    {
+      "dimension": "conversations",
+      "url": "https://munger.ayaseeri.com/sources/2023年-每日期刊股东会讲话/",
+      "title": "2023 年 每日期刊股东会讲话 | 查理·芒格知识库",
+      "snippet": "2023 股东会中译，逐问编号。",
+      "source_type": "primary",
+      "note": "中译本，便于引用中文原话"
+    },
+    {
+      "dimension": "conversations",
+      "url": "https://www.bohaishibei.com/post/81011/",
+      "title": "最好的芒格每日期刊 2023 年会译文来了",
+      "snippet": "另一版 2023 年会译文。",
+      "source_type": "secondary",
+      "note": "译文转载，仅作校对"
+    },
+    {
+      "dimension": "conversations",
+      "url": "http://mastersinvest.com/newblog/2019/2/15/daily-journal-notes-2019",
+      "title": "Daily Journal Notes 2019 – MastersInvest",
+      "snippet": "2019 每日期刊年会笔记：「找 Costco，不是找退出」。",
+      "source_type": "secondary",
+      "note": "会议笔记，非逐字稿"
+    },
+    {
+      "dimension": "conversations",
+      "url": "https://www.cnbc.com/2014/05/05/cnbc-transcript-warren-buffett-charlie-munger-and-bill-gates.html",
+      "title": "CNBC Transcript: Warren Buffett, Charlie Munger and Bill Gates (2014)",
+      "snippet": "2014 伯克希尔股东会后三人访谈实录。",
+      "source_type": "primary",
+      "note": "与巴菲特同场，可看两人分工"
+    },
+
+    {
+      "dimension": "expression",
+      "url": "https://munger.ayaseeri.com/sources/查理芒格-芒格主义-查理的即席谈话/",
+      "title": "查理芒格：芒格主义-查理的即席谈话 | 查理·芒格知识库",
+      "snippet": "穷查理宝典「芒格主义」章节：本人即席发言语录，按话题分组。",
+      "source_type": "primary",
+      "note": "本人原话汇编，≥20 条口癖来源"
+    },
+    {
+      "dimension": "expression",
+      "url": "http://paper.people.com.cn/hqrw/html/2016-09/26/content_1726841.htm",
+      "title": "芒格：巴菲特背后的智者（环球人物）",
+      "snippet": "人物特写，含多条芒格原话与「反过来想」口癖。",
+      "source_type": "secondary",
+      "note": "媒体特写"
+    },
+    {
+      "dimension": "expression",
+      "url": "https://m.huxiu.com/article/1703008.html",
+      "title": "芒格哲学：反过来想，从多角度想",
+      "snippet": "去世当日整理的芒格哲学与原话摘录。",
+      "source_type": "secondary",
+      "note": "源自公众号，转载于虎嗅；引用了大量原话"
+    },
+    {
+      "dimension": "expression",
+      "url": "https://shunwei.com/news/1191",
+      "title": "和最好的朋友，创最好的事业 | 巴菲特与芒格的传奇友谊（顺为资本）",
+      "snippet": "巴菲特与芒格互评原话汇编。",
+      "source_type": "secondary",
+      "note": "他人转述，含互评引语"
+    },
+    {
+      "dimension": "expression",
+      "url": "https://news.qq.com/rain/a/20231129A09MNJ00",
+      "title": "巴菲特：芒格是良师益友、独一无二",
+      "snippet": "去世当日巴菲特声明与芒格语录回顾。",
+      "source_type": "secondary",
+      "note": "媒体汇编"
+    },
+
+    {
+      "dimension": "critics",
+      "url": "https://news.qq.com/rain/a/20230219A045NJ00",
+      "title": "芒格承认投资阿里巴巴是「最大错误之一」",
+      "snippet": "2023 年会上芒格承认阿里巴巴是他最严重的错误之一，被「迷惑」。",
+      "source_type": "secondary",
+      "note": "本人承认的失败（引用一手），外部报道"
+    },
+    {
+      "dimension": "critics",
+      "url": "https://www.tmtpost.com/6812764.html",
+      "title": "芒格：投资阿里巴巴是我最大的错误之一（钛媒体）",
+      "snippet": "报道 + 市场对芒格加杠杆买阿里的批评。",
+      "source_type": "secondary",
+      "note": "负面评价"
+    },
+    {
+      "dimension": "critics",
+      "url": "https://www.chinatimes.com/realtimenews/20230217000016-260410",
+      "title": "芒格认错：投资阿里巴巴是最大错误之一（中时）",
+      "snippet": "台媒报道芒格认错。",
+      "source_type": "secondary",
+      "note": "第三视角"
+    },
+    {
+      "dimension": "critics",
+      "url": "https://xueqiu.com/6034718386/291455890",
+      "title": "芒格晚年用杠杆买阿里，违背了自己的原则？",
+      "snippet": "投资者批评每日期刊用保证金买阿里，与「别用杠杆」原则矛盾。",
+      "source_type": "secondary",
+      "note": "内在矛盾的外部视角"
+    },
+    {
+      "dimension": "critics",
+      "url": "https://www.independent.com/2021/10/28/architect-resigns-in-protest-over-ucsb-mega-dorm/",
+      "title": "Architect Resigns in Protest over UCSB Mega-Dorm",
+      "snippet": "建筑师 Dennis McFadden 因 Munger Hall 无窗宿舍设计辞职抗议。",
+      "source_type": "secondary",
+      "note": "非投资领域的争议：Munger Hall"
+    },
+    {
+      "dimension": "critics",
+      "url": "https://www.washingtonpost.com/education/2021/10/30/ucsb-dorm-charlie-munger/",
+      "title": "Billionaire's windowless dorm design at UCSB sparks outrage",
+      "snippet": "华盛顿邮报报道 Munger Hall 争议，芒格回应。",
+      "source_type": "secondary",
+      "note": "含芒格本人回应"
+    },
+    {
+      "dimension": "critics",
+      "url": "https://www.archpaper.com/2023/08/university-california-abandons-windowless-dorm-munger-hall/",
+      "title": "University of California abandons windowless dorm Munger Hall",
+      "snippet": "2023 年 8 月加州大学放弃 Munger Hall 方案。",
+      "source_type": "secondary",
+      "note": "争议结局"
+    },
+    {
+      "dimension": "critics",
+      "url": "https://dailynexus.com/2023-11-30/charles-munger-dies-three-months-after-dissolution-of-munger-hall-plans/",
+      "title": "Charles Munger dies three months after dissolution of Munger Hall plans",
+      "snippet": "校报回顾 Munger Hall 争议全过程。",
+      "source_type": "secondary",
+      "note": "校方视角"
+    },
+
+    {
+      "dimension": "decisions",
+      "url": "https://www.36kr.com/p/1722393034753",
+      "title": "喜诗糖果：让巴菲特和芒格「付出高价」的转折点",
+      "snippet": "1972 年收购喜诗糖果，芒格推动巴菲特从「捡烟蒂」转向「以合理价格买优质公司」。",
+      "source_type": "secondary",
+      "note": "决策 1：喜诗糖果，含芒格原话"
+    },
+    {
+      "dimension": "decisions",
+      "url": "https://www.cbndata.com/information/145566",
+      "title": "这颗「百年糖果」，竟然改变了股神巴菲特的一生？",
+      "snippet": "喜诗糖果收购背景与事后复盘。",
+      "source_type": "secondary",
+      "note": "决策 1 背景"
+    },
+    {
+      "dimension": "decisions",
+      "url": "https://paper.cnstock.com/html/2025-10/13/content_2130115.htm",
+      "title": "《芒格传》书评：律师到投资人的转身（上海证券报）",
+      "snippet": "1962 年离开律所、创立合伙基金，1973–74 年大跌，1975 年清盘转型。",
+      "source_type": "secondary",
+      "note": "决策 2：弃法从投 + 合伙基金清盘"
+    },
+    {
+      "dimension": "decisions",
+      "url": "https://www.chnfund.com/article/AR20250214022402493",
+      "title": "芒格的投资案例复盘（中国基金报）",
+      "snippet": "喜诗、可口可乐、比亚迪、Costco 等案例梳理。",
+      "source_type": "secondary",
+      "note": "案例汇总"
+    },
+    {
+      "dimension": "decisions",
+      "url": "http://www.moomoo.com/hans/community/feed/an-overview-of-charlie-munger-s-classic-investment-cases-111493348786182",
+      "title": "查理·芒格经典投资案例一览",
+      "snippet": "比亚迪 2008 年买入、2022–23 年减持的来龙去脉。",
+      "source_type": "secondary",
+      "note": "决策 3：比亚迪"
+    },
+
+    {
+      "dimension": "timeline",
+      "url": "https://zh.wikipedia.org/wiki/查理·芒格",
+      "title": "查理·芒格 - 维基百科",
+      "snippet": "1924 年生于奥马哈，密歇根大学 / 哈佛法学院，1962 年创立合伙基金，1978 年任伯克希尔副主席，2023 年 11 月 28 日逝世。",
+      "source_type": "secondary",
+      "note": "时间线骨架"
+    },
+    {
+      "dimension": "timeline",
+      "url": "https://lockshell.com/posts/munger-milestones/",
+      "title": "芒格人生里程碑",
+      "snippet": "按年份排列的芒格关键节点。",
+      "source_type": "secondary",
+      "note": "时间线补充"
+    },
+    {
+      "dimension": "timeline",
+      "url": "https://wiki.mbalib.com/zh-tw/芒格",
+      "title": "查理·芒格 - MBA 智库百科",
+      "snippet": "生平、Wesco、每日期刊、伯克希尔职务。",
+      "source_type": "secondary",
+      "note": "时间线校对"
+    },
+    {
+      "dimension": "timeline",
+      "url": "https://wallstreetcn.com/articles/3703071",
+      "title": "世界上最令人羡慕的人去世了，万字长文回顾他的一生（华尔街见闻）",
+      "snippet": "何加盐万字长文：从奥马哈到帕萨迪纳，离婚丧子、失明、合伙基金、伯克希尔。",
+      "source_type": "secondary",
+      "note": "成名前的转折细节"
+    }
+  ]
+}
