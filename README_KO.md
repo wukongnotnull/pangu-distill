@@ -70,6 +70,8 @@
 
 ## 빠른 설치
 
+### 기술 사용자
+
 같은 `SKILL.md` 가 Claude Code / Cursor / Codex / OpenClaw 에서 동작한다. 발견 경로만 다르다. [host-compatibility.md](references/host-compatibility.md)
 
 ```bash

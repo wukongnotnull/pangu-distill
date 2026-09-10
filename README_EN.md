@@ -69,6 +69,8 @@ Pangu     ❯ Distilling
 
 ## Quick Install
 
+### Technical Users
+
 The same `SKILL.md` runs on Claude Code, Cursor, Codex, OpenClaw, and Gemini CLI. Only the discovery path changes. See [references/host-compatibility.md](references/host-compatibility.md).
 
 ```bash

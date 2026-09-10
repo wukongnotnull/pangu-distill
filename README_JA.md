@@ -70,6 +70,8 @@
 
 ## クイックインストール
 
+### 技術ユーザー
+
 同じ `SKILL.md` が Claude Code / Cursor / Codex / OpenClaw で動く。発見ディレクトリだけが違う。詳細は [host-compatibility.md](references/host-compatibility.md)。
 
 ```bash

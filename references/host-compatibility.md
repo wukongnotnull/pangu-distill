@@ -17,11 +17,13 @@
 
 跨宿主默认目录是 `.agents/skills/`：Codex 官方扫描它，Cursor 也扫描它。
 
-安装只用这一条：
+安装只有两种：
 
 ```bash
 npx skills add wukongnotnull/pangu-distill
 ```
+
+或把这句话发给 Agent：「帮我安装这个 skill：https://github.com/wukongnotnull/pangu-distill」
 
 `npx skills` 会装到当前项目或用户级 skills 目录，并链到已检测到的宿主。要全局可用时加 `-g`。
 

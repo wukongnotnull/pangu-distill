@@ -70,6 +70,8 @@ Pangu      ❯ 【Fase 1 en progreso】
 
 ## Instalación Rápida
 
+### Usuarios Técnicos
+
 El mismo `SKILL.md` corre en Claude Code, Cursor, Codex y OpenClaw. Solo cambia la ruta de descubrimiento. Ver [host-compatibility.md](references/host-compatibility.md).
 
 ```bash
