@@ -181,7 +181,7 @@ python3 scripts/run.py plan "雷军" --kind person -o out/references/distillatio
 python3 scripts/run.py ingest --plan out/references/distillation/plan.json out/references/distillation/results.json
 python3 scripts/run.py check out/                                                  # 构建后
 python3 scripts/run.py fidelity init out/ --target 芒格 --alias 伯克希尔              # 出题模板
-python3 scripts/run.py fidelity blind out/                                         # 答题后遮名
+python3 scripts/run.py fidelity blind out/                                         # 答题后遮名（自动补简称 / 拉丁姓，列出漏遮的实体名）
 python3 scripts/run.py check out/ --require-fidelity                               # 出厂
 ```
 

@@ -174,12 +174,21 @@ def cmd_fidelity(args):
         return 0
 
     if args.action == "blind":
+        report: dict = {}
         try:
-            out, count, names = fid.blind_answers(skill_dir, extra_aliases=args.alias or ())
+            out, count, names = fid.blind_answers(
+                skill_dir, extra_aliases=args.alias or (), expand=not args.no_expand, report=report
+            )
         except FileNotFoundError as exc:
             return _die(str(exc))
         print(f"🕶️  {out}")
         print(f"   遮掉 {count} 处：{'、'.join(names[:8])}")
+        auto = report.get("auto") or []
+        if auto:
+            print(f"   自动补的简称 / 变体 {len(auto)} 个：{'、'.join(auto)}（不想要就加 --no-expand，或在 questions.md aliases 里明写）")
+        suspects = report.get("suspects") or []
+        if suspects:
+            print(f"   ⚠️ 遮完仍像实体名的词（脚本只报不遮，该遮的写进 aliases 后重跑）：{'、'.join(suspects)}")
         if count == 0:
             print("   ⚠️ 一处都没遮到：答题里没出现对象名，或名字没写进 questions.md 的 target / aliases（可用 --alias 补）")
         print("   下一步：评分 Agent 先读这份写「像谁」，再读 answers.md / rubric.md / Skill")
@@ -401,6 +410,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("skill_dir", help="产物目录，如 .agents/skills/pangu-leijun")
     p.add_argument("--target", help="对象名（init；默认取 SKILL.md 一级标题）")
     p.add_argument("--alias", action="append", help="对象别名，可重复（init 写进 questions.md；blind 额外遮掉）")
+    p.add_argument("--no-expand", action="store_true", help="blind：不自动补简称 / 去分隔符 / 拉丁姓等变体，只遮 aliases 原文")
     p.add_argument("--kind", default="person", help="person/content/idea/phenomenon（init）")
     p.add_argument("--force", action="store_true", help="init 覆盖已有模板")
     p.set_defaults(func=cmd_fidelity)

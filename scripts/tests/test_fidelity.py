@@ -179,3 +179,48 @@ def test_mask_names_longest_first():
     text, n = fid.mask_names("雷军说：雷总不是我。Lei Jun 也是我。", ["雷军", "雷总", "Lei Jun"])
     assert n == 3 and "雷" not in text and "lei" not in text.lower()
     assert fid.grade_for(90) == "A" and fid.grade_for(80) == "B" and fid.grade_for(60) == "C" and fid.grade_for(10) == "D"
+
+
+def test_expand_aliases_covers_short_forms_and_variants():
+    body = "阿里巴巴是零售。阿里的问题在于竞争。查理芒格和 Munger 都说过。每日期刊持股。Buffett's view. Costcos."
+    names, auto = fid.expand_aliases(
+        ["查理·芒格", "Charlie Munger", "阿里巴巴集团", "每日期刊", "Daily Journal", "《穷查理宝典》", "Buffett", "Costco"], body
+    )
+    assert "阿里巴巴" in auto  # 机构后缀
+    assert "阿里" in auto  # 四字以上的前两字，正文里独立出现过
+    assert "每日" not in auto  # 通用词不自动加
+    assert "查理芒格" in auto and "查理" in auto and "芒格" in auto  # 去分隔符 + 各段
+    assert "Munger" in auto and "Journal" in auto  # 拉丁姓
+    assert "穷查理宝典" in names and "《穷查理宝典》" not in names
+    masked, n = fid.mask_names(body, names)
+    for leak in ("阿里", "芒格", "Munger", "每日期刊", "Buffett", "Costco"):
+        assert leak not in masked, leak
+    # 拉丁词加了边界和所有格 / 复数：Costcos、Buffett's 整体被遮
+    assert "'s" not in masked and "〔X〕s" not in masked
+
+
+def test_expand_aliases_short_form_requires_standalone_occurrence():
+    names, auto = fid.expand_aliases(["西科金融"], "我在西科金融年会上说过。")
+    assert "西科" not in auto  # 只出现在全名里，不补
+    names, auto = fid.expand_aliases(["西科金融"], "我在西科年会上说过。")
+    assert "西科" in auto
+
+
+def test_latin_pattern_respects_word_boundary():
+    text, n = fid.mask_names("Daily routine; the Daily Journal; dailymotion; Journal's tone.", ["Daily Journal", "Journal"])
+    assert n == 2 and "dailymotion" in text and "Daily routine" in text
+    assert fid.suspect_entities("CNBC asked Alphabet about the Skill and an App. CNBC again.") == ["CNBC", "Alphabet"]
+
+
+def test_blind_answers_writes_auto_aliases_and_no_expand(tmp_path: Path):
+    skill = make_skill(tmp_path)
+    pdir = write_packet(skill, answers_extra=" 君子的做法和示例君一样。Alphabet 不同。")
+    report: dict = {}
+    out, count, names = fid.blind_answers(skill, extra_aliases=["示例·君子"], report=report)
+    blind = out.read_text(encoding="utf-8")
+    assert "auto_aliases: 2" in blind and "君子" in report["auto"]
+    assert "君子" not in blind  # 名字不能出现在盲读稿里，头部也不行
+    assert "Alphabet" in report["suspects"]
+    out2, count2, _ = fid.blind_answers(skill, extra_aliases=["示例·君子"], expand=False)
+    assert "auto_aliases: 0" in out2.read_text(encoding="utf-8")
+    assert count2 <= count

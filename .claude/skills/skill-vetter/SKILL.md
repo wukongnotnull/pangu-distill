@@ -17,7 +17,7 @@ description: 审查盘古蒸馏产物。当技能已写出、需要三层验证�
 3. **可执行 + 可迁移**：没读过原作的人能否做完一件真事
 4. **出题**：`run.py fidelity init "[skill目录]" --target [对象] --alias 公司名 --alias 产品名`，填 `fidelity/questions.md`（Q1–Q3 立场：公开表态过且 Skill 没写过；Q4 超范围；Q5 真实任务）和 `fidelity/rubric.md`（参考立场 + 出处 + 判定标志）。写完 rubric 再叫答题 Agent，不要反过来
 5. **答题**：开新会话，只给 `fidelity/questions.md` 和 Skill 目录路径，禁止联网、禁止看 rubric；它写 `fidelity/answers.md`
-6. **遮名**：`run.py fidelity blind "[skill目录]"` → `fidelity/answers.blind.md`
+6. **遮名**：`run.py fidelity blind "[skill目录]"` → `fidelity/answers.blind.md`。脚本自动补简称 / 去分隔符 / 拉丁姓；看终端列出的「遮完仍像实体名的词」，该遮的加进 `aliases` 重跑
 7. **七维评分**：先只读 `answers.blind.md` 写下「像谁、凭什么」→ 再读 answers → 再对 rubric 逐题判 → 最后读 Skill 打来源与结构。写 `FIDELITY.md`，测试记录逐题写 Q1–Q5
 8. **精炼建议**：只指出必须改的 3–5 条，写进 `FIDELITY.md` 的「必须改」
 

@@ -483,19 +483,143 @@ def _slug_words(skill_dir: Path) -> List[str]:
     return [w for w in words if w and w != "distill"]
 
 
+# 别名扩展：出题者写「阿里巴巴」「查理·芒格」「Charlie Munger」，答题里出现的往往是
+# 「阿里」「查理芒格」「芒格」「Munger」。脚本补这些变体，免得盲读第二段就被实体名点破。
+_CJK_RE = re.compile(r"^[\u4e00-\u9fff]+$")
+_LATIN_WORD_RE = re.compile(r"^[A-Za-z][A-Za-z'\-]*$")
+_NAME_SEPARATORS = "·•・.．・‧ "
+_ORG_SUFFIXES = ("股份有限公司", "有限公司", "控股", "集团", "公司", "基金", "年会", "股东会", "股东大会")
+# 中文四字以上名字的前两字常是简称（阿里巴巴→阿里、西科金融→西科、南加州大学→南加），
+# 但这些前两字是普通词，遮了会把正文打烂，不自动加；要遮请在 aliases 里明写。
+GENERIC_SHORT = frozenset(
+    "每日 第一 第二 中国 美国 日本 英国 德国 公司 集团 大学 学院 国际 全球 世界 时代 未来 科技 "
+    "通用 长期 短期 资本 管理 投资 银行 金融 教育 新闻 日报 人民 东方 西方 北京 上海 深圳 香港 "
+    "台湾 南方 北方 中央 国家 政府 市场 经济 社会 文化 历史 现代 传统 互联 网络 在线 数字 智能 "
+    "价值 成长 创新 创业 产品 用户 微信 苹果".split()
+)
+SHORT_LEN = 2
+SHORT_MIN_FULL_LEN = 4
+
+
+def _strip_org_suffix(name: str) -> str:
+    for suf in sorted(_ORG_SUFFIXES, key=len, reverse=True):
+        if name.endswith(suf) and len(name) - len(suf) >= 2:
+            return name[: -len(suf)]
+    return name
+
+
+def expand_aliases(names: Iterable[str], body: str = "") -> Tuple[List[str], List[str]]:
+    """返回 (全部名字含变体, 自动补出来的变体)。
+
+    规则（全部是机器能判的）：
+    - 去掉《》「」“” 等书名 / 引号
+    - 中间带 · • 空格 的名字：去掉分隔符的整体、以及各段（段长 ≥2）
+    - 机构后缀：阿里巴巴集团 → 阿里巴巴
+    - 拉丁多词名：最后一个词（≥5 字母，首字母大写）——Charlie Munger → Munger
+    - 中文 ≥4 字的名字：前两字作简称候选，条件是它在正文里独立出现过（不只作为全名的一部分），
+      且不在 GENERIC_SHORT 里
+    """
+    base: List[str] = []
+    for n in names:
+        n = (n or "").strip().strip("《》「」『』“”\"'[]")
+        if n:
+            base.append(n)
+    auto: List[str] = []
+    seen = set(base)
+
+    def add(v: str) -> None:
+        v = v.strip()
+        if len(v) >= 2 and v not in seen:
+            seen.add(v)
+            auto.append(v)
+
+    for n in list(base):
+        core = _strip_org_suffix(n)
+        if core != n:
+            add(core)
+        for cand in (n, core):
+            parts = [p for p in re.split("[%s]+" % re.escape(_NAME_SEPARATORS), cand) if p]
+            if len(parts) >= 2:
+                joined = "".join(parts)
+                if all(_CJK_RE.match(p) for p in parts):
+                    add(joined)
+                    for p in parts:
+                        if len(p) >= 2:
+                            add(p)
+                elif all(_LATIN_WORD_RE.match(p) for p in parts):
+                    last = parts[-1]
+                    if len(last) >= 5 and last[0].isupper():
+                        add(last)
+
+    if body:
+        for n in list(seen):
+            if _CJK_RE.match(n) and len(n) >= SHORT_MIN_FULL_LEN:
+                short = n[:SHORT_LEN]
+                if short in GENERIC_SHORT or short in seen:
+                    continue
+                # 独立出现：正文里有不属于任何已知全名的 short
+                standalone = body
+                for full in sorted(seen, key=len, reverse=True):
+                    if full != short and short in full:
+                        standalone = standalone.replace(full, "")
+                if short in standalone:
+                    add(short)
+
+    return base + auto, auto
+
+
+_LATIN_STOP = frozenset(
+    "the a an and or but of to in on at for with by from as is are was were be been it its this that "
+    "these those i you he she we they my your our their q1 q2 q3 q4 q5 ceo cfo cto coo ai ipo pe eps "
+    "roe roic gdp usd rmb ok no yes skill app pro day kpi okr sku roi faq api pdf url".split()
+)
+_LATIN_TOKEN_RE = re.compile(r"(?<![A-Za-z])[A-Z][A-Za-z]{2,}(?![A-Za-z])")
+
+
+def suspect_entities(masked_body: str, limit: int = 15) -> List[str]:
+    """遮完之后还留在正文里、首字母大写的拉丁词（公司、媒体、人名多半长这样）。
+
+    只报不遮——是不是要遮由出题者判断，然后写进 aliases 或 --alias。
+    中文实体没有大小写可依，脚本不猜；出题时把公司 / 场合的中文名写进 aliases。
+    """
+    counts: Dict[str, int] = {}
+    for m in _LATIN_TOKEN_RE.finditer(masked_body):
+        tok = m.group(0)
+        if tok.lower() in _LATIN_STOP:
+            continue
+        counts[tok] = counts.get(tok, 0) + 1
+    ranked = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
+    return [tok for tok, _ in ranked[:limit]]
+
+
+def _name_pattern(name: str) -> "re.Pattern[str]":
+    if _LATIN_WORD_RE.match(name):
+        # 拉丁词加边界，允许所有格 / 复数：Munger、Munger's、Mungers 都遮，dailymotion 不遮 Daily
+        return re.compile(r"(?<![A-Za-z])%s(?:'s|s)?(?![A-Za-z])" % re.escape(name), re.IGNORECASE)
+    return re.compile(re.escape(name), re.IGNORECASE)
+
+
 def mask_names(text: str, names: Iterable[str]) -> Tuple[str, int]:
     """把对象名及别名全部替换成 MASK。长名先替，避免短名先吃掉一半。"""
     count = 0
     ordered = sorted({n.strip() for n in names if n and n.strip()}, key=len, reverse=True)
     for name in ordered:
-        pattern = re.compile(re.escape(name), re.IGNORECASE)
-        text, n = pattern.subn(MASK, text)
+        text, n = _name_pattern(name).subn(MASK, text)
         count += n
     return text, count
 
 
-def blind_answers(skill_dir: Path, extra_aliases: Iterable[str] = ()) -> Tuple[Path, int, List[str]]:
-    """生成 answers.blind.md。返回 (路径, 遮掉几处, 用了哪些名字)。"""
+def blind_answers(
+    skill_dir: Path,
+    extra_aliases: Iterable[str] = (),
+    expand: bool = True,
+    report: Optional[Dict[str, List[str]]] = None,
+) -> Tuple[Path, int, List[str]]:
+    """生成 answers.blind.md。返回 (路径, 遮掉几处, 用了哪些名字)。
+
+    expand=True 时按 expand_aliases 补简称 / 变体；头部 `auto_aliases` 只记数量（名字写进去会泄给评分 Agent），
+    传 report={} 可拿到 report["auto"] 与 report["suspects"]。
+    """
     pdir = packet_dir(skill_dir)
     answers_path = pdir / ANSWERS_FILE
     if not answers_path.is_file():
@@ -520,11 +644,19 @@ def blind_answers(skill_dir: Path, extra_aliases: Iterable[str] = ()) -> Tuple[P
 
     raw = answers_path.read_text(encoding="utf-8", errors="replace")
     meta, body = parse_frontmatter(raw)
+    auto: List[str] = []
+    if expand:
+        names, auto = expand_aliases(names, body)
     masked_body, count = mask_names(body, names)
+    if report is not None:
+        report["auto"] = list(auto)
+        report["suspects"] = suspect_entities(masked_body)
+    # 头部只写数量，不写名字：评分 Agent 先读这份，名字写进来就泄了
     header = (
         "---\n"
         f"blind_of: {ANSWERS_FILE}\n"
         f"masked: {count}\n"
+        f"auto_aliases: {len(auto)}\n"
         f"answerer: {meta.get('answerer', '')}\n"
         f"date: {today()}\n"
         "---\n"
