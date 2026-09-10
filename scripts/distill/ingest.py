@@ -64,6 +64,34 @@ EXTRACTION_STUB = """## 提取记录（待填，按七级清单）
 """
 
 
+# 正文有效性：WAF 挑战页、加密 JS、base64 块会以 200 + text/html 回来，抓取器认为「成功」。
+# 这里只做机器能判的：可读字符占比、超长无空格字母数字块占比、最短长度。
+MIN_CONTENT_CHARS = 150
+MIN_READABLE_RATIO = 0.5
+MAX_BLOB_RATIO = 0.3
+BLOB_TOKEN_MIN = 40
+_READABLE_RE = re.compile(r"[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7afA-Za-z]")
+_BLOB_TOKEN_RE = re.compile(r"[A-Za-z0-9+/=_\-]{%d,}" % BLOB_TOKEN_MIN)
+
+
+def content_validity(text: str) -> Optional[str]:
+    """正文能不能当素材。返回 None = 有效；否则返回一句失败原因（写进 fetch_error）。"""
+    stripped = re.sub(r"\s+", "", text or "")
+    if not stripped:
+        return "正文为空"
+    if len(stripped) < MIN_CONTENT_CHARS:
+        return f"正文过短（{len(stripped)} 字 < {MIN_CONTENT_CHARS}）"
+    blob_chars = sum(len(m.group(0)) for m in _BLOB_TOKEN_RE.finditer(text))
+    blob_ratio = blob_chars / len(stripped)
+    if blob_ratio > MAX_BLOB_RATIO:
+        return f"正文疑似乱码 / 加密内容（{blob_ratio:.0%} 为超长字母数字块，WAF 或反爬页）"
+    readable = len(_READABLE_RE.findall(stripped))
+    readable_ratio = readable / len(stripped)
+    if readable_ratio < MIN_READABLE_RATIO:
+        return f"正文可读字符占比 {readable_ratio:.0%} < {MIN_READABLE_RATIO:.0%}，疑似非文本"
+    return None
+
+
 def normalize_source_type(value: Optional[str]) -> str:
     key = (value or "").strip().lower()
     return _SOURCE_TYPE_ALIASES.get(key, "unknown")
@@ -272,7 +300,13 @@ def build_items(raw_items: Sequence[dict]) -> List[SourceItem]:
             content=str(raw.get("content") or "").strip(),
         )
         if item.content:
-            item.fetched = True
+            # 宿主自带的正文也要过有效性；无效的清掉，交给抓取器再试一次
+            problem = content_validity(item.content)
+            if problem:
+                item.content = ""
+                item.fetch_error = f"宿主提供的正文无效：{problem}"
+            else:
+                item.fetched = True
         items.append(item)
     return items
 
@@ -392,10 +426,16 @@ def _fetch_all(items: List[SourceItem], fetcher: Any, max_workers: int) -> None:
         except Exception as exc:  # 抓取失败只记录，不中断
             item.fetch_error = str(exc)[:200]
             return
-        item.content = result.content or ""
-        item.fetched = bool(item.content)
-        if not item.fetched:
-            item.fetch_error = "正文为空"
+        content = result.content or ""
+        problem = content_validity(content)
+        if problem:
+            item.content = ""
+            item.fetched = False
+            item.fetch_error = problem
+        else:
+            item.content = content
+            item.fetched = True
+            item.fetch_error = ""
         if not item.title and result.title:
             item.title = result.title
 

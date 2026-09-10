@@ -273,7 +273,7 @@ python3 "{pangu_skill_root}/scripts/run.py" plan "[对象]" --kind [person|conte
 python3 "{pangu_skill_root}/scripts/run.py" ingest --plan "[skill目录]/references/distillation/plan.json" "[skill目录]/references/distillation/results.json"
 ```
 
-脚本去重、过黑名单、抓正文，写出 `00-sources.md`（来源清单、一手占比、剔除 / 抓取失败 / 空维度）和 `01–07` 素材底稿（来源表 + 摘录 + 待填的七级提取记录），以及 `ingest_summary.json`。退出码 2 = 0 条可用素材：写进 `00-sources.md`，禁止对着空气写分析。ingest 不覆盖你手写过的文件（写到 `*.ingest.md`）。抓取失败的页用宿主的读网页工具补。
+脚本去重、过黑名单、抓正文，写出 `00-sources.md`（来源清单、一手占比、剔除 / 抓取失败 / 空维度）和 `01–07` 素材底稿（来源表 + 摘录 + 待填的七级提取记录），以及 `ingest_summary.json`。退出码 2 = 0 条可用素材：写进 `00-sources.md`，禁止对着空气写分析。ingest 不覆盖你手写过的文件（写到 `*.ingest.md`）。正文过短、可读字符太少或大段是加密 / base64 块（WAF 反爬页）的，按抓取失败记，不当素材。抓取失败的页用宿主的读网页工具补。
 
 **④ 校验**（Phase 1.5、Phase 2 结束、Phase 3 出厂各跑一次）
 
