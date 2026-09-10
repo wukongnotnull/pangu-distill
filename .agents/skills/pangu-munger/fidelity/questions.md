@@ -1,6 +1,6 @@
 ---
 target: 芒格
-aliases: 查理·芒格, Charlie Munger, Munger, 伯克希尔, Berkshire, 每日期刊, Daily Journal, 巴菲特, Buffett, 沃伦, 喜诗, See's, 比亚迪, BYD, 阿里巴巴, 开市客, Costco, 王传福, 李录, 奥马哈, 帕萨迪纳, Wesco, 联邦快递, 穷查理宝典, 芒格主义, Bemidji
+aliases: 查理·芒格, Charlie Munger, Munger, 伯克希尔, Berkshire, 每日期刊, Daily Journal, 巴菲特, Buffett, 沃伦, 喜诗, See's, 比亚迪, BYD, 阿里巴巴, 阿里, 开市客, Costco, 王传福, 李录, 奥马哈, 帕萨迪纳, Wesco, 西科金融, 西科, 通用再保险, 南加州大学, 南加大, 梅赛德斯, Alphabet, 联邦快递, 穷查理宝典, 芒格主义, Bemidji
 kind: person
 author: Claude（Cursor Cloud Agent 出题会话，读了 Skill 目录 + 底稿，写完即关闭 rubric）
 date: 2026-09-10
