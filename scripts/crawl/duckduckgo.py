@@ -5,10 +5,7 @@ DuckDuckGo 搜索实现
 """
 
 import re
-import time
 from typing import List
-from datetime import datetime
-from dataclasses import field
 
 import requests
 from bs4 import BeautifulSoup
@@ -141,6 +138,7 @@ class DuckDuckGoSearch(BaseSearchEngine):
                     timeout=self.TIMEOUT,
                 )
                 response.raise_for_status()
+                self._raise_if_blocked(response.text)
 
                 page_results = self._parse_results(response.text, needed)
                 all_results.extend(page_results)
@@ -148,7 +146,7 @@ class DuckDuckGoSearch(BaseSearchEngine):
                 needed -= len(page_results)
                 offset += 10
 
-            except requests.RequestException:
+            except (requests.RequestException, BlockedError):
                 break
 
         return all_results
@@ -167,46 +165,3 @@ class DuckDuckGoSearch(BaseSearchEngine):
     def _raise_if_blocked(html: str) -> None:
         if any(marker in html for marker in BLOCK_MARKERS):
             raise BlockedError("DuckDuckGo 返回验证页，HTML 爬虫不可用")
-
-
-class DuckDuckGoLiteSearch(DuckDuckGoSearch):
-    """
-    DuckDuckGo Lite 版本
-
-    更轻量，但结果可能更少
-    """
-
-    BASE_URL = "https://lite.duckduckgo.com/lite/"
-    TIMEOUT = 10
-
-    def _parse_results(self, html: str, limit: int) -> List[SearchResult]:
-        """解析 Lite 版结果"""
-        soup = BeautifulSoup(html, "lxml")
-        results = []
-
-        for result in soup.select(".result")[:limit]:
-            try:
-                link_elem = result.select_one("a")
-                if not link_elem:
-                    continue
-
-                title = link_elem.get_text(strip=True)
-                url = link_elem.get("href", "")
-
-                # 摘要在下一个兄弟元素
-                snippet_elem = result.find_next_sibling("a", class_="result-snippet")
-                snippet = snippet_elem.get_text(strip=True) if snippet_elem else ""
-
-                if url and url.startswith("http"):
-                    results.append(
-                        SearchResult(
-                            title=title,
-                            url=url,
-                            snippet=snippet,
-                            source=SearchSource.DUCKDUCKGO,
-                        )
-                    )
-            except Exception:
-                continue
-
-        return results

@@ -4,21 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pangu-distill"
-version = "0.1.0"
-description = "盘古蒸馏信息采集工具"
+version = "0.2.0"
+description = "盘古蒸馏采集工具：plan → 宿主搜索 → ingest → check"
 requires-python = ">=3.9"
 dependencies = [
     "requests>=2.28.0",
     "beautifulsoup4>=4.11.0",
     "lxml>=4.9.0",
-    "html2text>=2020.1.16",
 ]
-
-[tool.setuptools]
-py-modules = ["cli", "host_paths", "shared", "config"]
-
-[tool.setuptools.packages.find]
-include = ["crawl*", "search*", "transcribe*"]
 
 [project.optional-dependencies]
 youtube = [
@@ -27,6 +20,15 @@ youtube = [
 whisper = [
     "openai-whisper>=20231117",
 ]
+dev = [
+    "pytest>=7.0",
+]
 
-[tool.hatch.build.targets.wheel]
-packages = ["."]
+[tool.setuptools]
+py-modules = ["cli", "host_paths", "shared"]
+
+[tool.setuptools.packages.find]
+include = ["crawl*", "distill*", "transcribe*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -2,351 +2,257 @@
 """
 盘古蒸馏 CLI
 
-命令行工具，用于信息采集
+采集流程：plan（出查询计划）→ 宿主 Agent 搜索 → ingest（落底稿）→ check（校验产物）。
+plan / check / output-root / skill-root 只用标准库；ingest / search / fetch 需要 requests + bs4。
 """
 
 import argparse
 import json
 import sys
 from pathlib import Path
-from typing import List
-
-from search.pipeline import SearchPipeline, EMPTY_COLLECTION_HINT
-from search.dimensions import SelfKindError, UnknownKindError, dimensions_for, query_locale
-from search.agent_tools import AgentSearchTool
-from search.multi_agent import MasterSearchPipeline
-from search.collector import MaterialCollector
-from crawl import DuckDuckGoSearch, ContentFetcher
-from transcribe import YouTubeTranscriber, AudioTranscriber, is_youtube_url
-from host_paths import detect_output_root, detect_skill_root, skill_output_dir
 
 
-def cmd_search(args):
-    """搜索命令"""
-    pipeline = SearchPipeline(
-        prefer_agent=not args.no_agent,
-        fallback_enabled=True,
-        max_workers=args.workers,
-    )
+def _die(message: str, code: int = 2) -> int:
+    print(f"❌ {message}", file=sys.stderr)
+    return code
 
-    queries = args.query if isinstance(args.query, list) else [args.query]
 
-    print(f"🔍 搜索 {len(queries)} 个查询...")
+# ---------------------------------------------------------------------------
+# plan
+# ---------------------------------------------------------------------------
 
-    results = pipeline.search(queries, num_results=args.num)
 
-    for i, (query, result_list) in enumerate(zip(queries, results)):
-        print(f"\n{'='*60}")
-        print(f"查询: {query}")
-        print(f"结果: {len(result_list)} 条")
-        print("=" * 60)
+def cmd_plan(args):
+    from distill.dimensions import SelfKindError, UnknownKindError
+    from distill.plan import build_plan, parse_dimension_args
 
-        for j, r in enumerate(result_list[:args.num]):
-            print(f"\n[{j+1}] {r.title}")
-            print(f"    URL: {r.url}")
-            print(f"    摘要: {r.snippet[:100]}...")
-            print(f"    来源: {r.source.value}")
+    try:
+        plan = build_plan(
+            args.target,
+            kind=args.kind,
+            num_results=args.num,
+            output_dir=Path(args.output) if args.output else None,
+            dimensions=parse_dimension_args(args.dimensions, args.target),
+        )
+    except SelfKindError as exc:
+        return _die(f"{exc}", 2)
+    except (UnknownKindError, ValueError) as exc:
+        return _die(str(exc), 2)
 
+    if args.output:
+        path = plan.save(Path(args.output))
+        if args.format == "json":
+            print(json.dumps(plan.to_dict(), ensure_ascii=False, indent=2))
+        else:
+            print(plan.to_markdown())
+        print(f"📝 计划已写入: {path}", file=sys.stderr)
+        print(
+            f"下一步：宿主搜索后写 {Path(args.output) / 'results.json'}，再跑\n"
+            f"  run.py ingest --plan \"{path}\" \"{Path(args.output) / 'results.json'}\"",
+            file=sys.stderr,
+        )
+    elif args.format == "json":
+        print(json.dumps(plan.to_dict(), ensure_ascii=False, indent=2))
+    else:
+        print(plan.to_markdown())
     return 0
 
 
+# ---------------------------------------------------------------------------
+# ingest
+# ---------------------------------------------------------------------------
+
+
+def cmd_ingest(args):
+    from distill.dimensions import EMPTY_COLLECTION_HINT
+    from distill.ingest import ingest, load_results
+    from distill.plan import build_plan, load_plan
+
+    results_path = Path(args.results)
+    if not results_path.is_file():
+        return _die(f"找不到 results 文件: {results_path}")
+
+    if args.plan:
+        plan_path = Path(args.plan)
+        if not plan_path.is_file():
+            return _die(f"找不到 plan 文件: {plan_path}")
+        plan = load_plan(plan_path)
+    else:
+        if not args.target:
+            return _die("没有 --plan 时必须给 --target（并可给 --kind）")
+        plan = build_plan(args.target, kind=args.kind)
+
+    output_dir = Path(args.output) if args.output else (Path(plan.output_dir) if plan.output_dir else results_path.parent)
+
+    try:
+        raw_items = load_results(results_path)
+    except ValueError as exc:
+        return _die(f"results 格式错误: {exc}")
+
+    print(f"📥 ingest: {plan.target}（{plan.kind}）")
+    print(f"   输入 {len(raw_items)} 条 · 输出目录 {output_dir}")
+
+    summary = ingest(
+        plan,
+        raw_items,
+        output_dir,
+        fetch=not args.no_fetch,
+        max_workers=args.workers,
+        excerpt_chars=args.excerpt,
+        max_chars=args.max_chars,
+    )
+
+    print(f"   保留 {summary.kept} 条 · 一手占比 {summary.primary_ratio:.0%}")
+    print(f"   剔除：黑名单 {summary.dropped_blacklist} · 无效 {summary.dropped_invalid} · 重复 {summary.duplicates}")
+    if not args.no_fetch:
+        print(f"   抓取：成功 {summary.fetched_ok} · 失败 {summary.fetch_failed}")
+    for dim, n in summary.by_dimension.items():
+        print(f"   - {dim}: {n}")
+    if summary.empty_dimensions:
+        print(f"   空维度: {', '.join(summary.empty_dimensions)}")
+    for w in summary.warnings:
+        print(f"   ⚠️ {w}")
+    print(f"   写入: {', '.join(summary.files_written)}")
+
+    if not summary.success:
+        print("\n❌ 0 条可用素材")
+        print(EMPTY_COLLECTION_HINT)
+        return 2
+    print("\n✅ ingest 完成。下一步：读 0N-*.md 做七级提取，写 08-extraction-notes.md / 09-key-quotes.md")
+    return 0
+
+
+# ---------------------------------------------------------------------------
+# check
+# ---------------------------------------------------------------------------
+
+
+def cmd_check(args):
+    from distill.check import run_check
+
+    report = run_check(
+        Path(args.skill_dir),
+        require_fidelity=args.require_fidelity,
+        quick=args.quick,
+        kind=args.kind,
+    )
+    if args.json:
+        print(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
+    else:
+        print(report.to_text())
+    return 0 if report.passed else 1
+
+
+# ---------------------------------------------------------------------------
+# search / fetch（保底工具，不是主路径）
+# ---------------------------------------------------------------------------
+
+
+def cmd_search(args):
+    from crawl.chain import CrawlerSearch
+
+    chain = CrawlerSearch()
+    queries = args.query if isinstance(args.query, list) else [args.query]
+    print(f"🔍 保底搜索 {len(queries)} 个查询（主路径应用宿主搜索工具）...")
+
+    total = 0
+    for query in queries:
+        results = chain.search(query, args.num)
+        total += len(results)
+        print(f"\n{'=' * 60}")
+        print(f"查询: {query}")
+        print(f"结果: {len(results)} 条")
+        for err in chain.last_errors:
+            print(f"  跳过: {err}")
+        print("=" * 60)
+        for j, r in enumerate(results[: args.num]):
+            print(f"\n[{j + 1}] {r.title}")
+            print(f"    URL: {r.url}")
+            print(f"    摘要: {r.snippet[:100]}...")
+            print(f"    来源: {r.source.value}")
+    return 0 if total else 2
+
+
 def cmd_fetch(args):
-    """抓取命令"""
-    pipeline = SearchPipeline(prefer_agent=not args.no_agent)
+    from crawl.fetcher import ContentFetcher
 
+    fetcher = ContentFetcher()
     urls = args.url if isinstance(args.url, list) else [args.url]
-
     print(f"📥 抓取 {len(urls)} 个 URL...")
 
-    contents = pipeline.fetch(urls)
-
-    for c in contents:
-        print(f"\n{'='*60}")
+    ok = 0
+    for url in urls:
+        print(f"\n{'=' * 60}")
+        try:
+            c = fetcher.fetch(url)
+        except RuntimeError as exc:
+            print(f"URL: {url}\n失败: {exc}")
+            continue
+        ok += 1
         print(f"标题: {c.title}")
         print(f"URL: {c.url}")
         print(f"字数: {c.word_count}")
         print(f"语言: {c.language.value}")
         print("-" * 60)
         print(c.content[:500] + "..." if len(c.content) > 500 else c.content)
-
-    return 0
-
-
-def _resolve_dimensions(args, target: str):
-    if args.dimensions:
-        dimensions = {}
-        for dim in args.dimensions:
-            if ":" in dim:
-                name, query = dim.split(":", 1)
-                dimensions[name] = query
-            else:
-                dimensions[dim] = f"{target} {dim}"
-        return dimensions
-    try:
-        templates = dimensions_for(getattr(args, "kind", None), target=target)
-    except SelfKindError as exc:
-        print(f"❌ {exc}")
-        raise SystemExit(2) from exc
-    except UnknownKindError as exc:
-        print(f"❌ {exc}")
-        raise SystemExit(2) from exc
-    return {name: query.format(target=target) for name, query in templates.items()}
+    return 0 if ok else 2
 
 
-def cmd_collect(args):
-    """多维度采集命令"""
-    pipeline = SearchPipeline(
-        prefer_agent=not args.no_agent,
-        max_workers=args.workers,
-    )
-
-    target = args.target
-    dimensions = _resolve_dimensions(args, target)
-
-    print(f"🎯 开始采集: {target}")
-    print(f"📊 维度数: {len(dimensions)}")
-    print(f"   查询语言: {query_locale(target)}")
-    print(f"   维度: {', '.join(dimensions.keys())}")
-
-    output_dir = Path(args.output) if args.output else None
-    result = pipeline.collect(target, dimensions, output_dir)
-
-    if output_dir:
-        output_dir.mkdir(parents=True, exist_ok=True)
-        summary_file = output_dir / "collection_summary.json"
-        with open(summary_file, "w", encoding="utf-8") as f:
-            json.dump(result.to_dict(), f, ensure_ascii=False, indent=2)
-        print(f"   汇总文件: {summary_file}")
-
-    if not result.success:
-        print(f"\n❌ 采集失败：0 条结果")
-        print(EMPTY_COLLECTION_HINT)
-        if output_dir:
-            print(f"   结果目录: {output_dir}")
-        return 2
-
-    print(f"\n✅ 采集完成")
-    print(f"   总搜索结果: {result.total_results}")
-    print(f"   总内容数: {result.total_contents}")
-    empty_dims = [d.dimension for d in result.dimensions if not d.success]
-    if empty_dims:
-        print(f"   空维度: {', '.join(empty_dims)}")
-    if output_dir:
-        print(f"   结果目录: {output_dir}")
-    return 0
+# ---------------------------------------------------------------------------
+# transcribe / collect-local
+# ---------------------------------------------------------------------------
 
 
 def cmd_transcribe(args):
-    """转录命令"""
+    from transcribe import YouTubeTranscriber, AudioTranscriber, is_youtube_url
+
     url = args.url
     output_dir = args.output or "./transcripts"
-
     print(f"🎬 开始转录: {url}")
 
     if is_youtube_url(url):
         print("📺 检测到 YouTube 视频")
-
-        # 字幕优先
         yt = YouTubeTranscriber(output_dir=output_dir)
         result = yt.get_subtitle(url)
-
         if result.subtitles:
             print(f"✅ 获取到 {len(result.subtitles)} 个字幕")
             for sub in result.subtitles:
                 print(f"   语言: {sub['lang']}, 类型: {sub['type']}")
                 print(f"   内容预览: {sub['content'][:100]}...")
-
             if result.file_path:
                 print(f"\n📁 字幕文件: {result.file_path}")
-
             return 0
-
         print("⚠️ 无字幕可用，尝试音频转录...")
 
-    # Whisper 转录
-    transcriber = AudioTranscriber(
-        model=args.model or "base",
-        output_dir=output_dir,
-    )
+    transcriber = AudioTranscriber(model=args.model or "base", output_dir=output_dir)
+    text = transcriber.transcribe_youtube(url) if is_youtube_url(url) else transcriber.transcribe(url)
 
-    if is_youtube_url(url):
-        text = transcriber.transcribe_youtube(url)
-    else:
-        text = transcriber.transcribe(url)
-
-    print(f"\n✅ 转录完成")
+    print("\n✅ 转录完成")
     print(f"   字数: {len(text)}")
-    print(f"\n内容预览:")
+    print("\n内容预览:")
     print("-" * 60)
     print(text[:500] + "..." if len(text) > 500 else text)
-
     return 0
-
-
-def cmd_info(args):
-    """信息命令 - 显示 Agent 工具状态"""
-    tool = AgentSearchTool(prefer_agent=True, fallback_enabled=True)
-
-    print("🔧 Agent 工具状态:")
-    print(f"   Agent 工具可用: {tool.is_agent_available()}")
-
-    if tool.is_agent_available():
-        print(f"   主搜索源: Agent WebSearch")
-    else:
-        print(f"   主搜索源: 降级到爬虫")
-
-    # 测试爬虫
-    print("\n🧪 测试爬虫...")
-    try:
-        crawler = DuckDuckGoSearch()
-        results = crawler.search("测试", 3)
-        print(f"   爬虫状态: 正常 ({len(results)} 条结果)")
-    except Exception as e:
-        print(f"   爬虫状态: 异常 ({e})")
-
-    return 0
-
-
-def cmd_output_root(args):
-    """打印当前工作区应写入的 skills 目录。"""
-    root = detect_output_root()
-    if args.slug:
-        try:
-            print(skill_output_dir(args.slug, root))
-        except ValueError as exc:
-            print(f"❌ {exc}", file=sys.stderr)
-            return 2
-    else:
-        print(root)
-    return 0
-
-
-def cmd_skill_root(args):
-    """打印宿主注入的本 Skill 根目录（没有则退出码 2）。"""
-    root = detect_skill_root()
-    if root is None:
-        print("未检测到 PANGU_SKILL_ROOT / CLAUDE_SKILL_DIR / CODEX_SKILL_DIR / CURSOR_SKILL_DIR", file=sys.stderr)
-        return 2
-    print(root)
-    return 0
-
-
-def cmd_team(args):
-    """多Agent协作命令（主从模式）"""
-    max_agents = args.agents or 7
-
-    print(f"🤖 启动多Agent协作（最多 {max_agents} 个Agent）")
-    print("   模式: 主从模式")
-    print("   - Master: 负责网络搜索")
-    print("   - Analysts: 负责分析已有素材")
-    print("")
-
-    search_tool = AgentSearchTool(
-        prefer_agent=not args.no_agent,
-        fallback_enabled=True,
-    )
-
-    # 创建多Agent流水线
-    pipeline = MasterSearchPipeline(
-        max_agents=max_agents,
-        search_tool=search_tool,
-    )
-
-    target = args.target
-
-    # 构建维度（默认六路，与 Analyst 数量匹配）
-    dimensions = {}
-    if args.dimensions:
-        for dim in args.dimensions:
-            if ":" in dim:
-                name, query = dim.split(":", 1)
-                dimensions[name] = query
-            else:
-                dimensions[dim] = f"{target} {dim}"
-    else:
-        dimensions = _resolve_dimensions(args, target)
-
-    print(f"🎯 采集目标: {target}")
-    print(f"📊 分析维度: {len(dimensions)} 个")
-    for name in dimensions:
-        print(f"   - {name}")
-
-    # 执行协作采集
-    result = pipeline.collect(
-        target=target,
-        dimensions=dimensions,
-        num_results=args.num,
-    )
-
-    # 输出结果
-    empty = len(result.all_results) == 0
-    print(f"\n{'='*60}")
-    print(f"{'❌ 多Agent协作停止' if empty else '✅ 多Agent协作完成'}")
-    print(f"{'='*60}")
-    print(f"   Agent数量: {result.agent_count} (1 Master + {result.agent_count - 1} Analysts)")
-    print(f"   搜索次数: {result.total_searches}")
-    print(f"   抓取页面: {result.total_fetches}")
-    print(f"   收集结果: {len(result.all_results)} 条")
-    print(f"   获取内容: {len(result.all_contents)} 条")
-    if empty:
-        print(EMPTY_COLLECTION_HINT)
-
-    # 显示 Master 报告
-    if result.master_output:
-        print(f"\n{'='*60}")
-        print("📋 Master 素材收集报告 (预览)")
-        print("=" * 60)
-        lines = result.master_output.split("\n")
-        for line in lines[:30]:
-            print(line)
-        if len(lines) > 30:
-            print(f"... (共 {len(lines)} 行)")
-
-    # 显示 Analyst 报告摘要
-    if result.analyst_outputs:
-        print(f"\n{'='*60}")
-        print("📊 Analyst 分析结论")
-        print("=" * 60)
-        for i, output in enumerate(result.analyst_outputs, 1):
-            lines = output.split("\n")
-            print(f"\n### Analyst {i}")
-            for line in lines[:15]:
-                print(line)
-            if len(lines) > 15:
-                print(f"... (共 {len(lines)} 行)")
-
-    # 保存结果
-    output_dir = Path(args.output) if args.output else None
-    if output_dir:
-        pipeline.save_results(result, output_dir)
-        print(f"\n💾 结果已保存到: {output_dir}")
-
-    return 2 if empty else 0
 
 
 def cmd_collect_local(args):
-    """本地素材采集命令"""
-    collector = MaterialCollector(transcript_enabled=not args.no_transcribe)
+    from distill.local import MaterialCollector
 
+    collector = MaterialCollector(transcript_enabled=not args.no_transcribe)
     paths = args.paths if isinstance(args.paths, list) else [args.paths]
 
-    print(f"📂 开始采集 {len(paths)} 个素材...")
-    print("")
-
+    print(f"📂 开始采集 {len(paths)} 个素材...\n")
     result = collector.collect(paths)
 
-    # 输出结果
-    print(f"{'='*60}")
-    print(f"✅ 采集完成")
-    print(f"{'='*60}")
+    print("=" * 60)
+    print("✅ 采集完成" if result.successful else "❌ 没有成功读取任何素材")
+    print("=" * 60)
     print(f"   总文件数: {result.total_files}")
     print(f"   成功: {result.successful}")
     print(f"   失败: {result.failed}")
-    print(f"   总字数: {result.total_words:,}")
-    print("")
+    print(f"   总字数: {result.total_words:,}\n")
 
-    # 显示每个素材的详情
-    for i, mat in enumerate(result.materials, 1):
+    for mat in result.materials:
         status = "✅" if mat.success else "❌"
         print(f"{status} [{mat.material_type.value}] {Path(mat.path).name}")
         if mat.success:
@@ -360,222 +266,129 @@ def cmd_collect_local(args):
             print(f"   错误: {mat.error}")
         print("")
 
-    # 保存结果
-    output_dir = Path(args.output) if args.output else None
-    if output_dir:
+    if args.output:
+        output_dir = Path(args.output)
         output_dir.mkdir(parents=True, exist_ok=True)
-
-        # 保存汇总
         with open(output_dir / "collection_result.json", "w", encoding="utf-8") as f:
             json.dump(result.to_dict(), f, ensure_ascii=False, indent=2)
-
-        # 保存每个素材的文本内容
         for i, mat in enumerate(result.materials):
             if mat.success and mat.content:
                 ext = Path(mat.path).suffix
-                output_path = output_dir / f"content_{i+1}{ext}"
-                if ext in [".txt", ".md"]:
-                    output_path.write_text(mat.content, encoding="utf-8")
-                else:
-                    # 统一保存为 txt
-                    txt_path = output_dir / f"content_{i+1}.txt"
-                    txt_path.write_text(mat.content, encoding="utf-8")
-
+                name = f"content_{i + 1}{ext if ext in ('.txt', '.md') else '.txt'}"
+                (output_dir / name).write_text(mat.content, encoding="utf-8")
         print(f"💾 结果已保存到: {output_dir}")
 
+    return 0 if result.successful else 2
+
+
+# ---------------------------------------------------------------------------
+# 路径
+# ---------------------------------------------------------------------------
+
+
+def cmd_output_root(args):
+    from host_paths import detect_output_root, skill_output_dir
+
+    root = detect_output_root()
+    if args.slug:
+        try:
+            print(skill_output_dir(args.slug, root))
+        except ValueError as exc:
+            return _die(str(exc))
+    else:
+        print(root)
     return 0
 
 
-def main():
+def cmd_skill_root(args):
+    from host_paths import detect_skill_root
+
+    root = detect_skill_root()
+    if root is None:
+        return _die("未检测到 PANGU_SKILL_ROOT / CLAUDE_SKILL_DIR / CODEX_SKILL_DIR / CURSOR_SKILL_DIR")
+    print(root)
+    return 0
+
+
+# ---------------------------------------------------------------------------
+# parser
+# ---------------------------------------------------------------------------
+
+
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="盘古蒸馏信息采集工具",
+        description="盘古蒸馏采集工具：plan → 宿主搜索 → ingest → check",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
+    sub = parser.add_subparsers(dest="command", help="子命令")
 
-    subparsers = parser.add_subparsers(dest="command", help="子命令")
+    p = sub.add_parser("plan", help="出六路查询计划（不联网），交给宿主 Agent 搜索")
+    p.add_argument("target", help="蒸馏对象，如 芒格 / Jeff Bezos / 第一性原理")
+    p.add_argument("--kind", default="person", help="person/content/idea/phenomenon（D1–D4）；D5 自我请用 collect-local")
+    p.add_argument("-n", "--num", type=int, default=8, help="每路目标条数（默认 8）")
+    p.add_argument("-d", "--dimensions", nargs="+", help="覆盖维度：name:query_template 或 name")
+    p.add_argument("-o", "--output", help="写 plan.json 到该目录（通常是 references/distillation/）")
+    p.add_argument("--format", choices=["md", "json"], default="md", help="stdout 格式（默认 md）")
+    p.set_defaults(func=cmd_plan)
 
-    # search 命令
-    search_parser = subparsers.add_parser(
-        "search",
-        help="搜索查询",
-    )
-    search_parser.add_argument("query", nargs="+", help="搜索查询")
-    search_parser.add_argument(
-        "-n", "--num",
-        type=int,
-        default=10,
-        help="每查询结果数 (默认: 10)"
-    )
-    search_parser.add_argument(
-        "--no-agent",
-        action="store_true",
-        help="跳过 Agent 工具，直接使用爬虫"
-    )
-    search_parser.add_argument(
-        "-w", "--workers",
-        type=int,
-        default=5,
-        help="并发数 (默认: 5)"
-    )
-    search_parser.set_defaults(func=cmd_search)
+    p = sub.add_parser("ingest", help="把宿主搜到的 results.json 落成 00–07 底稿")
+    p.add_argument("results", help="results.json（格式见 plan 输出的 results_template）")
+    p.add_argument("--plan", help="plan.json 路径；不给则用 --target/--kind 现场生成")
+    p.add_argument("--target", help="对象（无 plan 时必填）")
+    p.add_argument("--kind", default="person", help="类型（无 plan 时用）")
+    p.add_argument("-o", "--output", help="输出目录，默认 plan.output_dir 或 results 所在目录")
+    p.add_argument("--no-fetch", action="store_true", help="不抓正文，只落来源表")
+    p.add_argument("-w", "--workers", type=int, default=5, help="抓取并发（默认 5）")
+    p.add_argument("--excerpt", type=int, default=1500, help="底稿里每条摘录字数（默认 1500）")
+    p.add_argument("--max-chars", type=int, default=20000, help="ingest_result.json 里每条正文上限（默认 20000）")
+    p.set_defaults(func=cmd_ingest)
 
-    # fetch 命令
-    fetch_parser = subparsers.add_parser(
-        "fetch",
-        help="抓取 URL 内容",
-    )
-    fetch_parser.add_argument("url", nargs="+", help="URL 列表")
-    fetch_parser.add_argument(
-        "--no-agent",
-        action="store_true",
-        help="跳过 Agent 工具"
-    )
-    fetch_parser.set_defaults(func=cmd_fetch)
+    p = sub.add_parser("check", help="机器校验产物目录：命名 / 4.5 层 / 证据三件套 / FIDELITY")
+    p.add_argument("skill_dir", help="产物目录，如 .agents/skills/pangu-leijun")
+    p.add_argument("--require-fidelity", action="store_true", help="Phase 3 出厂：FIDELITY.md 必须存在且 ≥80")
+    p.add_argument("--quick", action="store_true", help="快速版：允许 2 个心智模型")
+    p.add_argument("--kind", choices=["person", "self", "generic"], help="覆盖自动推断的类型")
+    p.add_argument("--json", action="store_true", help="JSON 输出")
+    p.set_defaults(func=cmd_check)
 
-    # collect 命令
-    collect_parser = subparsers.add_parser(
-        "collect",
-        help="多维度采集",
-    )
-    collect_parser.add_argument("target", help="采集对象 (如: 芒格)")
-    collect_parser.add_argument(
-        "--kind",
-        default="person",
-        help="蒸馏类型: person/content/idea/phenomenon/self（D1–D5）",
-    )
-    collect_parser.add_argument(
-        "-d", "--dimensions",
-        nargs="+",
-        help="指定维度，格式: dimension_name:query_template"
-    )
-    collect_parser.add_argument(
-        "-o", "--output",
-        help="输出目录"
-    )
-    collect_parser.add_argument(
-        "--no-agent",
-        action="store_true",
-        help="跳过 Agent 工具"
-    )
-    collect_parser.add_argument(
-        "-w", "--workers",
-        type=int,
-        default=5,
-        help="并发数 (默认: 5)"
-    )
-    collect_parser.set_defaults(func=cmd_collect)
+    p = sub.add_parser("search", help="保底搜索（DuckDuckGo → 维基），主路径请用宿主搜索")
+    p.add_argument("query", nargs="+", help="搜索查询")
+    p.add_argument("-n", "--num", type=int, default=10, help="每查询结果数 (默认: 10)")
+    p.set_defaults(func=cmd_search)
 
-    # transcribe 命令
-    transcribe_parser = subparsers.add_parser(
-        "transcribe",
-        help="音视频转录",
-    )
-    transcribe_parser.add_argument("url", help="YouTube URL 或本地音频路径")
-    transcribe_parser.add_argument(
-        "-o", "--output",
-        help="输出目录"
-    )
-    transcribe_parser.add_argument(
-        "-m", "--model",
-        choices=["tiny", "base", "small", "medium", "large"],
-        help="Whisper 模型"
-    )
-    transcribe_parser.set_defaults(func=cmd_transcribe)
+    p = sub.add_parser("fetch", help="抓取 URL 正文")
+    p.add_argument("url", nargs="+", help="URL 列表")
+    p.set_defaults(func=cmd_fetch)
 
-    # info 命令
-    info_parser = subparsers.add_parser(
-        "info",
-        help="显示状态信息"
-    )
-    info_parser.set_defaults(func=cmd_info)
+    p = sub.add_parser("transcribe", help="音视频转录")
+    p.add_argument("url", help="YouTube URL 或本地音频路径")
+    p.add_argument("-o", "--output", help="输出目录")
+    p.add_argument("-m", "--model", choices=["tiny", "base", "small", "medium", "large"], help="Whisper 模型")
+    p.set_defaults(func=cmd_transcribe)
 
-    output_root_parser = subparsers.add_parser(
-        "output-root",
-        help="打印蒸馏产物应写入的项目 skills 目录",
-    )
-    output_root_parser.add_argument(
-        "--slug",
-        help="附带 skill 目录名，例如 pangu-buffett",
-    )
-    output_root_parser.set_defaults(func=cmd_output_root)
+    p = sub.add_parser("collect-local", help="采集本地素材（PDF/Word/TXT/MD/Excel/字幕/音视频/URL）")
+    p.add_argument("paths", nargs="+", help="文件路径或 URL 列表")
+    p.add_argument("-o", "--output", help="输出目录")
+    p.add_argument("-v", "--verbose", action="store_true", help="显示详细内容")
+    p.add_argument("--no-transcribe", action="store_true", help="跳过音视频转录")
+    p.set_defaults(func=cmd_collect_local)
 
-    skill_root_parser = subparsers.add_parser(
-        "skill-root",
-        help="打印宿主注入的本 Skill 根目录",
-    )
-    skill_root_parser.set_defaults(func=cmd_skill_root)
+    p = sub.add_parser("output-root", help="打印蒸馏产物应写入的项目 skills 目录")
+    p.add_argument("--slug", help="附带 skill 目录名，例如 pangu-buffett")
+    p.set_defaults(func=cmd_output_root)
 
-    # team 命令（多Agent协作）
-    team_parser = subparsers.add_parser(
-        "team",
-        help="多Agent协作采集（主从模式）"
-    )
-    team_parser.add_argument("target", help="采集目标 (如: 埃隆·马斯克)")
-    team_parser.add_argument(
-        "--kind",
-        default="person",
-        help="蒸馏类型: person/content/idea/phenomenon/self（D1–D5）",
-    )
-    team_parser.add_argument(
-        "-d", "--dimensions",
-        nargs="+",
-        help="分析维度，格式: dimension_name:query_template"
-    )
-    team_parser.add_argument(
-        "-o", "--output",
-        help="输出目录"
-    )
-    team_parser.add_argument(
-        "-n", "--num",
-        type=int,
-        default=10,
-        help="每个维度搜索结果数 (默认: 10)"
-    )
-    team_parser.add_argument(
-        "-a", "--agents",
-        type=int,
-        default=7,
-        help="最大Agent数量 (默认: 7，最多7个：1 Master + 6 Analysts)"
-    )
-    team_parser.add_argument(
-        "--no-agent",
-        action="store_true",
-        help="跳过 Agent 工具，直接使用爬虫"
-    )
-    team_parser.set_defaults(func=cmd_team)
+    p = sub.add_parser("skill-root", help="打印宿主注入的本 Skill 根目录")
+    p.set_defaults(func=cmd_skill_root)
 
-    # collect-local 命令（本地素材采集）
-    local_parser = subparsers.add_parser(
-        "collect-local",
-        help="采集本地素材（PDF/Word/TXT/MD/Excel/字幕/音视频）"
-    )
-    local_parser.add_argument(
-        "paths",
-        nargs="+",
-        help="文件路径或URL列表"
-    )
-    local_parser.add_argument(
-        "-o", "--output",
-        help="输出目录"
-    )
-    local_parser.add_argument(
-        "-v", "--verbose",
-        action="store_true",
-        help="显示详细内容"
-    )
-    local_parser.add_argument(
-        "--no-transcribe",
-        action="store_true",
-        help="跳过音视频转录"
-    )
-    local_parser.set_defaults(func=cmd_collect_local)
+    return parser
 
-    args = parser.parse_args()
 
+def main(argv=None):
+    parser = build_parser()
+    args = parser.parse_args(argv)
     if not args.command:
         parser.print_help()
         return 1
-
     return args.func(args)
 
 
