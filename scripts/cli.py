@@ -3,7 +3,7 @@
 盘古蒸馏 CLI
 
 采集流程：plan（出查询计划）→ 宿主 Agent 搜索 → ingest（落底稿）→ check（校验产物）。
-plan / check / output-root / skill-root 只用标准库；ingest / search / fetch 需要 requests + bs4。
+plan / check / fidelity / output-root / skill-root 只用标准库；ingest / search / fetch 需要 requests + bs4。
 """
 
 import argparse
@@ -141,6 +141,51 @@ def cmd_check(args):
     else:
         print(report.to_text())
     return 0 if report.passed else 1
+
+
+# ---------------------------------------------------------------------------
+# fidelity（测试包：出题 / 答题 / 评分三方分离）
+# ---------------------------------------------------------------------------
+
+
+def cmd_fidelity(args):
+    from distill import fidelity as fid
+
+    skill_dir = Path(args.skill_dir)
+    if not (skill_dir / "SKILL.md").is_file():
+        return _die(f"{skill_dir} 里没有 SKILL.md，先构建再出题")
+
+    if args.action == "init":
+        target = args.target
+        if not target:
+            from distill.markdown import parse_frontmatter
+            import re
+
+            _, body = parse_frontmatter((skill_dir / "SKILL.md").read_text(encoding="utf-8", errors="replace"))
+            h1 = re.search(r"^#\s+(.+?)\s*$", body, re.MULTILINE)
+            target = re.split(r"[·:：—|]", h1.group(1))[0].strip() if h1 else skill_dir.name
+        written, skipped = fid.init_packet(skill_dir, target, aliases=args.alias or (), kind=args.kind, force=args.force)
+        for p in written:
+            print(f"📝 {p}")
+        for p in skipped:
+            print(f"⏭️  已存在，未覆盖：{p}（--force 覆盖）")
+        print()
+        print(fid.role_prompts(skill_dir))
+        return 0
+
+    if args.action == "blind":
+        try:
+            out, count, names = fid.blind_answers(skill_dir, extra_aliases=args.alias or ())
+        except FileNotFoundError as exc:
+            return _die(str(exc))
+        print(f"🕶️  {out}")
+        print(f"   遮掉 {count} 处：{'、'.join(names[:8])}")
+        if count == 0:
+            print("   ⚠️ 一处都没遮到：答题里没出现对象名，或名字没写进 questions.md 的 target / aliases（可用 --alias 补）")
+        print("   下一步：评分 Agent 先读这份写「像谁」，再读 answers.md / rubric.md / Skill")
+        return 0
+
+    return _die(f"未知动作 {args.action}")
 
 
 # ---------------------------------------------------------------------------
@@ -350,6 +395,15 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--kind", choices=["person", "self", "generic"], help="覆盖自动推断的类型")
     p.add_argument("--json", action="store_true", help="JSON 输出")
     p.set_defaults(func=cmd_check)
+
+    p = sub.add_parser("fidelity", help="保真度测试包：init 出题模板 / blind 遮名给评分 Agent 盲读")
+    p.add_argument("action", choices=["init", "blind"], help="init：写 fidelity/questions|rubric|answers 模板；blind：生成 answers.blind.md")
+    p.add_argument("skill_dir", help="产物目录，如 .agents/skills/pangu-leijun")
+    p.add_argument("--target", help="对象名（init；默认取 SKILL.md 一级标题）")
+    p.add_argument("--alias", action="append", help="对象别名，可重复（init 写进 questions.md；blind 额外遮掉）")
+    p.add_argument("--kind", default="person", help="person/content/idea/phenomenon（init）")
+    p.add_argument("--force", action="store_true", help="init 覆盖已有模板")
+    p.set_defaults(func=cmd_fidelity)
 
     p = sub.add_parser("search", help="保底搜索（DuckDuckGo → 维基），主路径请用宿主搜索")
     p.add_argument("query", nargs="+", help="搜索查询")

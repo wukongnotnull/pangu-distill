@@ -1,7 +1,8 @@
 """机器校验蒸馏产物。
 
 只查能用代码判定的东西：命名、目录、YAML 头、4.5 层是否齐、模型数量与四件事、
-边界 / 张力条数、证据三件套、examples、禁忌词、FIDELITY 分数与维度崩溃。
+边界 / 张力条数、证据三件套、examples、禁忌词、FIDELITY 分数与维度崩溃、
+fidelity/ 测试包是否完整（题没抄正文、答题声明未联网、rubric 没泄漏）。
 「像不像、诚不诚实」交给 skill-vetter 和独立评分 Agent，脚本不碰。
 
 判定：FAIL = 不许进入下一 Phase；WARN = 要在诚实边界或 FIDELITY 写明；PASS = 过。
@@ -16,6 +17,9 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 from host_paths import SKILL_SLUG, product_skill_name
+
+from distill import fidelity as fid
+from distill.markdown import find_section, parse_frontmatter, split_sections  # noqa: F401  (re-export)
 
 FAIL = "FAIL"
 WARN = "WARN"
@@ -42,8 +46,8 @@ TRIGGER_MARKERS = ("「", "触发", "当用户", "时使用", "when ", "use when
 EVIDENCE_FILES = ("00-sources.md", "08-extraction-notes.md", "09-key-quotes.md")
 MAX_SKILL_LINES = 500
 MAX_REFERENCE_BYTES = 200_000
-FIDELITY_THRESHOLD = 80
-DIMENSION_COLLAPSE_RATIO = 0.4
+FIDELITY_THRESHOLD = fid.THRESHOLD
+DIMENSION_COLLAPSE_RATIO = fid.COLLAPSE_RATIO
 
 
 @dataclass
@@ -111,60 +115,6 @@ class CheckReport:
 # ---------------------------------------------------------------------------
 
 
-def parse_frontmatter(text: str) -> Tuple[Dict[str, str], str]:
-    """极简 YAML 头：只认 `key: value` 和 `key: |` 块。不引第三方库。"""
-    if not text.startswith("---"):
-        return {}, text
-    parts = text.split("\n")
-    end = None
-    for idx in range(1, len(parts)):
-        if parts[idx].strip() == "---":
-            end = idx
-            break
-    if end is None:
-        return {}, text
-    meta: Dict[str, str] = {}
-    key = None
-    block: List[str] = []
-    for line in parts[1:end]:
-        m = re.match(r"^([A-Za-z_][\w-]*):\s*(.*)$", line)
-        if m and not line.startswith((" ", "\t")):
-            if key and block:
-                meta[key] = "\n".join(block).strip()
-            key, value = m.group(1), m.group(2).strip()
-            block = []
-            if value in ("|", ">", "|-", ">-"):
-                continue
-            meta[key] = value.strip("'\"")
-            key = None
-        elif key is not None:
-            block.append(line.strip())
-    if key and block:
-        meta[key] = "\n".join(block).strip()
-    body = "\n".join(parts[end + 1 :])
-    return meta, body
-
-
-def split_sections(body: str, level: int = 2) -> List[Tuple[str, str]]:
-    """按 `## ` 切段，返回 [(标题, 正文)]。"""
-    pattern = re.compile(rf"^{'#' * level}\s+(.+?)\s*$", re.MULTILINE)
-    matches = list(pattern.finditer(body))
-    sections: List[Tuple[str, str]] = []
-    for i, m in enumerate(matches):
-        start = m.end()
-        end = matches[i + 1].start() if i + 1 < len(matches) else len(body)
-        sections.append((m.group(1).strip(), body[start:end]))
-    return sections
-
-
-def find_section(sections: List[Tuple[str, str]], pattern: str) -> Optional[Tuple[str, str]]:
-    rx = re.compile(pattern)
-    for title, text in sections:
-        if rx.search(title):
-            return title, text
-    return None
-
-
 def count_list_items(text: str) -> int:
     return len(re.findall(r"^\s*(?:[-*+]|\d+[.、)])\s+\S", text, re.MULTILINE))
 
@@ -195,19 +145,9 @@ def forbidden_hits(body: str) -> List[Tuple[int, str, str]]:
 
 
 def parse_fidelity(text: str) -> Tuple[Optional[int], List[Tuple[str, int, int]], bool]:
-    """返回 (总分, [(维度, 得分, 满分)], 是否声明独立)。"""
-    total = None
-    m = re.search(r"总分[：:]\s*(\d{1,3})\s*/\s*100", text)
-    if m:
-        total = int(m.group(1))
-    rows: List[Tuple[str, int, int]] = []
-    for rm in re.finditer(r"^\|\s*([^|]+?)\s*\|\s*(\d{1,3})\s*/\s*(\d{1,3})\s*\|", text, re.MULTILINE):
-        name = rm.group(1).strip()
-        if name in ("维度", "---") or set(name) <= set("-: "):
-            continue
-        rows.append((name, int(rm.group(2)), int(rm.group(3))))
-    declared_independent = "独立" in text and not re.search(r"未独立|同会话|同一会话|自评", text)
-    return total, rows, declared_independent
+    """返回 (总分, [(维度, 得分, 满分)], 是否声明独立)。细节在 distill.fidelity。"""
+    card = fid.parse_scorecard(text)
+    return card.total, card.rows, card.declared_independent
 
 
 # ---------------------------------------------------------------------------
@@ -410,27 +350,39 @@ def _check_files(skill_dir: Path, report: CheckReport, require_fidelity: bool) -
         if (dist / "ingest_result.json").is_file():
             report.warn("references-size", "references/distillation/ingest_result.json 是工作文件，交付前删除")
 
-    fidelity = skill_dir / "FIDELITY.md"
-    if not fidelity.is_file():
+    _check_fidelity(skill_dir, report, require_fidelity)
+
+
+def _check_fidelity(skill_dir: Path, report: CheckReport, require_fidelity: bool) -> None:
+    """FIDELITY.md + fidelity/ 测试包。出厂（require）时测试包问题是 FAIL，构建中降为 WARN。"""
+    scorecard = skill_dir / fid.SCORECARD_FILE
+    packet = fid.packet_dir(skill_dir)
+
+    def emit(findings) -> None:
+        for f in findings:
+            level = f.level
+            if level == FAIL and not require_fidelity:
+                level = WARN
+            report.add(level, f.code, f.message)
+
+    if not scorecard.is_file():
         if require_fidelity:
             report.fail("fidelity", "缺 FIDELITY.md（Phase 3 出厂必须）")
         else:
             report.warn("fidelity", "FIDELITY.md 尚未生成（Phase 3 前正常）")
+        if packet.is_dir() or require_fidelity:
+            emit(fid.inspect_packet(skill_dir))
         return
-    total, rows, independent = parse_fidelity(fidelity.read_text(encoding="utf-8", errors="replace"))
-    if total is None:
-        report.fail("fidelity", "FIDELITY.md 里解析不到「总分：NN/100」")
-    elif total < FIDELITY_THRESHOLD:
-        report.fail("fidelity", f"保真度 {total} < {FIDELITY_THRESHOLD}，不得宣称完成")
-    else:
-        report.ok("fidelity", f"保真度 {total}/100")
-    for name, score, full in rows:
-        if full and score < full * DIMENSION_COLLAPSE_RATIO:
-            report.fail("fidelity-dimension", f"「{name}」{score}/{full} 低于 40%，该维崩溃")
-    if not rows:
-        report.warn("fidelity", "FIDELITY.md 里没有七维分数表")
-    if not independent:
-        report.warn("fidelity-independent", "FIDELITY.md 未声明独立评分（或写了未独立 / 同会话），不得自称出厂合格")
+
+    text = scorecard.read_text(encoding="utf-8", errors="replace")
+    # 分数本身的硬伤（解析不到、<80、维度崩溃、加不上）无论哪个阶段都是 FAIL：写了分就要写对。
+    # 测试记录是否逐题写到，属于测试包一侧，构建中只提醒。
+    for f in fid.inspect_scorecard(text, packet_present=packet.is_dir() or require_fidelity):
+        if f.code == "fidelity-records":
+            emit([f])
+        else:
+            report.add(f.level, f.code, f.message)
+    emit(fid.inspect_packet(skill_dir))
 
 
 def _check_ingest_summary(skill_dir: Path, report: CheckReport) -> None:

@@ -2,7 +2,7 @@
 """
 盘古蒸馏脚本入口
 
-plan / check / output-root / skill-root 只用标准库，直接跑。
+plan / check / fidelity / output-root / skill-root 只用标准库，直接跑。
 ingest / search / fetch / collect-local / transcribe 需要 requests + bs4：
 - 有 uv → uv run（自动管理依赖）
 - 有 Python 无 uv → pip install 后运行
@@ -18,7 +18,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 MAIN_SCRIPT = os.path.join(SCRIPT_DIR, "cli.py")
 
 # 这些命令不依赖第三方包，跳过 uv / pip。
-STDLIB_COMMANDS = {"plan", "check", "output-root", "skill-root", "-h", "--help"}
+STDLIB_COMMANDS = {"plan", "check", "fidelity", "output-root", "skill-root", "-h", "--help"}
 
 
 def check_command(cmd: str) -> bool:

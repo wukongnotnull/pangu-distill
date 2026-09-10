@@ -4,6 +4,8 @@ from pathlib import Path
 import pytest
 
 from distill.check import FAIL, PASS, WARN, parse_fidelity, parse_frontmatter, run_check
+from distill import fidelity as fid
+from tests.test_fidelity import write_packet
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -77,7 +79,7 @@ description: |
 """
 
 
-def make_skill(tmp_path: Path, name="pangu-demo", models=3, fidelity=None, **overrides) -> Path:
+def make_skill(tmp_path: Path, name="pangu-demo", models=3, fidelity=None, packet=None, **overrides) -> Path:
     skill = tmp_path / name
     dist = skill / "references" / "distillation"
     dist.mkdir(parents=True)
@@ -93,21 +95,25 @@ def make_skill(tmp_path: Path, name="pangu-demo", models=3, fidelity=None, **ove
     (skill / "SKILL.md").write_text(text, encoding="utf-8")
     if fidelity is not None:
         (skill / "FIDELITY.md").write_text(fidelity, encoding="utf-8")
+    if packet or (packet is None and fidelity is not None):
+        write_packet(skill)
+        fid.blind_answers(skill)
     return skill
 
 
 FIDELITY_OK = """# 保真度评分卡
 
-**总分：87/100 · 等级 A** | 日期：2026-09-08 | 答题/评分：两个独立子 Agent
+**总分：87/100 · 等级 A** | 日期：2026-09-08
+出题：测试 | 答题：两个独立子 Agent 之一 | 评分：两个独立子 Agent 之二 | 独立性：独立（答题与评分是两个会话）
 
 | 维度 | 得分 | 判定 |
 |------|------|------|
-| 立场一致性 | 19/20 | |
+| 立场一致性 | 19/20 | Q1 Q2 Q3 |
 | 风格辨识度 | 11/15 | |
-| 边缘诚实度 | 14/15 | |
+| 边缘诚实度 | 14/15 | Q4 |
 | 来源透明度 | 9/10 | |
 | 结构完整度 | 10/10 | |
-| 可执行性 | 12/15 | |
+| 可执行性 | 12/15 | Q5 |
 | 可迁移性 | 12/15 | |
 """
 
@@ -134,6 +140,8 @@ def test_parse_fidelity():
     assert independent is True
     _, _, dep = parse_fidelity("总分：90/100 · 同会话分角色，未独立评分")
     assert dep is False
+    _, _, dep2 = parse_fidelity("总分：90/100 · 独立性：同会话分角色（未独立）")
+    assert dep2 is False
 
 
 def test_good_skill_passes_without_fidelity(tmp_path):
@@ -157,6 +165,25 @@ def test_release_gate_requires_fidelity(tmp_path):
     skill = make_skill(tmp_path)
     report = run_check(skill, require_fidelity=True)
     assert "fidelity" in codes(report, FAIL)
+    assert "fidelity-packet" in codes(report, FAIL)
+
+
+def test_release_gate_requires_packet_but_build_only_warns(tmp_path):
+    skill = make_skill(tmp_path, fidelity=FIDELITY_OK, packet=False)
+    building = run_check(skill)
+    assert building.passed, building.to_text()
+    assert "fidelity-packet" in codes(building, WARN)
+    release = run_check(skill, require_fidelity=True)
+    assert "fidelity-packet" in codes(release, FAIL)
+
+    write_packet(skill)
+    release = run_check(skill, require_fidelity=True)
+    assert release.passed, release.to_text()
+    assert "fidelity-blind" in codes(release, WARN)
+    legacy = FIDELITY_OK.replace("Q1 Q2 Q3", "1 2 3").replace("Q4", "4").replace("Q5", "5")
+    (skill / "FIDELITY.md").write_text(legacy, encoding="utf-8")
+    assert "fidelity-records" in codes(run_check(skill, require_fidelity=True), FAIL)
+    assert "fidelity-records" in codes(run_check(skill), WARN)
 
 
 def test_low_or_collapsed_fidelity_fails(tmp_path):
@@ -165,9 +192,11 @@ def test_low_or_collapsed_fidelity_fails(tmp_path):
     collapsed = FIDELITY_OK.replace("| 风格辨识度 | 11/15 |", "| 风格辨识度 | 5/15 |")
     report = run_check(make_skill(tmp_path, "pangu-col", fidelity=collapsed), require_fidelity=True)
     assert "fidelity-dimension" in codes(report, FAIL)
-    dependent = FIDELITY_OK.replace("两个独立子 Agent", "同会话分角色，未独立评分")
+    dependent = FIDELITY_OK.replace("独立性：独立（答题与评分是两个会话）", "独立性：同会话分角色（未独立）")
     report = run_check(make_skill(tmp_path, "pangu-dep", fidelity=dependent))
     assert "fidelity-independent" in codes(report, WARN)
+    bad_sum = FIDELITY_OK.replace("| 可迁移性 | 12/15 |", "| 可迁移性 | 14/15 |")
+    assert "fidelity-rows" in codes(run_check(make_skill(tmp_path, "pangu-sum", fidelity=bad_sum)), FAIL)
 
 
 def test_model_count_rules(tmp_path):
