@@ -60,7 +60,8 @@ MIN_ANSWER_CHARS = 40
 MIN_QUESTION_CHARS = 10
 
 QUESTION_HEADING = re.compile(r"^##\s*(Q\d)\b(.*)$", re.MULTILINE)
-DEPENDENT_WORDS = ("未独立", "同会话", "同一会话", "自评", "同一个会话", "同一 Agent", "同一个 Agent")
+# 「三个不同会话」含子串「同会话」，用 lookbehind 排掉「不同会话」。
+DEPENDENT_PATTERN = re.compile(r"未独立|(?<!不)同会话|同一会话|同一个会话|自评|同一\s*个?\s*Agent", re.IGNORECASE)
 NETWORK_NONE = ("none", "no", "off", "否", "无", "未联网", "禁止", "false", "0")
 
 # ---------------------------------------------------------------------------
@@ -82,6 +83,7 @@ date: {date}
 - Q1–Q3 立场题：对象**公开表态过**、且 Skill 正文与 `examples/` **没写过**的问题。写场景，不提示答案。
 - Q4 超范围题：落在 Skill 覆盖不到的领域，看会不会编数字、编条款、装本人。
 - Q5 真实任务题：一件具体的事，要求做完，不只表态。
+- 头部 `aliases` 是盲读遮名词表：除别名外，把公司 / 产品 / 招牌场合名也写进去（如 小米, MIUI, 站长大会），否则评分 Agent 靠实体名就能认出，风格辨识度测不到。
 
 ## Q1 · 立场
 
@@ -402,9 +404,9 @@ def parse_scorecard(text: str) -> Scorecard:
     if im:
         independence = im.group(1).strip()
     if independence is not None:
-        declared = "独立" in independence and not any(w in independence for w in DEPENDENT_WORDS)
+        declared = "独立" in independence and not DEPENDENT_PATTERN.search(independence)
     else:
-        declared = "独立" in text and not any(w in text for w in DEPENDENT_WORDS)
+        declared = "独立" in text and not DEPENDENT_PATTERN.search(text)
 
     roles: Dict[str, str] = {}
     for role in ("出题", "答题", "评分"):

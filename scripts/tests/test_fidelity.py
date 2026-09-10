@@ -166,6 +166,9 @@ def test_scorecard_arithmetic_and_fields():
 
     dependent = fid.inspect_scorecard(CARD.replace("独立性：独立（答题与评分是两个会话）", "独立性：同会话分角色（未独立）"))
     assert any(f.code == "fidelity-independent" for f in levels(dependent, "WARN"))
+    three = fid.inspect_scorecard(CARD.replace("独立性：独立（答题与评分是两个会话）", "独立性：独立（出题、答题、评分是三个不同会话）"))
+    assert not any(f.code == "fidelity-independent" for f in levels(three, "WARN"))
+    assert fid.parse_scorecard("独立性：同一个 Agent 分角色").declared_independent is False
 
     no_refs = fid.inspect_scorecard(CARD.replace("Q1 Q2 Q3", "").replace("Q4", "").replace("Q5", ""))
     assert any(f.code == "fidelity-records" for f in levels(no_refs, "FAIL"))
