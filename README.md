@@ -204,7 +204,6 @@ pangu-distill/
 │   ├── examples/distillation-example.md
 │   └── templates/                        # 人物/内容/思想/现象/自我
 └── scripts/
-    ├── install-host.sh                   # 旧软链脚本，安装请用 npx skills add
     ├── run.py                            # 采集 + output-root / skill-root
     ├── search/ crawl/ transcribe/
 ```

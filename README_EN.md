@@ -202,7 +202,6 @@ pangu-distill/
 │   ├── examples/distillation-example.md
 │   └── templates/
 └── scripts/
-    ├── install-host.sh
     ├── run.py
 ```
 

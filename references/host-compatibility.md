@@ -23,7 +23,7 @@
 npx skills add wukongnotnull/pangu-distill
 ```
 
-`npx skills` 会装到当前项目或用户级 skills 目录，并链到已检测到的宿主。要全局可用时加 `-g`。不要再 `git clone` 后跑 `install-host.sh`。
+`npx skills` 会装到当前项目或用户级 skills 目录，并链到已检测到的宿主。要全局可用时加 `-g`。
 
 ## 2. Skill 根目录 `{pangu_skill_root}`
 
@@ -81,5 +81,5 @@ python3 "{pangu_skill_root}/scripts/run.py" output-root
 ## 5. 不要做的
 
 - 不要为 Cursor / Codex 各维护一份 SKILL.md
-- 不要用 `install-host.sh` 手写软链；安装走 `npx skills add`
+- 不要手写软链到每家 skills 目录；安装走 `npx skills add`
 - 不要先做每家一个 MCP Plugin（那是 Distilly 的产品形态）

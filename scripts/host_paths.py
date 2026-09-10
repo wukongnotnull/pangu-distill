@@ -23,7 +23,7 @@ PROJECT_SKILL_DIRS: Sequence[str] = (
     "skills",
 )
 
-# 用户级安装目标（install-host.sh 与文档共用这张表）
+# 用户级安装目标（与 host-compatibility.md 共用这张表）
 USER_INSTALL_DIRS: Mapping[str, str] = {
     "agents": "~/.agents/skills",
     "claude": "~/.claude/skills",
