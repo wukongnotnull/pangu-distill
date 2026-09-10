@@ -17,5 +17,6 @@
 3. 每个原则必须带「为什么」和默认动作。
 4. 诚实边界不能空。
 5. 至少 1 个输入 → 输出例子。
-6. 过程门走 [`quality-checklist.md`](../quality-checklist.md)，出厂走 [`fidelity-scorecard.md`](../fidelity-scorecard.md)。
-7. 目录和分层按 [`output-spec.md`](../output-spec.md)。
+6. 对外作答不带内部编号（「模型 N」「论点 N」「启发式 N」），用名字；引用 `09-key-quotes.md` 里没有的话标「记忆引用，底稿未收」。人物模板放在「角色协议」，其余模板放在「作答约定」或「工作流」。这两条改了要同步到已交付的样例——2026-09-10 曾因模板改了样例没跟，三轮评分都扣了同一处穿帮。
+7. 过程门走 [`quality-checklist.md`](../quality-checklist.md)，出厂走 [`fidelity-scorecard.md`](../fidelity-scorecard.md)。
+8. 目录和分层按 [`output-spec.md`](../output-spec.md)。
