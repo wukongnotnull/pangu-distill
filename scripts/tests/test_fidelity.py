@@ -224,3 +224,15 @@ def test_blind_answers_writes_auto_aliases_and_no_expand(tmp_path: Path):
     out2, count2, _ = fid.blind_answers(skill, extra_aliases=["示例·君子"], expand=False)
     assert "auto_aliases: 0" in out2.read_text(encoding="utf-8")
     assert count2 <= count
+
+
+def test_grader_prompt_and_blind_header_ask_for_three_clue_classes(tmp_path: Path):
+    prompt = fid.role_prompts(tmp_path / "pangu-x")
+    for key in ("(a) 未遮实体", "(b) 年份典故", "(c) 句法与判断习惯", "临时目录"):
+        assert key in prompt, key
+    skill = make_skill(tmp_path)
+    write_packet(skill)
+    out, _, _ = fid.blind_answers(skill)
+    head = out.read_text(encoding="utf-8").split("## Q1")[0]
+    assert "(a) 未遮实体" in head and "(c) 句法与判断习惯" in head
+    assert "(a) 未遮实体" in fid.SCORECARD_TEMPLATE

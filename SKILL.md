@@ -444,7 +444,7 @@ python3 "{pangu_skill_root}/scripts/run.py" fidelity init "[skill目录]" --targ
 # ① 出题 Agent 填 fidelity/questions.md + rubric.md（rubric 答题不得看）
 # ② 答题 Agent 新会话：只读 questions.md + Skill 目录，禁止联网，写 fidelity/answers.md
 python3 "{pangu_skill_root}/scripts/run.py" fidelity blind "[skill目录]"      # ③ 遮名 → answers.blind.md（自动补简称 / 拉丁姓；终端会列漏遮的实体名）
-# ④ 评分 Agent 新会话：先盲读 answers.blind.md，再对 rubric 逐题判，写 FIDELITY.md
+# ④ 评分 Agent 新会话：先盲读 answers.blind.md（线索分 未遮实体 / 年份典故 / 句法 三类给比例），再对 rubric 逐题判，写 FIDELITY.md
 python3 "{pangu_skill_root}/scripts/run.py" check "[skill目录]" --require-fidelity
 ```
 
