@@ -206,7 +206,11 @@ SCORECARD_TEMPLATE = """# 保真度评分卡 · {target}
 
 ## 盲读记录
 
-删名前先写：像谁？凭哪些句式 / 词 / 判断习惯认出？
+像谁，把握多大：
+- (a) 未遮实体（约 NN%）：
+- (b) 年份典故（约 NN%）：
+- (c) 句法与判断习惯（约 NN%）：
+只看 (c) 能收敛到：
 
 ## 必须改
 
@@ -223,7 +227,12 @@ ROLE_PROMPTS = """三个角色，三个会话（没有子 Agent 就同会话分�
 
 【脚本】python3 run.py fidelity blind "{skill_dir}"   → 生成 {blind}
 
-【评分 Agent】新会话。顺序：先只读 {blind} 写「像谁」→ 再读 {answers} → 再读 {rubric} → 最后读 Skill。
+【评分 Agent】新会话。顺序：先只读 {blind} 写盲读记录 → 再读 {answers} → 再读 {rubric} → 最后读 Skill。
+  盲读记录：像谁、把握多大；线索分三类各给比例——(a) 未遮实体（公司 / 产品 / 社群 / 场合名）、
+  (b) 年份典故、(c) 句法与判断习惯；最后写只看 (c) 能收敛到什么程度。风格辨识度按这条打：
+  主要靠 (a) 认出要扣分，靠 (b)(c) 给高分。(a) 多就把名字补进 aliases 重跑 blind；(b) 是本人风格，不遮。
+  目录名会泄露对象：把 {blind} 复制到不含对象名的临时目录先读，写完盲读记录再告知 Skill 目录；
+  旧 {scorecard} 先移走，README.md 不给读。
   按 references/fidelity-scorecard.md 七维打分，写 {scorecard}（测试记录逐题写 Q1–Q5）。
 
 【脚本】python3 run.py check "{skill_dir}" --require-fidelity
@@ -661,7 +670,8 @@ def blind_answers(
         f"date: {today()}\n"
         "---\n"
         f"# 盲读稿（对象名已替换为 {MASK}）\n\n"
-        "评分 Agent 先读这份，写下「像谁、凭什么」，再打开 answers.md 和 Skill。\n"
+        "评分 Agent 先读这份，写下「像谁、把握多大」，线索分三类各给比例：(a) 未遮实体 / (b) 年份典故 / (c) 句法与判断习惯，"
+        "再写只看 (c) 能收敛到什么程度；然后才打开 answers.md 和 Skill。\n"
     )
     out = pdir / BLIND_FILE
     out.write_text(header + masked_body.lstrip("\n"), encoding="utf-8")

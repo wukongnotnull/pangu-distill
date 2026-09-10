@@ -191,7 +191,8 @@ def cmd_fidelity(args):
             print(f"   ⚠️ 遮完仍像实体名的词（脚本只报不遮，该遮的写进 aliases 后重跑）：{'、'.join(suspects)}")
         if count == 0:
             print("   ⚠️ 一处都没遮到：答题里没出现对象名，或名字没写进 questions.md 的 target / aliases（可用 --alias 补）")
-        print("   下一步：评分 Agent 先读这份写「像谁」，再读 answers.md / rubric.md / Skill")
+        print("   下一步：把这份复制到不含对象名的临时目录给评分 Agent 先读，盲读记录按 (a) 未遮实体 / (b) 年份典故 / (c) 句法 三类给比例，")
+        print("           再读 answers.md / rubric.md / Skill")
         return 0
 
     return _die(f"未知动作 {args.action}")
