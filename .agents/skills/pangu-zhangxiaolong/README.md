@@ -6,7 +6,7 @@
 - 脚本采集：`references/distillation/collection_summary.json`（28 条 / 六维成功 / wikipedia）
 - 相关性记录：`references/00-collection-log.md`（条数够，标题跑偏）
 - 实际语料：2018–2019 微信公开课转载，见 `references/02-expression.md`
-- 评分：`FIDELITY.md`（独立答题 + 单评分 95/A；衡量公开课蒸馏，不衡量 28 条维基）
+- 评分：`FIDELITY.md`（出题 / 答题 / 评分三会话独立；测试包在 `fidelity/`。衡量公开课蒸馏，不衡量 28 条维基）
 - 评测：仓库 `references/examples/live-test-zhangxiaolong.md`
 
 克隆后 Cursor / Codex 会扫到这份 Skill。要当思维顾问用可以；不要把它读成「13 经典已发布」，也不要把脚本的 28 条当成张小龙语料。

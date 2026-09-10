@@ -166,7 +166,7 @@ npx skills add wukongnotnull/pangu-distill
 | 提取 | **七级提取**：形成故事优先，金句最后；没有「为什么信」不准进 Skill |
 | 验证 | 三重验证（跨域 / 生成力 / 排他性）+ **触发条件** + **推理步骤** |
 | 采集 | **六路 + 一手料**：`scripts/run.py plan` 出查询计划 → 宿主 Agent 用自己的搜索工具搜 → `ingest` 去重 / 黑名单 / 抓正文落底稿。来源清单由脚本落盘，不靠模型记忆 |
-| 质检 | `scripts/run.py check` 机器查结构（命名 / 4.5 层 / 证据三件套 / FIDELITY）+ 三层过程门 + **独立双 Agent 保真度评分**（≥80，禁止自评） |
+| 质检 | `scripts/run.py check` 机器查结构（命名 / 4.5 层 / 证据三件套 / FIDELITY / 测试包）+ 三层过程门 + **出题 / 答题 / 评分三方分离的保真度评分**（≥80，测试包入库，禁止自评） |
 | 精炼 | 三轮：结构 → 使用者 → 压力测试 |
 
 ### 执行流程
@@ -180,6 +180,8 @@ python3 scripts/run.py plan "雷军" --kind person -o out/references/distillatio
 # …宿主 Agent 按 plan.json 搜索，写 out/references/distillation/results.json…
 python3 scripts/run.py ingest --plan out/references/distillation/plan.json out/references/distillation/results.json
 python3 scripts/run.py check out/                                                  # 构建后
+python3 scripts/run.py fidelity init out/ --target 芒格 --alias 伯克希尔              # 出题模板
+python3 scripts/run.py fidelity blind out/                                         # 答题后遮名
 python3 scripts/run.py check out/ --require-fidelity                               # 出厂
 ```
 
@@ -187,7 +189,7 @@ python3 scripts/run.py check out/ --require-fidelity                            
 
 ### 质量验证
 
-结构门跑 `scripts/run.py check`：命名、YAML 头、4.5 层、模型 3–7 个且各有形成故事 / 触发 / 步骤 / 局限、边界 ≥3、张力 ≥2、证据三件套、禁忌词、FIDELITY 分数与维度崩溃。过程门走 `references/quality-checklist.md`。出厂走 `references/fidelity-scorecard.md`：答题 Agent 和评分 Agent 必须分开。总分 ≥80 且 `check --require-fidelity` 无 FAIL 才交付。
+结构门跑 `scripts/run.py check`：命名、YAML 头、4.5 层、模型 3–7 个且各有形成故事 / 触发 / 步骤 / 局限、边界 ≥3、张力 ≥2、证据三件套、禁忌词、FIDELITY 分数与维度崩溃。过程门走 `references/quality-checklist.md`。出厂走 `references/fidelity-scorecard.md`：出题、答题、评分三个会话分开，题目 / rubric / 答题 / 盲读稿留在产物的 `fidelity/` 里，脚本核对题目没抄正文、答题未联网、分数相加、独立性声明。总分 ≥80 且 `check --require-fidelity` 无 FAIL 才交付。仓库里四个实跑产物都按此协议重评过。
 
 ---
 
@@ -213,7 +215,7 @@ pangu-distill/
 │   └── templates/                        # 人物/内容/思想/现象/自我
 └── scripts/
     ├── run.py                            # plan / ingest / check / collect-local / transcribe / output-root
-    ├── distill/                          # plan.py / ingest.py / check.py / local.py / dimensions.py
+    ├── distill/                          # plan.py / ingest.py / check.py / fidelity.py / local.py / dimensions.py
     ├── crawl/                            # 正文抓取 + DuckDuckGo / 维基保底搜索
     └── transcribe/
 ```

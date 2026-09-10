@@ -75,5 +75,5 @@ FAIL 为零才算过第一层；WARN 要在诚实边界或 `FIDELITY.md` 写明�
 
 - `run.py check`：结构层机器查，FAIL 为零
 - 本清单：构建时主 Agent 自检（过程门），重点在第二、三层
-- 评分卡：独立评分 Agent 出厂（结果门）；`check --require-fidelity` 核对分数、维度崩溃、独立性声明
+- 评分卡：出题 / 答题 / 评分三方分离出厂（结果门），测试包在 `fidelity/`；`check --require-fidelity` 核对测试包、题目没抄正文、答题未联网、分数相加、维度崩溃、独立性声明
 - 三者都过才说「蒸馏完成」

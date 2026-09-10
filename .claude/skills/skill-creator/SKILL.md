@@ -31,4 +31,5 @@ description: 把已经蒸馏好的 4.5 层模型写成可安装的 Agent Skill�
 - 禁止删掉形成故事、触发条件
 - 禁止把收集到的原文整页粘进 SKILL.md
 - 禁止输出超越版 / plus 目录
-- 禁止自评保真度（交给 skill-vetter）
+- 禁止自评保真度（交给 skill-vetter）；禁止在 `README.md` / `SKILL.md` 预写分数，分数只能在 `FIDELITY.md` 产生后回填
+- 禁止自己出保真度测试题或碰 `fidelity/`（出题是 skill-vetter 的事，构建者出题会挑软题）
