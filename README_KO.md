@@ -26,7 +26,7 @@
 
 **빠른 탐색**
 
-[데모](#데모) | [빠른 설치](#빠른-설치) | [클래식 케이스](#클래식-케이스) | [아키텍처](#아키텍처) | [저장소 구조](#저장소-구조) | [저자 소개](#저자-소개)
+[데모](#데모) | [빠른 설치](#빠른-설치) | [공개된 Skill](#공개된-skill) | [클래식 케이스](#클래식-케이스) | [아키텍처](#아키텍처) | [저장소 구조](#저장소-구조) | [저자 소개](#저자-소개)
 
 <br>
 
@@ -99,6 +99,15 @@ npx skills add wukongnotnull/pangu-distill
 > 장기주의를 증류해주세요
 > 버핏의 사고 프레임워크를 만들고 싶어요
 ```
+
+## 공개된 Skill
+
+판구 증류로 이미 공개된 결과물:
+
+| Skill | 출처 | 저장소 |
+|------|------|------|
+| **pangu-deepseek-v4** | DeepSeek-V4 Technical Report | [wukongnotnull/pangu-deepseek-v4](https://github.com/wukongnotnull/pangu-deepseek-v4) |
+| **pangu-one-day-life-reset** | *How to fix your entire life in 1 day* | [wukongnotnull/pangu-one-day-life-reset](https://github.com/wukongnotnull/pangu-one-day-life-reset) |
 
 ## 클래식 케이스
 

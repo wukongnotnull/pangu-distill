@@ -26,7 +26,7 @@ Absorbe lo que sí sube la fidelidad de [Distilly](https://github.com/titanwings
 
 **Navegación Rápida**
 
-[Demo](#demo) | [Instalación Rápida](#instalación-rápida) | [Casos Clásicos](#casos-clásicos) | [Arquitectura](#arquitectura) | [Estructura del Repositorio](#estructura-del-repositorio) | [Sobre Mí](#sobre-mí)
+[Demo](#demo) | [Instalación Rápida](#instalación-rápida) | [Skills publicados](#skills-publicados) | [Casos Clásicos](#casos-clásicos) | [Arquitectura](#arquitectura) | [Estructura del Repositorio](#estructura-del-repositorio) | [Sobre Mí](#sobre-mí)
 
 <br>
 
@@ -99,6 +99,15 @@ Después de instalar, dile lo que quieres en lenguaje natural:
 > Ayúdame a destilar: largoplacismo
 > Quiero construir un marco de pensamiento de Buffett
 ```
+
+## Skills publicados
+
+Skills ya publicados desde pangu-distill:
+
+| Skill | Fuente | Repositorio |
+|------|------|------|
+| **pangu-deepseek-v4** | DeepSeek-V4 Technical Report | [wukongnotnull/pangu-deepseek-v4](https://github.com/wukongnotnull/pangu-deepseek-v4) |
+| **pangu-one-day-life-reset** | *How to fix your entire life in 1 day* | [wukongnotnull/pangu-one-day-life-reset](https://github.com/wukongnotnull/pangu-one-day-life-reset) |
 
 ## Casos Clásicos
 

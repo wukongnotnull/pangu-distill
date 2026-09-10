@@ -26,7 +26,7 @@ It absorbs what actually raises fidelity from [Distilly](https://github.com/tita
 
 **Quick Navigation**
 
-[Demo](#demo) | [Quick Install](#quick-install) | [Classic Cases](#classic-cases) | [Architecture](#architecture) | [Repository Structure](#repository-structure) | [About Me](#about-me)
+[Demo](#demo) | [Quick Install](#quick-install) | [Published Skills](#published-skills) | [Classic Cases](#classic-cases) | [Architecture](#architecture) | [Repository Structure](#repository-structure) | [About Me](#about-me)
 
 <br>
 
@@ -103,6 +103,15 @@ After installation, tell it what you want in natural language:
 > I want to build a Buffett thinking framework
 > Distill myself
 ```
+
+## Published Skills
+
+Skills already published from pangu-distill:
+
+| Skill | Source | Repository |
+|------|------|------|
+| **pangu-deepseek-v4** | DeepSeek-V4 Technical Report | [wukongnotnull/pangu-deepseek-v4](https://github.com/wukongnotnull/pangu-deepseek-v4) |
+| **pangu-one-day-life-reset** | *How to fix your entire life in 1 day* | [wukongnotnull/pangu-one-day-life-reset](https://github.com/wukongnotnull/pangu-one-day-life-reset) |
 
 ## Classic Cases
 

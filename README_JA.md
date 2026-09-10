@@ -26,7 +26,7 @@
 
 **クイックナビゲーション**
 
-[デモ](#デモ) | [クイックインストール](#クイックインストール) | [经典案例](#经典案例) | [アーキテクチャ](#アーキテクチャ) | [リポジトリ構造](#リポジトリ構造) | [私について](#私について)
+[デモ](#デモ) | [クイックインストール](#クイックインストール) | [公開済み Skill](#公開済み-skill) | [经典案例](#经典案例) | [アーキテクチャ](#アーキテクチャ) | [リポジトリ構造](#リポジトリ構造) | [私について](#私について)
 
 <br>
 
@@ -99,6 +99,15 @@ npx skills add wukongnotnull/pangu-distill
 > 長期主義を蒸留してほしい
 > バフェットの思考フレームワークを作りたい
 ```
+
+## 公開済み Skill
+
+盤古蒸留ですでに公開している成果物：
+
+| Skill | 出典 | リポジトリ |
+|------|------|------|
+| **pangu-deepseek-v4** | DeepSeek-V4 Technical Report | [wukongnotnull/pangu-deepseek-v4](https://github.com/wukongnotnull/pangu-deepseek-v4) |
+| **pangu-one-day-life-reset** | 『How to fix your entire life in 1 day』 | [wukongnotnull/pangu-one-day-life-reset](https://github.com/wukongnotnull/pangu-one-day-life-reset) |
 
 ## 经典案例
 

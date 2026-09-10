@@ -25,7 +25,7 @@
 
 **快捷导航**
 
-[使用演示](#使用演示) | [快速安装](#快速安装) | [经典案例](#经典案例) | [架构原理](#架构原理) | [仓库结构](#仓库结构) | [关于我](#关于我)
+[使用演示](#使用演示) | [快速安装](#快速安装) | [已发布 Skill](#已发布-skill) | [经典案例](#经典案例) | [架构原理](#架构原理) | [仓库结构](#仓库结构) | [关于我](#关于我)
 
 <br>
 
@@ -102,6 +102,15 @@ npx skills add wukongnotnull/pangu-distill
 > 我想做一个巴菲特的思维框架
 > 蒸馏我自己
 ```
+
+## 已发布 Skill
+
+盘古蒸馏已经公开的成品：
+
+| Skill | 来源 | 仓库 |
+|------|------|------|
+| **pangu-deepseek-v4** | DeepSeek-V4 Technical Report | [wukongnotnull/pangu-deepseek-v4](https://github.com/wukongnotnull/pangu-deepseek-v4) |
+| **pangu-one-day-life-reset** | 《How to fix your entire life in 1 day》 | [wukongnotnull/pangu-one-day-life-reset](https://github.com/wukongnotnull/pangu-one-day-life-reset) |
 
 ## 经典案例
 
