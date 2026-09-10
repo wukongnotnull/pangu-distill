@@ -17,7 +17,7 @@
 
 ## 采集（摘要）
 
-脚本：`scripts/run.py collect "长期主义"` + `team "长期主义" -a 7`
+脚本：`scripts/run.py plan "长期主义" --kind idea -o …/references/distillation/` → 宿主按六路搜索写 `results.json` → `scripts/run.py ingest --plan … results.json`
 
 | 路 | 关键发现 | 一手？ |
 |----|----------|--------|

@@ -8,16 +8,13 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
 
 
 class SearchSource(Enum):
-    """搜索源枚举"""
-    AGENT_WEB_SEARCH = "agent_web_search"
+    """搜索结果来自哪里。HOST = 宿主 Agent 自己的搜索工具。"""
+    HOST = "host"
     DUCKDUCKGO = "duckduckgo"
-    BING = "bing"
     WIKIPEDIA = "wikipedia"
-    SERPER = "serper"
     UNKNOWN = "unknown"
 
 
@@ -58,7 +55,6 @@ class ContentResult:
     content: str
     word_count: int = 0
     language: ContentLanguage = ContentLanguage.UNKNOWN
-    source_url: Optional[str] = None
     fetched_at: datetime = field(default_factory=datetime.now)
 
     def to_dict(self) -> dict:

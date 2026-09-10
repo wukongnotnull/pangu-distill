@@ -1,5 +1,5 @@
 """
-素材采集器
+本地素材采集器（collect-local）
 
 支持多种素材格式的读取和解析：
 - 文档: PDF, Word (.docx), TXT, Markdown, Excel
@@ -18,10 +18,10 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 
-from .models import ContentResult, ContentLanguage
+from shared import ContentLanguage
 
 # Module-level logger
-logger = logging.getLogger("scripts.search.collector")
+logger = logging.getLogger("scripts.distill.local")
 
 def set_log_level(level: int) -> None:
     """Set the logging level for this module."""

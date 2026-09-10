@@ -50,7 +50,7 @@ User      ❯ Distill "Long-Termism"
 
 Pangu     ❯ Distilling
             ✓ Seven-question intake (idea / decision use / no primary files)
-            ✓ Scripted six-stream collection
+            ✓ Six-stream collection: plan → host search → ingest
             ✓ Seven-level extract: origin stories, decisions, failures, tensions
             ✓ 4.5-layer model passed triple verification
             ✓ Independent fidelity score ≥ 80
@@ -166,15 +166,23 @@ What this repo combines and then exceeds:
 | Frame | **4.5 layers**: identity / mental models / expression DNA / decision frame / **honest boundary** (not an appendix) |
 | Extract | **Seven-level scan**: origin stories first, quotes last. No "why they believe it" → it does not enter the Skill |
 | Verify | Triple check (cross-domain / generative / exclusive) + **triggers** + **reasoning steps** |
-| Collect | **Six streams + primary files**, mandatory `scripts/run.py` (search / crawl / transcribe) |
-| QA | Process gate + **independent dual-agent fidelity score** (≥80, no self-grading) |
+| Collect | **Six streams + primary files**: `scripts/run.py plan` emits the query plan → the host agent searches with its own tools → `ingest` dedupes, filters blacklisted domains, fetches text and writes the source ledger |
+| QA | `scripts/run.py check` (naming / 4.5 layers / evidence trio / FIDELITY) + process gate + **independent dual-agent fidelity score** (≥80, no self-grading) |
 | Refine | Three rounds: structure → user → stress test |
 
 ### Execution Flow
 
-Intake → create directory → scripted collection (up to 7 agents) → seven-level extract → build → verify → refine.
+Intake → create directory → collect (`plan` → host search → `ingest`) → seven-level extract → build → `check` → verify → refine.
 
-Default streams: writings / interviews / expression / criticism / decisions / timeline. User-supplied books, transcripts, and chats beat web summaries.
+Default streams: writings / interviews / expression / criticism / decisions / timeline. User-supplied books, transcripts, and chats beat web summaries. Searching is done by the host agent (its web tools beat any headless crawler); the scripts only do the deterministic parts: plan, ingest, check. `ingest` with zero usable sources fails instead of pretending.
+
+```bash
+python3 scripts/run.py plan "Jeff Bezos" --kind person -o out/references/distillation/
+# …host agent searches per plan.json and writes out/references/distillation/results.json…
+python3 scripts/run.py ingest --plan out/references/distillation/plan.json out/references/distillation/results.json
+python3 scripts/run.py check out/                    # after build
+python3 scripts/run.py check out/ --require-fidelity # before shipping
+```
 
 Every mental model needs an origin story, cross-domain evidence, a trigger, reasoning steps, and a failure condition.
 
@@ -204,7 +212,10 @@ pangu-distill/
 │   ├── examples/distillation-example.md
 │   └── templates/
 └── scripts/
-    ├── run.py
+    ├── run.py                          # plan / ingest / check / collect-local / transcribe
+    ├── distill/                        # plan.py / ingest.py / check.py / local.py
+    ├── crawl/                          # fetcher + DuckDuckGo / Wikipedia fallback search
+    └── transcribe/
 ```
 
 ---

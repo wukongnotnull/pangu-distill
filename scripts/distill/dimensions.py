@@ -111,9 +111,79 @@ KIND_DIMENSIONS_EN = {
 
 DEFAULT_DIMENSIONS = PERSON_DIMENSIONS
 
-EMPTY_COLLECTION_HINT = """脚本搜索源都空了（Agent 搜索不可用，或爬虫被拦）。
-请用当前宿主的搜索工具补采集，并把失败写进 00-sources.md。不要假装采过。
-不要对着 0 条素材写分析报告。"""
+# 维度 → references/distillation/ 里的落盘文件。多个维度可以共用一个文件（按节追加）。
+DIMENSION_FILES: Dict[str, str] = {
+    "writings": "01-writings.md",
+    "mechanism": "01-writings.md",
+    "conversations": "02-conversations.md",
+    "expression": "03-expression-dna.md",
+    "critics": "04-limitations.md",
+    "assumptions": "04-limitations.md",
+    "replicability": "04-limitations.md",
+    "decisions": "05-decisions.md",
+    "applications": "05-decisions.md",
+    "accidents": "05-decisions.md",
+    "timeline": "06-timeline.md",
+    "origins": "06-timeline.md",
+    "adjacent": "07-similar-objects.md",
+}
+
+DIMENSION_LABELS: Dict[str, str] = {
+    "writings": "著作 / 长文",
+    "conversations": "访谈 / 播客 / 演讲",
+    "expression": "表达 / 社交媒体",
+    "critics": "外部评价 / 批评",
+    "decisions": "重大决策",
+    "timeline": "时间线",
+    "adjacent": "同类对照",
+    "applications": "应用案例",
+    "assumptions": "隐藏假设 / 前提",
+    "origins": "起源",
+    "mechanism": "底层机制",
+    "accidents": "偶然因素",
+    "replicability": "可复制性",
+}
+
+# 每一路要找什么、什么时候可以停。摘自 research-guide.md 的六路表。
+DIMENSION_HINTS: Dict[str, str] = {
+    "writings": "≥2 篇长文或 1 本书核心；官方渠道 / 本人原文优先；核心论点开始重复就停",
+    "conversations": "≥1 段深度对话；即兴问答优于演讲；找到被追问后的立场变化就停",
+    "expression": "≥20 条本人发言；争议发言优于日常分享；风格可辨认就停",
+    "critics": "≥2 个不同视角，正负评价都要；失败必须是本人承认的才算失败",
+    "decisions": "≥2 个决策，每个都有背景 + 当时想法 + 事后反思",
+    "timeline": "关键转折从成名前到最近 12 个月",
+    "adjacent": "2–3 个同类对象对照，找差异而不是相似",
+    "applications": "≥2 个应用案例，含至少 1 个失败或误用",
+    "assumptions": "隐藏前提、适用边界、什么时候不成立",
+    "origins": "起源场景、提出者原文、最早的表述",
+    "mechanism": "底层机制：谁、在什么条件下、为什么发生",
+    "accidents": "偶然因素、运气、不可复制的部分",
+    "replicability": "可复制的条件 + 试图复制但失败的案例",
+}
+
+# 永远不作为来源（research-guide.md）。公号原文可作一手，洗稿号仍在黑名单。
+SOURCE_BLACKLIST = (
+    "zhihu.com",
+    "baike.baidu.com",
+)
+
+EMPTY_COLLECTION_HINT = """脚本没有拿到任何可用素材。
+搜索由宿主 Agent 的搜索工具完成，脚本只负责 plan / ingest / check。
+请按 plan.json 里的六路查询用宿主搜索补采集，把结果写成 results.json 再跑 ingest。
+采不到就把缺口写进 00-sources.md。不要假装采过，不要对着 0 条素材写分析。"""
+
+
+def dimension_file(dimension: str) -> str:
+    """维度对应的底稿文件名；未知维度落到 10-<维度>.md。"""
+    return DIMENSION_FILES.get(dimension, f"10-{dimension}.md")
+
+
+def dimension_label(dimension: str) -> str:
+    return DIMENSION_LABELS.get(dimension, dimension)
+
+
+def dimension_hint(dimension: str) -> str:
+    return DIMENSION_HINTS.get(dimension, "标 URL 和一手 / 二手 / 推断")
 
 
 class UnknownKindError(ValueError):
@@ -151,7 +221,7 @@ def dimensions_for(
 ) -> Dict[str, str]:
     resolved = normalize_kind(kind)
     if resolved == "self":
-        raise SelfKindError("自我蒸馏请用 collect-local，不要跑网页 collect / team")
+        raise SelfKindError("自我蒸馏请用 collect-local，不要出网络查询计划（plan / ingest）")
     resolved_locale = locale or query_locale(target)
     pack = KIND_DIMENSIONS_EN if resolved_locale == "en" else KIND_DIMENSIONS
     return dict(pack[resolved])

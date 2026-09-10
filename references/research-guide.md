@@ -47,13 +47,20 @@
 
 **一手资料优先于这六路。** 用户给了书、访谈逐字稿、聊天记录、笔记：先读这些，网搜只补缺口。
 
-必须跑仓库脚本，不要只靠模型记忆：
+采集分四步，来源清单必须由脚本落盘，不要只靠模型记忆：
 
 ```bash
 # 从本仓库 scripts/ 解析绝对路径后再执行，不要假设 cwd 就是 Skill 根目录
-python3 "{pangu_skill_root}/scripts/run.py" collect "[对象]" --kind [person|content|idea|phenomenon] -o "[skill目录]/references/distillation/"
-python3 "{pangu_skill_root}/scripts/run.py" team "[对象]" --kind [同上] -a 7 -o "[skill目录]/references/distillation/"
+# ① 出计划（不联网）
+python3 "{pangu_skill_root}/scripts/run.py" plan "[对象]" --kind [person|content|idea|phenomenon] -o "[skill目录]/references/distillation/"
+# ② 用宿主搜索工具按 plan.json 逐路搜，写成 results.json（格式见 plan 输出）
+# ③ 落底稿：去重 / 黑名单 / 抓正文 → 00-sources.md + 01–07
+python3 "{pangu_skill_root}/scripts/run.py" ingest --plan "[…]/plan.json" "[…]/results.json"
+# ④ 校验
+python3 "{pangu_skill_root}/scripts/run.py" check "[skill目录]"
 ```
+
+`results.json` 每条：`dimension`、`url`、`title`、`snippet`、`source_type`（primary / secondary / inferred）、可选 `note`。宿主已经读过的页可以直接带 `content`，ingest 不再抓。
 
 用户给了本地文件：
 
@@ -67,7 +74,7 @@ python3 "{pangu_skill_root}/scripts/run.py" collect-local "[文件或URL...]" -o
 python3 "{pangu_skill_root}/scripts/run.py" transcribe "[YouTube或本地音频]" -o "[skill目录]/references/distillation/"
 ```
 
-脚本失败或退出码 2（0 条结果）→ 写入缺口，改用宿主搜索，不要装成已经采集，不要让 `team` 对着 0 素材写报告。D3/D4 必须带 `--kind idea` / `--kind phenomenon`。英文对象会自动走英文六路。
+`ingest` 退出码 2（0 条可用素材）→ 写入缺口，不要装成已经采集，不要对着 0 素材写分析。D3/D4 必须带 `--kind idea` / `--kind phenomenon`。英文对象会自动走英文六路。`ingest` 不覆盖你手写过的 `0N-*.md`（会写到 `*.ingest.md`），重跑时它自己写过的文件会被刷新。`ingest_result.json` 是工作文件，含正文全文，交付前删掉。
 
 ---
 
@@ -139,10 +146,11 @@ python3 "{pangu_skill_root}/scripts/run.py" transcribe "[YouTube或本地音频]
 
 ## 采集质量自检
 
-- [ ] 六路都有文件，空的维度写明「信息不足」
-- [ ] 一手来源占比 > 50%，否则加大诚实边界
+- [ ] 六路都有文件，空的维度写明「信息不足」（`ingest` 会自动写）
+- [ ] 一手来源占比 > 50%（看 `ingest_summary.json` 的 `primary_ratio`），否则加大诚实边界
 - [ ] 每条提取有优先级和出处
 - [ ] 1–4 级记录 ≥ 10 条
 - [ ] 失败和矛盾没有漏（这两项最容易被成功叙事吃掉）
-- [ ] 脚本跑过，或失败原因已写进 `00-sources.md`
-- [ ] 没有整书 / 整篇访谈原文留在目录里
+- [ ] `plan` → 宿主搜索 → `ingest` 跑过，或失败原因已写进 `00-sources.md`
+- [ ] 没有整书 / 整篇访谈原文留在目录里；`ingest_result.json` 交付前删除
+- [ ] `run.py check` 无 FAIL
